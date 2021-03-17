@@ -400,3 +400,32 @@ USER 1001
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 # ENTRYPOINT [ "/usr/bin/tini", "--", "tail", "-f", "/dev/null" ]
+
+
+##################
+### METADATA STAGE
+##################
+
+FROM stage_final as stage_metadata
+ARG ARG_CREATED
+ARG ARG_DOCKER_TAG
+ARG ARG_VCS_REF
+ARG ARG_VERSION_STICKER
+
+LABEL \
+    org.opencontainers.image.authors="accetto" \
+    org.opencontainers.image.created="${ARG_CREATED}" \
+    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC/Chromium/Firefox containers for diagramming, drawing and painting" \
+    org.opencontainers.image.documentation="https://github.com/accetto/headless-drawing-g3" \
+    org.opencontainers.image.source="https://github.com/accetto/headless-drawing-g3" \
+    org.opencontainers.image.title="accetto/headless-drawing-g3" \
+    org.opencontainers.image.url="https://github.com/accetto/headless-drawing-g3" \
+    org.opencontainers.image.vendor="https://github.com/accetto" \
+    org.opencontainers.image.version="${ARG_DOCKER_TAG}"
+
+LABEL \
+    org.label-schema.vcs-url="https://github.com/accetto/headless-drawing-g3" \
+    org.label-schema.vcs-ref="${ARG_VCS_REF}"
+
+LABEL \
+    any.accetto.version-sticker="${ARG_VERSION_STICKER}"
