@@ -111,5 +111,3 @@ Credit goes to all the countless people and companies, who contribute to open so
 [badge-github-closed-issues]: https://badgen.net/github/closed-issues/accetto/headless-drawing-g3?icon=github&label=closed%20issues
 
 [badge-github-open-issues]: https://badgen.net/github/open-issues/accetto/headless-drawing-g3?icon=github&label=open%20issues
-
-<!-- Appendix -->
