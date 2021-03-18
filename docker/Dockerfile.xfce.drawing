@@ -415,7 +415,7 @@ ARG ARG_VERSION_STICKER
 LABEL \
     org.opencontainers.image.authors="accetto" \
     org.opencontainers.image.created="${ARG_CREATED}" \
-    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC/Chromium/Firefox containers for diagramming, drawing and painting" \
+    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC/Chromium/Firefox containers for diagramming, vector drawing and bitmap image editing" \
     org.opencontainers.image.documentation="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.source="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.title="accetto/headless-drawing-g3" \
