@@ -49,7 +49,7 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags are regularly rebuilt and published on Docker Hub:
+The following image tags will be regularly built and published on Docker Hub:
 
 - `latest` is identical to `vnc-novnc`
 
@@ -66,7 +66,7 @@ The following image tags are regularly rebuilt and published on Docker Hub:
     ![badge_vnc-novnc_created][badge_vnc-novnc_created]
     [![badge_vnc-novnc_version-sticker][badge_vnc-novnc_version-sticker]][link_vnc-novnc_version-sticker-verbose]
 
-The following image tags are not built or published on Docker Hub, but can be built any time locally from the same [source repository][this-github]:
+The following image tags will not be built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
 
 - `vnc-chromium` and `vnc-novnc-chromium` implement also [Chromium Browser][chromium]
 - `vnc-firefox` and `vnc-novnc-firefox` implement also [Firefox][firefox] browser

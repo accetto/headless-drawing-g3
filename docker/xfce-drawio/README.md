@@ -89,13 +89,13 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags are regularly maintained and rebuilt:
+The following image tags will be regularly built and published on Docker Hub:
 
 - `latest` is identical to `vnc-novnc`
 - `vnc` implements only VNC
 - `vnc-novnc` implements VNC and noVNC
 
-The following image tags are not built or published on Docker Hub, but can be built any time locally:
+The following image tags will not be built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
 
 - `vnc-chromium` and `vnc-novnc-chromium` implement also [Chromium Browser][chromium]
 - `vnc-firefox` and `vnc-novnc-firefox` implement also [Firefox][firefox] browser
@@ -110,7 +110,7 @@ Following **TCP** ports are exposed by default:
 - **5901** is used for access over **VNC**
 - **6901** is used for access over [noVNC][novnc]
 
-These default ports and also some other parameters can be overridden several ways (see bellow).
+These default ports and also some other parameters can be overridden several ways as it is described in the [sibling image README file][sibling-readme-xfce].
 
 ### Volumes
 
