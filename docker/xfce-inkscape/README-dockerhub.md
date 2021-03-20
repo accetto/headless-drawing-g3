@@ -18,6 +18,18 @@
 
 ***
 
+- [Headless Ubuntu/Xfce container with VNC/noVNC and `inkscape`](#headless-ubuntuxfce-container-with-vncnovnc-and-inkscape)
+  - [accetto/ubuntu-vnc-xfce-inkscape-g3](#accettoubuntu-vnc-xfce-inkscape-g3)
+    - [Image tags](#image-tags)
+    - [Ports](#ports)
+    - [Volumes](#volumes)
+  - [Using headless containers](#using-headless-containers)
+    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Startup options and help](#startup-options-and-help)
+    - [More information](#more-information)
+  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
+  - [Credits](#credits)
+
 This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use
 and the free open-source vector drawing application [inkscape][inkscape] from the `Ubuntu 20.04 LTS` distribution.
 
@@ -75,9 +87,48 @@ The following image tags will not be built or published on Docker Hub, but they 
 
 Clicking on the version sticker badge reveals more information about the actual configuration of the image.
 
+### Ports
+
+Following **TCP** ports are exposed by default:
+
+- **5901** is used for access over **VNC**
+- **6901** is used for access over [noVNC][novnc]
+
+These default ports and also some other parameters can be overridden several ways as it is described in the [sibling image README file][sibling-readme-xfce].
+
+### Volumes
+
+The containers do not create or use any external volumes by default.
+
+Both **named volumes** and **bind mounts** can be used. More about volumes can be found in [Docker documentation][docker-doc] (e.g. [Manage data in Docker][docker-doc-managing-data]).
+
+## Using headless containers
+
+More information about using headless containers can be found in the [full-length README][this-readme-full] file on GitHub.
+
+### Overriding VNC/noVNC parameters
+
+This image supports several ways of overriding the VNC/noVNV parameters. The [sibling image README file][sibling-readme-xfce] describes how to do it.
+
+### Startup options and help
+
+The startup options and help are also described in the [sibling image README file][sibling-readme-xfce].
+
 ### More information
 
 More information about these images can be found in the [full-length README][this-readme-full] file on GitHub.
+
+## Issues, Wiki and Discussions
+
+If you have found a problem or you just have a question, please check the [Issues][this-issues], the [sibling Issues][sibling-issues] and the [sibling Wiki][sibling-wiki] first. Please do not overlook the closed issues.
+
+If you do not find a solution, you can file a new issue. The better you describe the problem, the bigger the chance it'll be solved soon.
+
+If you have a question or an idea and you don't want to open an issue, you can use the [sibling Discussions][sibling-discussions].
+
+## Credits
+
+Credit goes to all the countless people and companies, who contribute to open source community and make so many dreamy things real.
 
 ***
 
