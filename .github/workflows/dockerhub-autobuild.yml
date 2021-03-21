@@ -14,8 +14,8 @@ on:
     ### * is a special character in YAML so you have to quote this string
     ### every 5 minutes (for testing only)
     # - cron:  '*/5 * * * *'
-    ### at 00:15 on every Saturday
-    - cron:  '15 0 * * 6'
+    ### at 00:15 on every Friday
+    - cron:  '15 0 * * 5'
 jobs:
   call-dockerhub:
     runs-on: ubuntu-latest
