@@ -6,6 +6,10 @@
 
 ***
 
+### Release 21.03.1
+
+- **xfce-drawio** Dockerfile adjusted to changed `draw.io Desktop` packaging
+
 ### Release 21.03
 
 - Initial release

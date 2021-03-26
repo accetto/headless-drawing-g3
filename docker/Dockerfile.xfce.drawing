@@ -293,18 +293,16 @@ RUN \
         gdebi-core \
         libasound2 \
         libdrm2 \
-        libgbm1
+        libgbm1 \
+        libxshmfence1
 
-### The last two lines are temporary: Fixing the bug in the package 14.4.3 (https://github.com/jgraph/drawio-desktop/issues/519)
 RUN \
     --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
     DRAWIO_VERSION="${ARG_DRAWIO_VERSION}" \
-    && wget -q "https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-amd64-${DRAWIO_VERSION}.deb" \
-    && echo y | gdebi draw.io-amd64-${DRAWIO_VERSION}.deb \
-    && rm -f draw.io-amd64-${DRAWIO_VERSION}.deb \
-    && rm -f /usr/bin/drawio \
-    && ln -s /opt/draw.io/drawio /usr/bin/drawio 
+    && wget -q "https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb" \
+    && echo y | gdebi drawio-amd64-${DRAWIO_VERSION}.deb \
+    && rm -f drawio-amd64-${DRAWIO_VERSION}.deb
 
 COPY ./xfce-drawio/src/home/Desktop "${HOME}"/Desktop/
 
