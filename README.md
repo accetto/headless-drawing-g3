@@ -32,8 +32,12 @@ This is a sibling project to the project [accetto/ubuntu-vnc-xfce-g3][sibling-gi
 There are currently resources for the following Docker images:
 
 - [accetto/ubuntu-vnc-xfce-drawio-g3][accetto-docker-ubuntu-vnc-xfce-drawio-g3]
+  - [full Readme][this-readme-image-drawio]
+  - [Dockerfile][this-dockerfile-drawing] (common for all images)
 - [accetto/ubuntu-vnc-xfce-gimp-g3][accetto-docker-ubuntu-vnc-xfce-gimp-g3]
+  - [full Readme][this-readme-image-gimp]
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
+  - [full Readme][this-readme-image-inkscape]
 
 The fastest way to build the images locally:
 
@@ -46,7 +50,7 @@ The fastest way to build the images locally:
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
-## Bonus base images
+## Implicit base images
 
 This project contains also resources for building the base images without the diagramming, drawing or image editing applications. Because those images would be actually equivalent to the images from the [sibling project][sibling-github], they will not be built or published on Docker Hub. However, you can build them yourself locally any time you wish.
 
@@ -64,7 +68,21 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 ***
 
+<!-- this project -->
+
 [this-docker]: https://hub.docker.com/u/accetto/
+
+[this-dockerfile-drawing]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
+
+[this-readme-image-drawio]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-drawio/README.md
+[this-readme-image-gimp]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-gimp/README.md
+[this-readme-image-inkscape]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-inkscape/README.md
+
+[accetto-docker-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
+[accetto-docker-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
+[accetto-docker-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
+
+<!-- sibling project -->
 
 [this-changelog]: https://github.com/accetto/headless-drawing-g3/blob/master/CHANGELOG.md
 [this-github]: https://github.com/accetto/headless-drawing-g3/
@@ -76,9 +94,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 [sibling-readme]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/README.md
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
-[accetto-docker-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
-[accetto-docker-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
-[accetto-docker-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
+<!-- external links -->
 
 [docker-ubuntu]: https://hub.docker.com/_/ubuntu/
 
