@@ -15,7 +15,9 @@ on:
     ### every 5 minutes (for testing only)
     # - cron:  '*/5 * * * *'
     ### at 00:15 on every Friday
-    - cron:  '15 0 * * 5'
+    #- cron:  '15 0 * * 5'
+    ### disarmed because of TigerVNC distribution problems  
+    - cron: '0 0 1 1 *'
 jobs:
   call-dockerhub:
     runs-on: ubuntu-latest
