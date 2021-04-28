@@ -6,6 +6,10 @@
 
 ***
 
+### Release 21.04
+
+- TigerVNC from [Release Mirror on accetto/tigervnc][accetto-tigervnc-release-mirror] because **Bintray** is closing on 2021-05-01
+
 ### Release 21.03.2
 
 - hook script `post_push` has been improved
@@ -35,3 +39,5 @@
 [accetto-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
 [accetto-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
 [accetto-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
+
+[accetto-tigervnc-release-mirror]: https://github.com/accetto/tigervnc/releases
