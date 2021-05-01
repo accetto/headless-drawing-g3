@@ -349,10 +349,28 @@ RUN \
     && apt-get update \
     &&  DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
         inkscape
-    # && apt-get -y autoremove \
-    # && rm -rf /var/lib/apt/lists/*
 
 COPY ./xfce-inkscape/src/home/Desktop "${HOME}"/Desktop/
+
+
+#################
+### stage_blender
+#################
+
+FROM merge_stage_browser as stage_blender
+ARG ARG_APT_NO_RECOMMENDS
+
+ENV \
+    FEATURES_BUILD_SLIM_BLENDER=${ARG_APT_NO_RECOMMENDS:+1} \
+    FEATURES_BLENDER=1
+
+RUN \
+    --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        blender
+
+COPY ./xfce-blender/src/home/Desktop "${HOME}"/Desktop/
 
 
 #######################
@@ -415,7 +433,7 @@ ARG ARG_VERSION_STICKER
 LABEL \
     org.opencontainers.image.authors="accetto" \
     org.opencontainers.image.created="${ARG_CREATED}" \
-    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC/Chromium/Firefox containers for diagramming, vector drawing and bitmap image editing" \
+    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC/Chromium/Firefox containers for diagramming, image editing and 2D/3D drawing" \
     org.opencontainers.image.documentation="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.source="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.title="accetto/headless-drawing-g3" \

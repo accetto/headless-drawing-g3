@@ -26,7 +26,7 @@ main() {
         ### headless-drawing-g3
         ### -------------------
 
-        drawio-vnc* | gimp-vnc* | inkscape-vnc* | latest-drawio | latest-gimp | latest-inkscape )
+        blender-vnc* | drawio-vnc* | gimp-vnc* | inkscape-vnc* | latest-blender | latest-drawio | latest-gimp | latest-inkscape )
 
             set -x
             docker build $@ \
@@ -47,6 +47,9 @@ main() {
                     \
                     ${FEATURES_FIREFOX:+--build-arg ARG_MERGE_STAGE_BROWSER_BASE="stage_firefox"} \
                     ${FEATURES_FIREFOX_PLUS:+--build-arg ARG_MERGE_STAGE_BROWSER_BASE="stage_firefox_plus"} \
+                    \
+                    ${FEATURES_BLENDER:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_blender"} \
+                    ${FEATURES_BLENDER:+--build-arg ARG_FINAL_STAGE_BASE="merge_stage_drawing"} \
                     \
                     ${DRAWIO_VERSION:+--build-arg ARG_DRAWIO_VERSION=${DRAWIO_VERSION}} \
                     ${FEATURES_DRAWIO:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_drawio"} \
