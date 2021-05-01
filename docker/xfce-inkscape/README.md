@@ -82,17 +82,24 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags will be regularly built and published on Docker Hub:
+The following images will be regularly built and published on Docker Hub:
 
-- `latest` is identical to `vnc-novnc`
-- `vnc` implements only VNC
-- `vnc-novnc` implements VNC and noVNC
+- base images
+  - `latest` is identical to `vnc-novnc`
+  - `vnc` implements only VNC
+  - `vnc-novnc` implements VNC and noVNC
+- adding [Chromium Browser][chromium]
+  - `vnc-chromium`
+  - `vnc-novnc-chromium`
+- adding [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+  - `vnc-firefox-plus`
+  - `vnc-novnc-firefox-plus`
 
-The following image tags will not be built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
+The following image tags will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
 
-- `vnc-chromium` and `vnc-novnc-chromium` implement also [Chromium Browser][chromium]
-- `vnc-firefox` and `vnc-novnc-firefox` implement also [Firefox][firefox] browser
-- `vnc-firefox-plus` and `vnc-novnc-firefox-plus` implement also [Firefox][firefox] browser and the **plus features** described in the [sibling image README][sibling-readme-xfce-firefox]
+- adding only [Firefox][firefox]
+  - `vnc-firefox`
+  - `vnc-novnc-firefox`
 
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 

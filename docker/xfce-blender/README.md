@@ -79,7 +79,7 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following images will be regularly rebuilt and published on Docker Hub:
+The following images will be regularly built and published on Docker Hub:
 
 - base images
   - `latest` is identical to `vnc-novnc`

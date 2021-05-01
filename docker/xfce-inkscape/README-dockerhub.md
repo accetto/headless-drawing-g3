@@ -79,13 +79,27 @@ The following image tags will be regularly built and published on Docker Hub:
     ![badge_vnc-novnc_created][badge_vnc-novnc_created]
     [![badge_vnc-novnc_version-sticker][badge_vnc-novnc_version-sticker]][link_vnc-novnc_version-sticker-verbose]
 
-The following image tags will not be built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
+- `vnc-chromium` adds [Chromium Browser][chromium], implements only VNC
 
-- `vnc-chromium` and `vnc-novnc-chromium` implement also [Chromium Browser][chromium]
-- `vnc-firefox` and `vnc-novnc-firefox` implement also [Firefox][firefox] browser
-- `vnc-firefox-plus` and `vnc-novnc-firefox-plus` implement also [Firefox][firefox] browser and the **plus features** described in the [sibling image README][sibling-readme-xfce-firefox]
+    ![badge_vnc-chromium_created][badge_vnc-chromium_created]
+    [![badge_vnc-chromium_version-sticker][badge_vnc-chromium_version-sticker]][link_vnc-chromium_version-sticker-verbose]
 
-Clicking on the version sticker badge reveals more information about the actual configuration of the image.
+- `vnc-novnc-chromium` adds [Chromium Browser][chromium], implements VNC and noVNC
+
+    ![badge_vnc-novnc-chromium_created][badge_vnc-novnc-chromium_created]
+    [![badge_vnc-novnc-chromium_version-sticker][badge_vnc-novnc-chromium_version-sticker]][link_vnc-novnc-chromium_version-sticker-verbose]
+
+- `vnc-firefox-plus` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox]), implements only VNC
+
+    ![badge_vnc-firefox-plus_created][badge_vnc-firefox-plus_created]
+    [![badge_vnc-firefox-plus_version-sticker][badge_vnc-firefox-plus_version-sticker]][link_vnc-firefox-plus_version-sticker-verbose]
+
+- `vnc-novnc-firefox-plus` adds [Firefox][firefox] with **plus features**, implements VNC and noVNC
+
+    ![badge_vnc-novnc-firefox-plus_created][badge_vnc-novnc-firefox-plus_created]
+    [![badge_vnc-novnc-firefox-plus_version-sticker][badge_vnc-novnc-firefox-plus_version-sticker]][link_vnc-novnc-firefox-plus_version-sticker-verbose]
+
+Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
 ### Ports
 
