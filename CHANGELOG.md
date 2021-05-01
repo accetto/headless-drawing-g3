@@ -6,6 +6,14 @@
 
 ***
 
+### Release 21.05
+
+- **xfce-blender** added, into [accetto/ubuntu-vnc-xfce-blender-g3][accetto-ubuntu-vnc-xfce-blender-g3]
+- circumventing limit of 25 auto-builder rules on Docker Hub
+  - using two builder repositories
+  - workflow `dockerhub-autobuild.yml` triggers both of them
+  - see also updated [sibling project Wiki][sibling-wiki] (pages  [Building stages][sibling-wiki-building-stages] and [How CI works][sibling-wiki-how-ci-works])
+
 ### Release 21.04
 
 - TigerVNC from [Release Mirror on accetto/tigervnc][accetto-tigervnc-release-mirror] because **Bintray** is closing on 2021-05-01
@@ -36,6 +44,10 @@
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
 
+[sibling-wiki-building-stages]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/Building-stages
+[sibling-wiki-how-ci-works]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/How-CI-works
+
+[accetto-ubuntu-vnc-xfce-blender-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
 [accetto-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
 [accetto-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
 [accetto-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
