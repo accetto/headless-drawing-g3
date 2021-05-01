@@ -1,0 +1,74 @@
+<!-- This is the template of the file to append to the main part of README file for Docker Hub. -->
+<!-- The following variables will be replaced (related to the deployment repository): OWNER, GIST, REPO -->
+
+<!-- latest -->
+
+[badge_latest_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@created.json
+
+[badge_latest_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker.json
+
+[link_latest_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker-verbose.txt
+
+<!-- vnc -->
+
+[badge_vnc_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc@created.json
+
+[badge_vnc_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc@version-sticker.json
+
+[link_vnc_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc@version-sticker-verbose.txt
+
+<!-- vnc-chromium -->
+
+[badge_vnc-chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-chromium@created.json
+
+[badge_vnc-chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-chromium@version-sticker.json
+
+[link_vnc-chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-chromium@version-sticker-verbose.txt
+
+<!-- vnc-firefox -->
+
+[badge_vnc-firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox@created.json
+
+[badge_vnc-firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox@version-sticker.json
+
+[link_vnc-firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox@version-sticker-verbose.txt
+
+<!-- vnc-firefox-plus -->
+
+[badge_vnc-firefox-plus_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox-plus@created.json
+
+[badge_vnc-firefox-plus_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox-plus@version-sticker.json
+
+[link_vnc-firefox-plus_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox-plus@version-sticker-verbose.txt
+
+<!-- vnc-novnc -->
+
+[badge_vnc-novnc_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc@created.json
+
+[badge_vnc-novnc_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc@version-sticker.json
+
+[link_vnc-novnc_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc@version-sticker-verbose.txt
+
+<!-- vnc-novnc-chromium -->
+
+[badge_vnc-novnc-chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-chromium@created.json
+
+[badge_vnc-novnc-chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-chromium@version-sticker.json
+
+[link_vnc-novnc-chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-chromium@version-sticker-verbose.txt
+
+<!-- vnc-novnc-firefox -->
+
+[badge_vnc-novnc-firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox@created.json
+
+[badge_vnc-novnc-firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox@version-sticker.json
+
+[link_vnc-novnc-firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox@version-sticker-verbose.txt
+
+<!-- vnc-novnc-firefox-plus -->
+
+[badge_vnc-novnc-firefox-plus_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox-plus@created.json
+
+[badge_vnc-novnc-firefox-plus_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox-plus@version-sticker.json
+
+[link_vnc-novnc-firefox-plus_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox-plus@version-sticker-verbose.txt

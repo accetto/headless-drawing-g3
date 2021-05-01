@@ -3,7 +3,8 @@
 ### resolve also symlinks
 _current_dir="$(dirname "$(readlink -f "$0")")"
 
-ubuntu=$("${_current_dir}/version_of.sh" ubuntu)
+ubuntu=$("${STARTUPDIR}/version_of.sh" ubuntu)
+blender=$("${STARTUPDIR}/version_of.sh" blender)
 chromium=$("${STARTUPDIR}/version_of.sh" chromium)
 firefox=$("${STARTUPDIR}/version_of.sh" firefox)
 drawio=$("${STARTUPDIR}/version_of.sh" drawio)
@@ -32,6 +33,7 @@ main() {
                     ;;
 
                 -v )
+                    if [ -n "${blender}" ] ; then echo "Blender ${blender}" ; fi
                     if [ -n "${chromium}" ] ; then echo "Chromium ${chromium}" ; fi
                     if [ -n "${drawio}" ] ; then echo "draw.io Desktop ${drawio}" ; fi
                     if [ -n "${firefox}" ] ; then echo "Firefox ${firefox}" ; fi
@@ -41,6 +43,8 @@ main() {
                     ;;
 
                 -V )
+                    if [ -n "${blender}" ] ; then echo "Blender ${blender}" ; fi
+
                     if [ -n "${chromium}" ] ; then echo "Chromium ${chromium}" ; fi
 
                     version=$("${_current_dir}/version_of.sh" curl)
@@ -108,7 +112,12 @@ main() {
     else
         sticker="ubuntu$ubuntu"
 
-        if [ -n "${drawio}" ] ; then
+        if [ -n "${blender}" ] ; then
+            blender="${blender// /}"
+            blender="${blender/(/}"
+            blender="${blender/)/}"
+            sticker="${sticker}"-"blender${blender}"
+        elif [ -n "${drawio}" ] ; then
             sticker="${sticker}"-"drawio${drawio}"
         elif [ -n "${gimp}" ] ; then
             sticker="${sticker}"-"gimp${gimp}"
