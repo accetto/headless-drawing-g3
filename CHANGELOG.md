@@ -9,6 +9,7 @@
 ### Release 21.05
 
 - **xfce-blender** added, into [accetto/ubuntu-vnc-xfce-blender-g3][accetto-ubuntu-vnc-xfce-blender-g3]
+- images with **Chromium** and **Firefox** will be also regularly built on Docker Hub
 - circumventing limit of 25 auto-builder rules on Docker Hub
   - using two builder repositories
   - workflow `dockerhub-autobuild.yml` triggers both of them
