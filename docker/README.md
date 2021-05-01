@@ -5,10 +5,13 @@ This is only a README placeholder, which will be replaced by the image deploymen
 Useful links from **this project's** GitHub repository [accetto/headless-drawing-g3][this-home]:
 
 - project [Readme][this-readme], [Changelog][this-changelog], [Issues][this-issues]
+- images with **Blender**
+  - [full Readme][this-readme-image-blender] file on GitHub
+  - [image repository][this-dockerhub-image-blender] on Docker Hub
+  - [Dockerfile][this-dockerfile-drawing] (common for all images) on GitHub
 - images with **`draw.io` Desktop**
   - [full Readme][this-readme-image-drawio] file on GitHub
   - [image repository][this-dockerhub-image-drawio] on Docker Hub
-  - [Dockerfile][this-dockerfile-drawing] (common for all images) on GitHub
 - images with **Gimp**
   - [full Readme][this-readme-image-gimp] file on GitHub
   - [image repository][this-dockerhub-image-gimp] on Docker Hub
@@ -40,6 +43,9 @@ Useful links from the **sibling project's** GitHub repository [accetto/ubuntu-vn
 [this-readme]: https://github.com/accetto/headless-drawing-g3/blob/master/README.md
 
 [this-dockerfile-drawing]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
+
+[this-readme-image-blender]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-blender/README.md
+[this-dockerhub-image-blender]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
 
 [this-readme-image-drawio]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-drawio/README.md
 [this-dockerhub-image-drawio]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
