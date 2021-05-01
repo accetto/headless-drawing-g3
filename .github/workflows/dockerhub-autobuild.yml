@@ -44,3 +44,6 @@ jobs:
         run: |
           echo "Call webhook"
           curl -X POST -s -o /dev/null --write-out "%{http_code}" ${{ secrets.DockerHubWebhookBuildRelease }}
+          if [ -n "${{ secrets.DockerHubWebhookBuildRelease_1 }}" ] ; then 
+            curl -X POST -s -o /dev/null --write-out "%{http_code}" ${{ secrets.DockerHubWebhookBuildRelease_1 }}
+          fi
