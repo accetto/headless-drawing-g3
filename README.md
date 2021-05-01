@@ -1,4 +1,4 @@
-# Headless Ubuntu/Xfce containers with VNC/noVNC for diagramming, vector drawing and bitmap image editing
+# Headless Ubuntu/Xfce containers with VNC/noVNC for diagramming, image editing and 2D/3D drawing
 
 ## Project `accetto/headless-drawing-g3`
 
@@ -31,9 +31,11 @@ This is a sibling project to the project [accetto/ubuntu-vnc-xfce-g3][sibling-gi
 
 There are currently resources for the following Docker images:
 
+- [accetto/ubuntu-vnc-xfce-blender-g3][accetto-docker-ubuntu-vnc-xfce-blender-g3]
+  - [full Readme][this-readme-image-blender]
+  - [Dockerfile][this-dockerfile-drawing] (common for all images)
 - [accetto/ubuntu-vnc-xfce-drawio-g3][accetto-docker-ubuntu-vnc-xfce-drawio-g3]
   - [full Readme][this-readme-image-drawio]
-  - [Dockerfile][this-dockerfile-drawing] (common for all images)
 - [accetto/ubuntu-vnc-xfce-gimp-g3][accetto-docker-ubuntu-vnc-xfce-gimp-g3]
   - [full Readme][this-readme-image-gimp]
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
@@ -43,6 +45,7 @@ The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
+./docker/hooks/build dev latest-blender
 ./docker/hooks/build dev latest-drawio
 ./docker/hooks/build dev latest-gimp
 ./docker/hooks/build dev latest-inkscape
@@ -74,10 +77,12 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 [this-dockerfile-drawing]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
 
+[this-readme-image-blender]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-blender/README.md
 [this-readme-image-drawio]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-drawio/README.md
 [this-readme-image-gimp]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-gimp/README.md
 [this-readme-image-inkscape]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-inkscape/README.md
 
+[accetto-docker-ubuntu-vnc-xfce-blender-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
 [accetto-docker-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
 [accetto-docker-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
 [accetto-docker-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
@@ -98,6 +103,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 [docker-ubuntu]: https://hub.docker.com/_/ubuntu/
 
+[blender]: https://www.blender.org/
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
 [novnc]: https://github.com/kanaka/noVNC
