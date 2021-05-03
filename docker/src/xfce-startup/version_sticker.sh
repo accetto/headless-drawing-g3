@@ -60,8 +60,8 @@ main() {
 
                     if [ -n "${firefox}" ] ; then echo "Firefox ${firefox}" ; fi
 
-                    version=$("${_current_dir}/version_of.sh" gdebi)
-                    if [ -n "${version}" ] ; then echo "gdebi ${version}" ; fi
+                    # version=$("${_current_dir}/version_of.sh" gdebi)
+                    # if [ -n "${version}" ] ; then echo "gdebi ${version}" ; fi
 
                     if [ -n "${gimp}" ] ; then echo "Gimp ${gimp}" ; fi
 
