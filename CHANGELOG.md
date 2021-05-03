@@ -6,6 +6,10 @@
 
 ***
 
+### Release 21.05.1
+
+- packages **dconf-editor** and **gdebi-core** have been removed
+
 ### Release 21.05
 
 - **xfce-blender** added, into [accetto/ubuntu-vnc-xfce-blender-g3][accetto-ubuntu-vnc-xfce-blender-g3]

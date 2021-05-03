@@ -291,7 +291,6 @@ RUN \
     --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
     DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
-        gdebi-core \
         libasound2 \
         libdrm2 \
         libgbm1 \
@@ -301,9 +300,12 @@ RUN \
     --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
     DRAWIO_VERSION="${ARG_DRAWIO_VERSION}" \
-    && wget -q "https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb" \
-    && echo y | gdebi drawio-amd64-${DRAWIO_VERSION}.deb \
-    && rm -f drawio-amd64-${DRAWIO_VERSION}.deb
+    && wget -q "https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb" -P /tmp \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
+        "/tmp/drawio-amd64-${DRAWIO_VERSION}.deb" \
+    && DEBIAN_FRONTEND=noninteractive apt-get -y -f install \
+    && rm -f \
+        "/tmp/drawio-amd64-${DRAWIO_VERSION}.deb"
 
 COPY ./xfce-drawio/src/home/Desktop "${HOME}"/Desktop/
 
