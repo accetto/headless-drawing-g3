@@ -208,12 +208,10 @@ RUN \
     && wget -q "http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-codecs-ffmpeg_${CHROMIUM_VERSION}_amd64.deb" -P /tmp \
     && wget -q "http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-browser_${CHROMIUM_VERSION}_amd64.deb" -P /tmp \
     && wget -q "http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-browser-l10n_${CHROMIUM_VERSION}_all.deb" -P /tmp \
-    && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
         "/tmp/chromium-codecs-ffmpeg_${CHROMIUM_VERSION}_amd64.deb" \
         "/tmp/chromium-browser_${CHROMIUM_VERSION}_amd64.deb" \
         "/tmp/chromium-browser-l10n_${CHROMIUM_VERSION}_all.deb" \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y -f install \
     && rm \
         "/tmp/chromium-codecs-ffmpeg_${CHROMIUM_VERSION}_amd64.deb" \
         "/tmp/chromium-browser_${CHROMIUM_VERSION}_amd64.deb" \
@@ -303,7 +301,6 @@ RUN \
     && wget -q "https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-amd64-${DRAWIO_VERSION}.deb" -P /tmp \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
         "/tmp/drawio-amd64-${DRAWIO_VERSION}.deb" \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y -f install \
     && rm -f \
         "/tmp/drawio-amd64-${DRAWIO_VERSION}.deb"
 
