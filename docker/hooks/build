@@ -56,17 +56,13 @@ main() {
                     ${FEATURES_FIREFOX_PLUS:+--build-arg ARG_MERGE_STAGE_BROWSER_BASE="stage_firefox_plus"} \
                     \
                     ${FEATURES_BLENDER:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_blender"} \
-                    ${FEATURES_BLENDER:+--build-arg ARG_FINAL_STAGE_BASE="merge_stage_drawing"} \
                     \
                     ${DRAWIO_VERSION:+--build-arg ARG_DRAWIO_VERSION=${DRAWIO_VERSION}} \
                     ${FEATURES_DRAWIO:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_drawio"} \
-                    ${FEATURES_DRAWIO:+--build-arg ARG_FINAL_STAGE_BASE="merge_stage_drawing"} \
                     \
                     ${FEATURES_GIMP:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_gimp"} \
-                    ${FEATURES_GIMP:+--build-arg ARG_FINAL_STAGE_BASE="merge_stage_drawing"} \
                     \
                     ${FEATURES_INKSCAPE:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_inkscape"} \
-                    ${FEATURES_INKSCAPE:+--build-arg ARG_FINAL_STAGE_BASE="merge_stage_drawing"} \
                     \
                 -t "${DOCKER_REPO}":"${DOCKER_TAG}" "${_build_context}"
             set +x
