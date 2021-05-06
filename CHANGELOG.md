@@ -6,7 +6,7 @@
 
 ***
 
-### Release 21.05.1 (unreleased)
+### Release 21.05.1
 
 - packages **dconf-editor** and **gdebi-core** have been removed
 
