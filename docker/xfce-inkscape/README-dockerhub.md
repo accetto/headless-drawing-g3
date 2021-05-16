@@ -168,7 +168,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 [this-docker]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3/
 [this-dockerfile]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
 
-[this-screenshot-container]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/xfce-inkscape/ubuntu-vnc-xfce-inkscape.jpg
+[this-screenshot-container]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/ubuntu-vnc-xfce-inkscape.jpg
 
 <!-- Previous generations -->
 

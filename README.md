@@ -34,12 +34,15 @@ There are currently resources for the following Docker images:
 - [accetto/ubuntu-vnc-xfce-blender-g3][accetto-docker-ubuntu-vnc-xfce-blender-g3]
   - [full Readme][this-readme-image-blender]
   - [Dockerfile][this-dockerfile-drawing] (common for all images)
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-drawing] (common for all images)
 - [accetto/ubuntu-vnc-xfce-drawio-g3][accetto-docker-ubuntu-vnc-xfce-drawio-g3]
   - [full Readme][this-readme-image-drawio]
 - [accetto/ubuntu-vnc-xfce-gimp-g3][accetto-docker-ubuntu-vnc-xfce-gimp-g3]
   - [full Readme][this-readme-image-gimp]
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
   - [full Readme][this-readme-image-inkscape]
+- `accetto/headless-drawing-g3` base images (not published on Docker Hub)
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-xfce]
 
 The fastest way to build the images locally:
 
@@ -86,6 +89,11 @@ Credit goes to all the countless people and companies, who contribute to open so
 [accetto-docker-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
 [accetto-docker-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
 [accetto-docker-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
+
+<!-- diagrams -->
+
+[this-diagram-dockerfile-stages-drawing]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.drawing.png
+[this-diagram-dockerfile-stages-xfce]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.png
 
 <!-- sibling project -->
 

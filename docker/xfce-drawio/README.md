@@ -55,6 +55,8 @@ Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
     - [Startup options and help](#startup-options-and-help)
   - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
   - [Credits](#credits)
+  - [Diagrams](#diagrams)
+    - [Dockerfile.xfce.drawing](#dockerfilexfcedrawing)
 
 This is the **third generation** (G3) of my headless images. They replace the **second generation** (G2) of similar images from the GitHub repository [accetto/xubuntu-vnc][accetto-github-xubuntu-vnc], which will be archived.
 
@@ -195,6 +197,12 @@ If you have a question or an idea and you don't want to open an issue, you can u
 
 Credit goes to all the countless people and companies, who contribute to open source community and make so many dreamy things real.
 
+## Diagrams
+
+### Dockerfile.xfce.drawing
+
+![Dockerfile.xfce.drawing stages][this-diagram-dockerfile-stages-drawing]
+
 ***
 
 <!-- GitHub project common -->
@@ -218,7 +226,9 @@ Credit goes to all the countless people and companies, who contribute to open so
 [this-docker]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3/
 [this-dockerfile]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
 
-[this-screenshot-container]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/xfce-drawio/ubuntu-vnc-xfce-drawio.jpg
+[this-diagram-dockerfile-stages-drawing]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.drawing.png
+
+[this-screenshot-container]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/ubuntu-vnc-xfce-drawio.jpg
 
 <!-- Previous generations -->
 

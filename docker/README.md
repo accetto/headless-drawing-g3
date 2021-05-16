@@ -9,6 +9,7 @@ Useful links from **this project's** GitHub repository [accetto/headless-drawing
   - [full Readme][this-readme-image-blender] file on GitHub
   - [image repository][this-dockerhub-image-blender] on Docker Hub
   - [Dockerfile][this-dockerfile-drawing] (common for all images) on GitHub
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-drawing] (common for all images)
 - images with **`draw.io` Desktop**
   - [full Readme][this-readme-image-drawio] file on GitHub
   - [image repository][this-dockerhub-image-drawio] on Docker Hub
@@ -18,6 +19,8 @@ Useful links from **this project's** GitHub repository [accetto/headless-drawing
 - images with **Inkscape**
   - [full Readme][this-readme-image-inkscape] file on GitHub
   - [image repository][this-dockerhub-image-inkscape] on Docker Hub
+- `accetto/headless-drawing-g3` base images (not published on Docker Hub)
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-xfce]
 
 Useful links from the **sibling project's** GitHub repository [accetto/ubuntu-vnc-xfce-g3][sibling-home]:
 
@@ -55,6 +58,11 @@ Useful links from the **sibling project's** GitHub repository [accetto/ubuntu-vn
 
 [this-readme-image-inkscape]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-inkscape/README.md
 [this-dockerhub-image-inkscape]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
+
+<!-- diagrams -->
+
+[this-diagram-dockerfile-stages-drawing]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.drawing.png
+[this-diagram-dockerfile-stages-xfce]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.png
 
 <!-- sibling project -->
 
