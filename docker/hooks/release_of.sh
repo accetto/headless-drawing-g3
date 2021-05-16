@@ -5,18 +5,21 @@ main() {
 
     case "$1" in
 
-        chromium-1804)
-            result=$( \
-                curl -s http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/ \
+        chromium-1804 )
+            # result=$(wget -qO- \
+            result=$(curl -sL \
+                http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/ \
                 | grep -Po -m1 '(?<=href=")[^_]*_([0-9.]+-0ubuntu0\.18\.04\.[^_"]*)_[^"]*' \
-                | cut -d _ -f 2 )
+                | cut -d _ -f 2 \
+            )
             ;;
 
         drawio )
-            result=$( \
-                curl -s -H "Accept: application/vnd.github.v3+json" \
-                https://api.github.com/repos/jgraph/drawio-desktop/releases \
-                | grep -m1 "tag_name" | grep -Po "[0-9.]+"
+            # result=$(wget -qO- \
+            result=$(curl -sL -H "Accept: application/vnd.github.v3+json" \
+                https://api.github.com/repos/jgraph/drawio-desktop/releases/latest \
+                | grep -m1 "tag_name" \
+                | grep -Po '[0-9.]+'
             )
             ;;
 
