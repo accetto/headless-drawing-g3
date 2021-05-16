@@ -23,6 +23,15 @@ main() {
             )
             ;;
 
+        virtualgl )
+            # result=$(wget -qO- \
+            result=$(curl -sL \
+                https://sourceforge.net/projects/virtualgl/files/ \
+                | grep -Po -m1 '<tr title="[0-9.]+" class="folder\s?">' \
+                | grep -Po '[0-9.]+' \
+            )
+            ;;
+
         * )
             echo "Unknown key '$1'"
             return 1

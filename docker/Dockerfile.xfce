@@ -4,7 +4,8 @@ ARG BASEIMAGE=ubuntu
 ARG BASETAG=20.04
 
 ARG ARG_MERGE_STAGE_VNC_BASE=stage_vnc
-ARG ARG_MERGE_STAGE_BROWSER_BASE=merge_stage_vnc
+ARG ARG_MERGE_STAGE_MESA_BASE=merge_stage_vnc
+ARG ARG_MERGE_STAGE_BROWSER_BASE=merge_stage_mesa
 ARG ARG_FINAL_STAGE_BASE=merge_stage_browser
 
 
@@ -188,11 +189,70 @@ ENV HOME=${ARG_HOME:-/home/${ARG_HEADLESS_USER_NAME:-headless}}
 WORKDIR ${HOME}
 
 
+##############
+### stage_mesa
+##############
+
+FROM merge_stage_vnc as stage_mesa
+ARG ARG_APT_NO_RECOMMENDS
+
+ENV \
+    FEATURES_BUILD_SLIM_MESA=${ARG_APT_NO_RECOMMENDS:+1} \
+    FEATURES_MESA=1
+
+RUN \
+    --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
+        mesa-utils \
+        mesa-utils-extra \
+        glmark2
+
+        ### optional benchmarking app
+        # glmark2
+
+
+###################
+### stage_virtualgl
+###################
+
+FROM stage_mesa as stage_virtualgl
+ARG ARG_APT_NO_RECOMMENDS
+ARG ARG_VIRTUALGL_VERSION
+
+ENV \
+    FEATURES_BUILD_SLIM_VIRTUALGL=${ARG_APT_NO_RECOMMENDS:+1} \
+    FEATURES_VIRTUALGL=1
+
+RUN \
+    --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
+    VIRTUALGL_VERSION=${ARG_VIRTUALGL_VERSION} \
+    && wget -q "https://downloads.sourceforge.net/project/virtualgl/${VIRTUALGL_VERSION}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" -P /tmp \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
+        "/tmp/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" \
+    && rm -f \
+        "/tmp/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" \
+    && /opt/VirtualGL/bin/vglserver_config -config +s +f -t
+
+    ### Set VirtualLG defaults, xauth bits, this adds a DRI line to xorg.conf
+    #/opt/VirtualGL/bin/vglserver_config -config +s +f -t
+    ### access open to all users, because restricting users doesn't really work
+    #/opt/VirtualGL/bin/vglserver_config -config -s -f +t 
+
+
+####################
+### merge_stage_mesa
+####################
+
+FROM ${ARG_MERGE_STAGE_MESA_BASE} as merge_stage_mesa
+
+
 ##################
 ### stage_chromium
 ##################
 
-FROM merge_stage_vnc as stage_chromium
+FROM merge_stage_mesa as stage_chromium
 ARG ARG_APT_NO_RECOMMENDS
 ARG ARG_CHROMIUM_VERSION
 
@@ -232,7 +292,7 @@ RUN \
 ### stage_firefox
 #################
 
-FROM merge_stage_vnc as stage_firefox
+FROM merge_stage_mesa as stage_firefox
 ARG ARG_APT_NO_RECOMMENDS
 
 ENV \
@@ -325,7 +385,7 @@ ARG ARG_VERSION_STICKER
 LABEL \
     org.opencontainers.image.authors="accetto" \
     org.opencontainers.image.created="${ARG_CREATED}" \
-    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC base containers with Internet browsers" \
+    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC base containers with OpenGL/WebGL/VirtualGL and Internet browsers" \
     org.opencontainers.image.documentation="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.source="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.title="accetto/headless-drawing-g3" \

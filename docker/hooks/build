@@ -47,7 +47,13 @@ main() {
                     ${FEATURES_THUMBNAILING:+--build-arg ARG_FEATURES_THUMBNAILING=1} \
                     ${FEATURES_USER_GROUP_OVERRIDE:+--build-arg ARG_FEATURES_USER_GROUP_OVERRIDE=1} \
                     \
+                    ${FEATURES_VIRTUALGL:+--build-arg ARG_FEATURES_VIRTUALGL=1} \
+                    ${FEATURES_VIRTUALGL:+--build-arg ARG_VIRTUALGL_VERSION=${VIRTUALGL_VERSION}} \
+                    \
                     ${FEATURES_NOVNC:+--build-arg ARG_MERGE_STAGE_VNC_BASE="stage_novnc"} \
+                    \
+                    ${FEATURES_MESA:+--build-arg ARG_MERGE_STAGE_MESA_BASE="stage_mesa"} \
+                    ${FEATURES_VIRTUALGL:+--build-arg ARG_MERGE_STAGE_MESA_BASE="stage_virtualgl"} \
                     \
                     ${FEATURES_CHROMIUM:+--build-arg ARG_CHROMIUM_VERSION=${CHROMIUM_VERSION}} \
                     ${FEATURES_CHROMIUM:+--build-arg ARG_MERGE_STAGE_BROWSER_BASE="stage_chromium"} \
@@ -92,7 +98,13 @@ main() {
                     ${FEATURES_THUMBNAILING:+--build-arg ARG_FEATURES_THUMBNAILING=1} \
                     ${FEATURES_USER_GROUP_OVERRIDE:+--build-arg ARG_FEATURES_USER_GROUP_OVERRIDE=1} \
                     \
+                    ${FEATURES_VIRTUALGL:+--build-arg ARG_FEATURES_VIRTUALGL=1} \
+                    ${FEATURES_VIRTUALGL:+--build-arg ARG_VIRTUALGL_VERSION=${VIRTUALGL_VERSION}} \
+                    \
                     ${FEATURES_NOVNC:+--build-arg ARG_MERGE_STAGE_VNC_BASE="stage_novnc"} \
+                    \
+                    ${FEATURES_MESA:+--build-arg ARG_MERGE_STAGE_MESA_BASE="stage_mesa"} \
+                    ${FEATURES_VIRTUALGL:+--build-arg ARG_MERGE_STAGE_MESA_BASE="stage_virtualgl"} \
                     \
                     ${FEATURES_CHROMIUM:+--build-arg ARG_CHROMIUM_VERSION=${CHROMIUM_VERSION}} \
                     ${FEATURES_CHROMIUM:+--build-arg ARG_MERGE_STAGE_BROWSER_BASE="stage_chromium"} \

@@ -3,13 +3,13 @@
 ### resolve also symlinks
 _current_dir="$(dirname "$(readlink -f "$0")")"
 
-ubuntu=$("${STARTUPDIR}/version_of.sh" ubuntu)
-blender=$("${STARTUPDIR}/version_of.sh" blender)
-chromium=$("${STARTUPDIR}/version_of.sh" chromium)
-firefox=$("${STARTUPDIR}/version_of.sh" firefox)
-drawio=$("${STARTUPDIR}/version_of.sh" drawio)
-gimp=$("${STARTUPDIR}/version_of.sh" gimp)
-inkscape=$("${STARTUPDIR}/version_of.sh" inkscape)
+ubuntu=$("${_current_dir}/version_of.sh" ubuntu)
+blender=$("${_current_dir}/version_of.sh" blender)
+chromium=$("${_current_dir}/version_of.sh" chromium)
+firefox=$("${_current_dir}/version_of.sh" firefox)
+drawio=$("${_current_dir}/version_of.sh" drawio)
+gimp=$("${_current_dir}/version_of.sh" gimp)
+inkscape=$("${_current_dir}/version_of.sh" inkscape)
 
 main() {
     local key
@@ -85,7 +85,7 @@ main() {
                     version=$("${_current_dir}/version_of.sh" novnc)
                     if [ -n "${version}" ] ; then echo "noVNC ${version}" ; fi
 
-                    if [ -n "${python}" ] ; then echo "Python ${python}" ; fi
+                    # if [ -n "${python}" ] ; then echo "Python ${python}" ; fi
 
                     version=$("${_current_dir}/version_of.sh" ristretto)
                     if [ -n "${version}" ] ; then echo "Ristretto ${version}" ; fi
@@ -101,7 +101,10 @@ main() {
 
                     echo "Ubuntu ${ubuntu}"
 
-                    if [ -n "${vscode}" ] ; then echo "VSCode ${vscode}" ; fi
+                    version=$("${_current_dir}/version_of.sh" virtualgl)
+                    if [ -n "${version}" ] ; then echo "VirtualGL ${version}" ; fi
+
+                    # if [ -n "${vscode}" ] ; then echo "VSCode ${vscode}" ; fi
 
                     version=$("${_current_dir}/version_of.sh" websockify)
                     if [ -n "${version}" ] ; then echo "websockify ${version}" ; fi

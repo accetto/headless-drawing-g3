@@ -133,6 +133,10 @@ case "$1" in
         ### source example: VIM - Vi IMproved 8.0 (2016 Sep 12, compiled Jun 06 2019 17:31:41)
         echo $(vim --version 2>/dev/null | grep -Po -m1 '(?<=VIM - Vi IMproved\s)[0-9.]+')
         ;;
+    virtualgl )
+        ### source example: virtualgl/now 2.6.5-20201117 amd64 [installed,local]
+        echo $(apt list --installed 2>/dev/null | grep virtualgl | grep -Po -m1 '[0-9.]+' | head -n1)
+        ;;
     websockify )
         ### source example: 0.8.0
         echo $(cat "${NO_VNC_HOME}"/utils/websockify/CHANGES.txt 2>/dev/null | grep -Po -m1 '^[0-9.]+')
