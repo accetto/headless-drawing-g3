@@ -6,6 +6,11 @@
 
 ***
 
+### Release 21.05.2
+
+- **Dockerfile stage diagrams** added (see the readme files)
+- all images moved to `docker/doc/images`
+
 ### Release 21.05.1
 
 - packages **dconf-editor** and **gdebi-core** have been removed
