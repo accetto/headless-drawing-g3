@@ -73,7 +73,7 @@ main() {
 
         ### These base images will not be built or published on Docker Hub.
 
-        xfce-vnc* )
+        vnc* )
 
             set -x
             docker build $@ \
