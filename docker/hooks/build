@@ -78,7 +78,9 @@ main() {
         ### headless-drawing-g3 (base images)
         ### ---------------------------------
 
-        vnc* )
+        ### accetto/ubuntu-vnc-xfce-opengl-g3
+
+        vnc* | latest )
 
             set -x
             docker build $@ \

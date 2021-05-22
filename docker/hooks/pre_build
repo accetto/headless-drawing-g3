@@ -71,9 +71,9 @@ main() {
         ### headless-drawing-g3 (base images)
         ### ---------------------------------
 
-        ### These base images will not be built or published on Docker Hub.
+        ### accetto/ubuntu-vnc-xfce-opengl-g3
 
-        vnc* )
+        vnc* | latest )
 
             set -x
             docker build $@ \
