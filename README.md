@@ -21,7 +21,9 @@
 
 ***
 
-This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment and [VNC][tigervnc]/[noVNC][novnc] servers for headless use and selected applications for diagramming, vector drawing and bitmap image editing. All images can optionally include also the web browsers [Chromium][chromium] or [Firefox][firefox].
+This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment and [VNC][tigervnc]/[noVNC][novnc] servers for headless use and selected applications for diagramming, vector drawing and bitmap image editing.
+
+All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
 
 The resources for the individual images and their variations (tags) are stored in the subfolders of the **master** branch. Each image has its own README file describing its features and usage.
 
@@ -31,23 +33,26 @@ This is a sibling project to the project [accetto/ubuntu-vnc-xfce-g3][sibling-gi
 
 There are currently resources for the following Docker images:
 
+- [accetto/ubuntu-vnc-xfce-opengl-g3][accetto-docker-ubuntu-vnc-xfce-opengl-g3]
+  - [full Readme][this-readme-image-opengl]
+  - [Dockerfile][this-dockerfile-xfce]
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-xfce]
 - [accetto/ubuntu-vnc-xfce-blender-g3][accetto-docker-ubuntu-vnc-xfce-blender-g3]
   - [full Readme][this-readme-image-blender]
-  - [Dockerfile][this-dockerfile-drawing] (common for all images)
-  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-drawing] (common for all images)
+  - [Dockerfile][this-dockerfile-drawing] (common for all the following images)
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-drawing] (common for all the following images)
 - [accetto/ubuntu-vnc-xfce-drawio-g3][accetto-docker-ubuntu-vnc-xfce-drawio-g3]
   - [full Readme][this-readme-image-drawio]
 - [accetto/ubuntu-vnc-xfce-gimp-g3][accetto-docker-ubuntu-vnc-xfce-gimp-g3]
   - [full Readme][this-readme-image-gimp]
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
   - [full Readme][this-readme-image-inkscape]
-- `accetto/headless-drawing-g3` base images (not published on Docker Hub)
-  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-xfce]
 
 The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
+./docker/hooks/build dev latest
 ./docker/hooks/build dev latest-blender
 ./docker/hooks/build dev latest-drawio
 ./docker/hooks/build dev latest-gimp
@@ -55,10 +60,6 @@ The fastest way to build the images locally:
 ```
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
-
-## Implicit base images
-
-This project contains also resources for building the base images without the diagramming, drawing or image editing applications. Because those images would be actually equivalent to the images from the [sibling project][sibling-github], they will not be built or published on Docker Hub. However, you can build them yourself locally any time you wish.
 
 ## Issues, Wiki and Discussions
 
@@ -78,13 +79,16 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 [this-docker]: https://hub.docker.com/u/accetto/
 
+[this-dockerfile-xfce]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce
 [this-dockerfile-drawing]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
 
+[this-readme-image-opengl]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce/README.md
 [this-readme-image-blender]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-blender/README.md
 [this-readme-image-drawio]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-drawio/README.md
 [this-readme-image-gimp]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-gimp/README.md
 [this-readme-image-inkscape]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-inkscape/README.md
 
+[accetto-docker-ubuntu-vnc-xfce-opengl-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-opengl-g3
 [accetto-docker-ubuntu-vnc-xfce-blender-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
 [accetto-docker-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
 [accetto-docker-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
@@ -92,8 +96,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 <!-- diagrams -->
 
-[this-diagram-dockerfile-stages-drawing]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.drawing.png
 [this-diagram-dockerfile-stages-xfce]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.png
+[this-diagram-dockerfile-stages-drawing]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/Dockerfile.xfce.drawing.png
 
 <!-- sibling project -->
 
@@ -114,8 +118,10 @@ Credit goes to all the countless people and companies, who contribute to open so
 [blender]: https://www.blender.org/
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
+[mesa3d]: https://mesa3d.org/
 [novnc]: https://github.com/kanaka/noVNC
 [tigervnc]: http://tigervnc.org
+[virtualgl]: https://virtualgl.org/About/Introduction
 [xfce]: http://www.xfce.org
 
 <!-- github badges -->
