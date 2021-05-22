@@ -5,11 +5,16 @@ This is only a README placeholder, which will be replaced by the image deploymen
 Useful links from **this project's** GitHub repository [accetto/headless-drawing-g3][this-home]:
 
 - project [Readme][this-readme], [Changelog][this-changelog], [Issues][this-issues]
+- base images with **OpenGL/WebGL/VirtualGL** support
+  - [full Readme][this-readme-image-xfce] on GitHub
+  - [image repository][this-dockerhub-image-opengl] on Docker Hub
+  - [Dockerfile][this-dockerfile-xfce] on GitHub
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-xfce] on GitHub
 - images with **Blender**
   - [full Readme][this-readme-image-blender] file on GitHub
   - [image repository][this-dockerhub-image-blender] on Docker Hub
-  - [Dockerfile][this-dockerfile-drawing] (common for all images) on GitHub
-  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-drawing] (common for all images)
+  - [Dockerfile][this-dockerfile-drawing] (common for all the following images) on GitHub
+  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-drawing] (common for all the following images) on GitHub
 - images with **`draw.io` Desktop**
   - [full Readme][this-readme-image-drawio] file on GitHub
   - [image repository][this-dockerhub-image-drawio] on Docker Hub
@@ -19,8 +24,6 @@ Useful links from **this project's** GitHub repository [accetto/headless-drawing
 - images with **Inkscape**
   - [full Readme][this-readme-image-inkscape] file on GitHub
   - [image repository][this-dockerhub-image-inkscape] on Docker Hub
-- `accetto/headless-drawing-g3` base images (not published on Docker Hub)
-  - [Dockerfile stages diagram][this-diagram-dockerfile-stages-xfce]
 
 Useful links from the **sibling project's** GitHub repository [accetto/ubuntu-vnc-xfce-g3][sibling-home]:
 
@@ -45,7 +48,11 @@ Useful links from the **sibling project's** GitHub repository [accetto/ubuntu-vn
 [this-issues]: https://github.com/accetto/headless-drawing-g3/issues
 [this-readme]: https://github.com/accetto/headless-drawing-g3/blob/master/README.md
 
+[this-dockerfile-xfce]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce
 [this-dockerfile-drawing]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
+
+[this-readme-image-xfce]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce/README.md
+[this-dockerhub-image-opengl]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-opengl-g3
 
 [this-readme-image-blender]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-blender/README.md
 [this-dockerhub-image-blender]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
