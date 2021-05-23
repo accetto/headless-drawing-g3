@@ -156,7 +156,12 @@ The following image tags will be regularly built and published on Docker Hub:
     ![badge_vnc-novnc-mesa-vgl-chromium_created][badge_vnc-novnc-mesa-vgl-chromium_created]
     [![badge_vnc-novnc-mesa-vgl-chromium_version-sticker][badge_vnc-novnc-mesa-vgl-chromium_version-sticker]][link_vnc-novnc-mesa-vgl-chromium_version-sticker-verbose]
 
-- `vnc-novnc-mesa-vgl-firefox-plus` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox]), implements VNC, noVNC, Mesa3D and VirtualGL
+- `vnc-novnc-mesa-vgl-firefox` adds [Firefox][firefox], implements VNC, noVNC, Mesa3D and VirtualGL
+
+    ![badge_vnc-novnc-mesa-vgl-firefox_created][badge_vnc-novnc-mesa-vgl-firefox_created]
+    [![badge_vnc-novnc-mesa-vgl-firefox_version-sticker][badge_vnc-novnc-mesa-vgl-firefox_version-sticker]][link_vnc-novnc-mesa-vgl-firefox_version-sticker-verbose]
+
+- `vnc-novnc-mesa-vgl-firefox-plus` adds [Firefox][firefox] with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox]), implements VNC, noVNC, Mesa3D and VirtualGL
 
     ![badge_vnc-novnc-mesa-vgl-firefox-plus_created][badge_vnc-novnc-mesa-vgl-firefox-plus_created]
     [![badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker][badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker]][link_vnc-novnc-mesa-vgl-firefox-plus_version-sticker-verbose]

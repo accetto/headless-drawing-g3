@@ -49,6 +49,14 @@
 
 [link_vnc-novnc-mesa-vgl-chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-chromium@version-sticker-verbose.txt
 
+<!-- vnc-novnc-mesa-vgl-firefox -->
+
+[badge_vnc-novnc-mesa-vgl-firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox@created.json
+
+[badge_vnc-novnc-mesa-vgl-firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox@version-sticker.json
+
+[link_vnc-novnc-mesa-vgl-firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox@version-sticker-verbose.txt
+
 <!-- vnc-novnc-mesa-vgl-firefox-plus -->
 
 [badge_vnc-novnc-mesa-vgl-firefox-plus_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox-plus@created.json

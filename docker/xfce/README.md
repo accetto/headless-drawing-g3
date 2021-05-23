@@ -137,7 +137,8 @@ The following images will be regularly built and published on Docker Hub:
   - `vnc-mesa-vgl` implements VNC, Mesa3D and VirtualGL
 - adding [Chromium Browser][chromium]
   - `vnc-novnc-mesa-vgl-chromium`
-- adding [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+- adding [Firefox][firefox], optionally with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+  - `vnc-novnc-mesa-vgl-firefox`
   - `vnc-novnc-mesa-vgl-firefox-plus`
 
 The images with other possible combinations of features will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github].
