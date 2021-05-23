@@ -6,6 +6,15 @@
 
 ***
 
+### Release 21.05.3
+
+- **xfce** images added, into [accetto/ubuntu-vnc-xfce-opengl-g3][accetto-ubuntu-vnc-xfce-opengl-g3]
+  - introducing **OpenGL/WebGL/VirtualGL** experimental support
+  - through [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit
+  - OpenGL benchmark [glmark2][glmark2] and the test applications `glxgears`, `es2gears` and `es2tri` are also included
+- all **Blender** images published on Docker Hub include the same 3D stuff
+- **Dockerfile.xfce**, **Dockerfile.xfce.drawing**, the stages diagrams and the hook scripts have been accordingly updated
+
 ### Release 21.05.2
 
 - **Dockerfile stage diagrams** added (see the readme files)
@@ -57,9 +66,14 @@
 [sibling-wiki-building-stages]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/Building-stages
 [sibling-wiki-how-ci-works]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/How-CI-works
 
+[accetto-ubuntu-vnc-xfce-opengl-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-opengl-g3
 [accetto-ubuntu-vnc-xfce-blender-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
 [accetto-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
 [accetto-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
 [accetto-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
 
 [accetto-tigervnc-release-mirror]: https://github.com/accetto/tigervnc/releases
+
+[glmark2]: https://github.com/glmark2/glmark2
+[mesa3d]: https://mesa3d.org/
+[virtualgl]: https://virtualgl.org/About/Introduction
