@@ -27,12 +27,17 @@
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
     - [Startup options and help](#startup-options-and-help)
     - [More information](#more-information)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
   - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
   - [Credits](#credits)
 
 This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the current version of the free open-source 3D creation suite [Blender][blender].
 
-Additional images with the current [Chromium][chromium] or [Firefox][firefox] web browsers can be built from the same [GitHub repository][this-github].
+All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
+
+The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
+
+Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
 
 This is the **third generation** (G3) of my headless images. More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
 
@@ -67,40 +72,30 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 The following image tags will be regularly built and published on Docker Hub:
 
-- `latest` is identical to `vnc-novnc`
+- `latest` is identical to `vnc-novnc-mesa-vgl`
 
     ![badge_latest_created][badge_latest_created]
     [![badge_latest_version-sticker][badge_latest_version-sticker]][link_latest_version-sticker-verbose]
 
-- `vnc` implements only VNC
+- `vnc-novnc-mesa-vgl` implements VNC, noVNC, Mesa3D and VirtualGL
 
-    ![badge_vnc_created][badge_vnc_created]
-    [![badge_vnc_version-sticker][badge_vnc_version-sticker]][link_vnc_version-sticker-verbose]
+    ![badge_vnc-novnc-mesa-vgl_created][badge_vnc-novnc-mesa-vgl_created]
+    [![badge_vnc-novnc-mesa-vgl_version-sticker][badge_vnc-novnc-mesa-vgl_version-sticker]][link_vnc-novnc-mesa-vgl_version-sticker-verbose]
 
-- `vnc-novnc` implements VNC and noVNC
+- `vnc-mesa-vgl` implements VNC, Mesa3D and VirtualGL
 
-    ![badge_vnc-novnc_created][badge_vnc-novnc_created]
-    [![badge_vnc-novnc_version-sticker][badge_vnc-novnc_version-sticker]][link_vnc-novnc_version-sticker-verbose]
+    ![badge_vnc-mesa-vgl_created][badge_vnc-mesa-vgl_created]
+    [![badge_vnc-mesa-vgl_version-sticker][badge_vnc-mesa-vgl_version-sticker]][link_vnc-mesa-vgl_version-sticker-verbose]
 
-- `vnc-chromium` adds [Chromium Browser][chromium], implements only VNC
+- `vnc-novnc-mesa-vgl-chromium` adds [Chromium Browser][chromium], implements VNC, noVNC, Mesa3D and VirtualGL
 
-    ![badge_vnc-chromium_created][badge_vnc-chromium_created]
-    [![badge_vnc-chromium_version-sticker][badge_vnc-chromium_version-sticker]][link_vnc-chromium_version-sticker-verbose]
+    ![badge_vnc-novnc-mesa-vgl-chromium_created][badge_vnc-novnc-mesa-vgl-chromium_created]
+    [![badge_vnc-novnc-mesa-vgl-chromium_version-sticker][badge_vnc-novnc-mesa-vgl-chromium_version-sticker]][link_vnc-novnc-mesa-vgl-chromium_version-sticker-verbose]
 
-- `vnc-novnc-chromium` adds [Chromium Browser][chromium], implements VNC and noVNC
+- `vnc-novnc-mesa-vgl-firefox-plus` adds [Firefox][firefox] with the **plus features**, implements VNC, noVNC, Mesa3D and VirtualGL
 
-    ![badge_vnc-novnc-chromium_created][badge_vnc-novnc-chromium_created]
-    [![badge_vnc-novnc-chromium_version-sticker][badge_vnc-novnc-chromium_version-sticker]][link_vnc-novnc-chromium_version-sticker-verbose]
-
-- `vnc-firefox-plus` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox]), implements only VNC
-
-    ![badge_vnc-firefox-plus_created][badge_vnc-firefox-plus_created]
-    [![badge_vnc-firefox-plus_version-sticker][badge_vnc-firefox-plus_version-sticker]][link_vnc-firefox-plus_version-sticker-verbose]
-
-- `vnc-novnc-firefox-plus` adds [Firefox][firefox] with **plus features**, implements VNC and noVNC
-
-    ![badge_vnc-novnc-firefox-plus_created][badge_vnc-novnc-firefox-plus_created]
-    [![badge_vnc-novnc-firefox-plus_version-sticker][badge_vnc-novnc-firefox-plus_version-sticker]][link_vnc-novnc-firefox-plus_version-sticker-verbose]
+    ![badge_vnc-novnc-mesa-vgl-firefox-plus_created][badge_vnc-novnc-mesa-vgl-firefox-plus_created]
+    [![badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker][badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker]][link_vnc-novnc-mesa-vgl-firefox-plus_version-sticker-verbose]
 
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
@@ -144,6 +139,14 @@ The startup options and help are also described in the [sibling image README fil
 
 More information about these images can be found in the [full-length README][this-readme-full] file on GitHub.
 
+## Using OpenGL/WebGL and HW acceleration
+
+Support for hardware graphics acceleration in these images is still experimental. The images are intended as the base for experiments with your particular graphics hardware.
+
+For sharing the experience and ideas I've started the discussion [Supporting OpenGL/WebGL and using HW acceleration (GPU)][sibling-discussion-supporting-opengl-and-using-hw-acceleration] in the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github]. There are also some links to interesting articles about the subject.
+
+The usage examples can be found in this [readme][sibling-opengl-readme-full] file.
+
 ## Issues, Wiki and Discussions
 
 If you have found a problem or you just have a question, please check the [Issues][this-issues], the [sibling Issues][sibling-issues] and the [sibling Wiki][sibling-wiki] first. Please do not overlook the closed issues.
@@ -175,6 +178,10 @@ Credit goes to all the countless people and companies, who contribute to open so
 [sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
+[sibling-opengl-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce/README.md
+
+[sibling-discussion-supporting-opengl-and-using-hw-acceleration]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10
+
 <!-- Docker image specific -->
 
 [this-docker]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3/
@@ -198,13 +205,16 @@ Credit goes to all the countless people and companies, who contribute to open so
 [blender]: https://www.blender.org/
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
+[glmark2]: https://github.com/glmark2/glmark2
 [jq]: https://stedolan.github.io/jq/
+[mesa3d]: https://mesa3d.org/
 [mousepad]: https://github.com/codebrainz/mousepad
 [nano]: https://www.nano-editor.org/
 [novnc]: https://github.com/kanaka/noVNC
 [tigervnc]: http://tigervnc.org
 [tightvnc]: http://www.tightvnc.com
 [tini]: https://github.com/krallin/tini
+[virtualgl]: https://virtualgl.org/About/Introduction
 [xfce]: http://www.xfce.org
 
 <!-- github badges common -->

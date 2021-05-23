@@ -11,7 +11,11 @@
 
 This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the free open-source 3D creation suite [Blender][blender].
 
-All images can optionally contain also the current [Chromium][chromium] or [Firefox][firefox] web browsers.
+All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
+
+The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
+
+Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
 
 ### TL;DR
 
@@ -20,13 +24,13 @@ The fastest way to build the images locally:
 ```shell
 ### PWD = project root
 ./docker/hooks/build dev latest-blender
+./docker/hooks/build dev blender-vnc-mesa-vgl
+./docker/hooks/build dev blender-vnc-novnc-mesa-vgl-chromium
+./docker/hooks/build dev blender-vnc-novnc-mesa-vgl-firefox
+./docker/hooks/build dev blender-vnc-novnc-mesa-vgl-firefox-plus
 ./docker/hooks/build dev blender-vnc
-./docker/hooks/build dev blender-vnc-chromium
-./docker/hooks/build dev blender-vnc-firefox
-./docker/hooks/build dev blender-vnc-firefox-plus
-./docker/hooks/build dev blender-vnc-novnc-chromium
-./docker/hooks/build dev blender-vnc-novnc-firefox
-./docker/hooks/build dev blender-vnc-novnc-firefox-plus
+./docker/hooks/build dev blender-vnc-novnc
+### and so on
 ```
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
@@ -45,6 +49,7 @@ Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
     - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
     - [Startup options and help](#startup-options-and-help)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
   - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
   - [Credits](#credits)
   - [Diagrams](#diagrams)
@@ -84,21 +89,15 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 The following images will be regularly built and published on Docker Hub:
 
 - base images
-  - `latest` is identical to `vnc-novnc`
-  - `vnc` implements only VNC
-  - `vnc-novnc` implements VNC and noVNC
+  - `latest` is identical to `vnc-novnc-mesa-vgl`
+  - `vnc-novnc-mesa-vgl` implements VNC, noVNC, Mesa3D and VirtualGL
+  - `vnc-mesa-vgl` implements VNC, Mesa3D and VirtualGL
 - adding [Chromium Browser][chromium]
-  - `vnc-chromium`
-  - `vnc-novnc-chromium`
-- adding [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
-  - `vnc-firefox-plus`
-  - `vnc-novnc-firefox-plus`
+  - `vnc-novnc-mesa-vgl-chromium`
+- adding [Firefox][firefox] with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+  - `vnc-novnc-mesa-vgl-firefox-plus`
 
-The following image tags will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
-
-- adding only [Firefox][firefox]
-  - `vnc-firefox`
-  - `vnc-novnc-firefox`
+Images with the other possible feature combinations will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github].
 
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
@@ -175,6 +174,14 @@ The [sibling image README file][sibling-readme-xfce] describes how to run the co
 
 The startup options and help are also described in the [sibling image README file][sibling-readme-xfce].
 
+## Using OpenGL/WebGL and HW acceleration
+
+Support for hardware graphics acceleration in these images is still experimental. The images are intended as the base for experiments with your particular graphics hardware.
+
+For sharing the experience and ideas I've started the discussion [Supporting OpenGL/WebGL and using HW acceleration (GPU)][sibling-discussion-supporting-opengl-and-using-hw-acceleration] in the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github]. There are also some links to interesting articles about the subject.
+
+The usage examples can be found in this [readme][sibling-opengl-readme-full] file.
+
 ## Issues, Wiki and Discussions
 
 If you have found a problem or you just have a question, please check the [Issues][this-issues], the [sibling Issues][sibling-issues] and the [sibling Wiki][sibling-wiki] first. Please do not overlook the closed issues.
@@ -211,6 +218,10 @@ Credit goes to all the countless people and companies, who contribute to open so
 [sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
+[sibling-opengl-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce/README.md
+
+[sibling-discussion-supporting-opengl-and-using-hw-acceleration]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10
+
 <!-- Docker image specific -->
 
 [this-docker]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3/
@@ -236,13 +247,16 @@ Credit goes to all the countless people and companies, who contribute to open so
 [blender]: https://www.blender.org/
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
+[glmark2]: https://github.com/glmark2/glmark2
 [jq]: https://stedolan.github.io/jq/
+[mesa3d]: https://mesa3d.org/
 [mousepad]: https://github.com/codebrainz/mousepad
 [nano]: https://www.nano-editor.org/
 [novnc]: https://github.com/kanaka/noVNC
 [tigervnc]: http://tigervnc.org
 [tightvnc]: http://www.tightvnc.com
 [tini]: https://github.com/krallin/tini
+[virtualgl]: https://virtualgl.org/About/Introduction
 [xfce]: http://www.xfce.org
 
 <!-- github badges common -->
