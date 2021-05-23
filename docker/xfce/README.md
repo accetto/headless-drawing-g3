@@ -13,9 +13,9 @@ This repository contains resources for building Docker images based on [Ubuntu 2
 
 All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
 
-The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the benchmark [glmark2][glmark2].
+The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
 
-These images are intended for experimenting with OpenGL/WebGL support and 3D applications in Docker containers. The best results will be probably achieved with NVidia GPUs and [NVIDIA Container Toolkit][nvidia-container-toolkit]. In other scenarios the [VirtualGL][virtualgl] Toolkit can be used instead.
+These images are intended for experimenting with OpenGL/WebGL support and 3D applications in Docker containers. The best results will be probably achieved with NVidia GPUs and [NVIDIA Container Toolkit][nvidia-container-toolkit]. In other scenarios the [VirtualGL][virtualgl] Toolkit can be used.
 
 ### TL;DR
 
@@ -34,6 +34,37 @@ The fastest way to build the images including Mesa3D/VirtualGL locally:
 ### and so on
 ```
 
+Discussion about [OpenGL support and HW acceleration][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+
+Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
+
+Sharing the display with the host (Linux only):
+
+```bash
+xhost +local:$(whoami)
+
+docker run -it -P --rm \
+    -e DISPLAY=${DISPLAY} \
+    --device /dev/dri/card0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-mesa --skip-vnc
+
+xhost -local:$(whoami)
+```
+
+Sharing the X11 socket with the host (Linux only):
+
+```bash
+xhost +local:$(whoami)
+
+docker run -it -P --rm \
+    --device /dev/dri/card0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-novnc-mesa-vgl
+
+xhost -local:$(whoami)
+```
+
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
 ### Table of contents
@@ -50,6 +81,12 @@ Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
     - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
     - [Startup options and help](#startup-options-and-help)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
+    - [Testing WebGL support in browsers](#testing-webgl-support-in-browsers)
+    - [Using GPU of the host](#using-gpu-of-the-host)
+      - [Sharing display with the host](#sharing-display-with-the-host)
+      - [Using VNC and VirtualGL](#using-vnc-and-virtualgl)
+    - [Using software rendering](#using-software-rendering)
   - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
   - [Credits](#credits)
   - [Diagrams](#diagrams)
@@ -180,6 +217,137 @@ The [sibling image README file][sibling-readme-xfce] describes how to run the co
 
 The startup options and help are also described in the [sibling image README file][sibling-readme-xfce].
 
+## Using OpenGL/WebGL and HW acceleration
+
+Support for hardware graphics acceleration in these images is still experimental. The images are intended as the base for experiments with your particular graphics hardware.
+
+For sharing the experience and ideas I've started the discussion [Supporting OpenGL/WebGL and using HW acceleration (GPU)][sibling-discussion-supporting-opengl-and-using-hw-acceleration] in the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github]. There are also some links to interesting articles about the subject.
+
+### Testing WebGL support in browsers
+
+Mozilla's [documentation][mozilla-doc-webgl] contains the following description of `WebGL`:
+
+> WebGL (Web Graphics Library) is a JavaScript API for rendering high-performance interactive 3D and 2D graphics within any compatible web browser without the use of plug-ins. WebGL does so by introducing an API that closely conforms to OpenGL ES 2.0 that can be used in HTML5 `<canvas>` elements. This conformance makes it possible for the API to take advantage of hardware graphics acceleration provided by the user's device.
+
+The WebGL support in particular browser can be tested by navigating to [this URL][webgl-test]. You should see a spinning cube.
+
+Interesting enough, [Firefox][firefox] requires the `mesa-utils` to be installed in the container, but [Chromium][chromium] does not.
+
+### Using GPU of the host
+
+Using the GPU of the host is possible only on Linux. The correct usage and the required support is heavily dependent on the particular graphics hardware.
+
+The best results are probably achievable with NVidia hardware and [NVIDIA Container Toolkit][nvidia-container-toolkit]. However, my testing shows, that also ordinary integrated graphics from Intel can improve the performance comparing to pure software rendering.
+
+The following examples show, how to execute the tests. Note that because of the integrated Intel graphics it's necessary to share the device `/dev/dri/card0`.
+
+I've described my test results in [this discussion comment][sibling-discussion-supporting-opengl-and-using-hw-acceleration-test-results].
+
+#### Sharing display with the host
+
+This example shows, how a graphic application encapsulated in a container, can run with high performance by sharing the display with the host.
+
+Start a new container from any of my images that include [Mesa3D][mesa3d]. You don't need the VNC server running inside the container in this case and you should skip its start. If you don't, the container will stop itself.
+
+For example:
+
+```bash
+xhost +local:$(whoami)
+
+docker run -it -P --rm \
+    -e DISPLAY=${DISPLAY} \
+    --device /dev/dri/card0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    --name devrun \
+    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-mesa --skip-vnc
+
+xhost -local:$(whoami)
+```
+
+After the container is running, start the OpenGL benchmark application [glmark2][glmark2] from an another terminal window on the host:
+
+```bash
+docker exec -it devrun glmark2
+```
+
+You should see a spinning horse and then the other animations of the test. In the terminal window you should see, that your graphics hardware has been recognized correctly. In my particular case it was:
+
+```bash
+=======================================================
+    glmark2 2014.03+git20150611.fa71af2d
+=======================================================
+    OpenGL Information
+    GL_VENDOR:     Intel
+    GL_RENDERER:   Mesa Intel(R) UHD Graphics 620 (KBL GT2)
+    GL_VERSION:    4.6 (Compatibility Profile) Mesa 20.2.6
+=======================================================
+```
+
+If you've got an error, try to allow access for all users by using `xhost +` before starting the container. Don't forget to use `xhost -` after stopping the container.
+
+#### Using VNC and VirtualGL
+
+Even if you want or need to access the containers via VNC/noVNC, you can still benefit from the GPU of the host to some extent. My [test results][sibling-discussion-supporting-opengl-and-using-hw-acceleration-test-results] show, that the performance penalty is significant, but VNC/noVNC access could be more important in some cases.
+
+You will need to use [VirtualGL][virtualgl] to access the graphics hardware of the host, but you don't need to share the display. However, you still need to share the X11 socket.
+
+Start a new container from any of my images that include [Mesa3D][mesa3d] and [VirtualGL][virtualgl].
+ For example:
+
+```bash
+xhost +local:$(whoami)
+
+docker run -it -P --rm \
+    --device /dev/dri/card0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-novnc-mesa-vgl
+
+xhost -local:$(whoami)
+```
+
+After the container is running, connect to it using a VNC viewer or from a browser over noVNC. Start the `glmark2` benchmark from a terminal window inside the container using `VirtualGL`:
+
+```bash
+vglrun glmark2
+```
+
+You should see in the terminal window, that the application is using the graphics hardware of the host (see above). My test results show, that the performance was about 45% higher than by using pure software rendering.
+
+### Using software rendering
+
+If you don't want or can't to share the X11 socket, because you're on Windows, for example, then you can use any of my containers. If you get an error that OpenGL is not available, then use any of the images that include [Mesa3D][mesa3d] libraries.
+
+You can start a new container a usual way and you don't need to care about `xhost`.
+
+For example:
+
+```bash
+docker run -it -P --rm accetto/ubuntu-vnc-xfce-opengl-g3:latest
+```
+
+After the container is running, connect to it using a VNC viewer or from a browser over noVNC and start the `glmark2` benchmark from a terminal window inside the container:
+
+```bash
+glmark2
+```
+
+You should see in the terminal window, that the software rendering is used:
+
+```bash
+=======================================================
+    glmark2 2014.03+git20150611.fa71af2d
+=======================================================
+    OpenGL Information
+    GL_VENDOR:     Mesa/X.org
+    GL_RENDERER:   llvmpipe (LLVM 11.0.0, 256 bits)
+    GL_VERSION:    3.1 Mesa 20.2.6
+=======================================================
+```
+
+Despite the lower performance, the `glmark2` benchmark should finish successfully.
+
+Also the OpenGL test applications `glxgears`, `es2gears` and `es2tri` should run sucessfully.
+
 ## Issues, Wiki and Discussions
 
 If you have found a problem or you just have a question, please check the [Issues][this-issues], the [sibling Issues][sibling-issues] and the [sibling Wiki][sibling-wiki] first. Please do not overlook the closed issues.
@@ -209,6 +377,9 @@ Credit goes to all the countless people and companies, who contribute to open so
 [this-readme-project]: https://github.com/accetto/headless-drawing-g3/blob/master/README.md
 
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
+[sibling-discussion-supporting-opengl-and-using-hw-acceleration]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10
+[sibling-discussion-supporting-opengl-and-using-hw-acceleration-test-results]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10#discussioncomment-773317
+
 [sibling-github]: https://github.com/accetto/ubuntu-vnc-xfce-g3/
 [sibling-issues]: https://github.com/accetto/ubuntu-vnc-xfce-g3/issues
 [sibling-readme-project]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/README.md
@@ -237,8 +408,9 @@ Credit goes to all the countless people and companies, who contribute to open so
 [docker-doc]: https://docs.docker.com/
 [docker-doc-managing-data]: https://docs.docker.com/storage/
 
+[mozilla-doc-webgl]: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API
+
 [chromium]: https://www.chromium.org/Home
-[diagrams-net]: https://www.diagrams.net/
 [firefox]: https://www.mozilla.org
 [glmark2]: https://github.com/glmark2/glmark2
 [jq]: https://stedolan.github.io/jq/
@@ -251,6 +423,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 [tightvnc]: http://www.tightvnc.com
 [tini]: https://github.com/krallin/tini
 [virtualgl]: https://virtualgl.org/About/Introduction
+[webgl-test]: https://get.webgl.org/
 [xfce]: http://www.xfce.org
 
 <!-- github badges common -->
