@@ -1,0 +1,58 @@
+<!-- This is the template of the file to append to the main part of README file for Docker Hub. -->
+<!-- The following variables will be replaced (related to the deployment repository): OWNER, GIST, REPO -->
+
+<!-- latest -->
+
+[badge_latest_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@created.json
+
+[badge_latest_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker.json
+
+[link_latest_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker-verbose.txt
+
+<!-- vnc-novnc-mesa -->
+
+[badge_vnc-novnc-mesa_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa@created.json
+
+[badge_vnc-novnc-mesa_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa@version-sticker.json
+
+[link_vnc-novnc-mesa_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa@version-sticker-verbose.txt
+
+<!-- vnc-novnc-mesa-vgl -->
+
+[badge_vnc-novnc-mesa-vgl_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl@created.json
+
+[badge_vnc-novnc-mesa-vgl_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl@version-sticker.json
+
+[link_vnc-novnc-mesa-vgl_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl@version-sticker-verbose.txt
+
+<!-- vnc-mesa -->
+
+[badge_vnc-mesa_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-mesa@created.json
+
+[badge_vnc-mesa_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-mesa@version-sticker.json
+
+[link_vnc-mesa_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-mesa@version-sticker-verbose.txt
+
+<!-- vnc-mesa-vgl -->
+
+[badge_vnc-mesa-vgl_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-mesa-vgl@created.json
+
+[badge_vnc-mesa-vgl_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-mesa-vgl@version-sticker.json
+
+[link_vnc-mesa-vgl_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-mesa-vgl@version-sticker-verbose.txt
+
+<!-- vnc-novnc-mesa-vgl-chromium -->
+
+[badge_vnc-novnc-mesa-vgl-chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-chromium@created.json
+
+[badge_vnc-novnc-mesa-vgl-chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-chromium@version-sticker.json
+
+[link_vnc-novnc-mesa-vgl-chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-chromium@version-sticker-verbose.txt
+
+<!-- vnc-novnc-mesa-vgl-firefox-plus -->
+
+[badge_vnc-novnc-mesa-vgl-firefox-plus_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox-plus@created.json
+
+[badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox-plus@version-sticker.json
+
+[link_vnc-novnc-mesa-vgl-firefox-plus_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-mesa-vgl-firefox-plus@version-sticker-verbose.txt
