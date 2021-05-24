@@ -442,13 +442,17 @@ ENV \
     FEATURES_FREECAD=1 \
     FREECAD_PATH=/opt/FreeCAD
 
+### FreeCAD requires OpenGL, 'mesa-utils' must be installed if missing
 RUN \
     --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libpci3 \
         libxss1 \
-        libxtst6
+        libxtst6 \
+        ${FEATURES_MESA:-mesa-utils}
+
+ENV FEATURES_MESA=${FEATURES_MESA:-1}
 
 RUN \
     mkdir -p "${FREECAD_PATH}" \
