@@ -31,10 +31,6 @@ sudo apt-get update
 sudo apt --fix-broken install
 ```
 
-Discussion about [OpenGL support and HW acceleration][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
-
-Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
-
 Sharing the display with the host (Linux only):
 
 ```bash
@@ -60,9 +56,14 @@ docker run -it -P --rm \
     accetto/ubuntu-vnc-xfce-opengl-g3:vnc-novnc-mesa-vgl
 
 xhost -local:$(whoami)
+
+### use VirtualGL inside the container
+vglrun glmark2
 ```
 
-Find more in the [full-length README][this-readme-full] on GitHub.
+Find more in the [full-length README][this-readme-full] and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+
+Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
 
 ***
 

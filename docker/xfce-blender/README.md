@@ -19,6 +19,17 @@ Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware accel
 
 ### TL;DR
 
+I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
+
+You can also try to fix it by executing the following (the default `sudo` password is **headless**):
+
+```shell
+### apt cache needs to be updated only once
+sudo apt-get update
+
+sudo apt --fix-broken install
+```
+
 The fastest way to build the images locally:
 
 ```shell
@@ -34,6 +45,46 @@ The fastest way to build the images locally:
 ```
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
+
+Sharing the display with the host (Linux only):
+
+```bash
+xhost +local:$(whoami)
+
+docker run -it -P --rm \
+    -e DISPLAY=${DISPLAY} \
+    --device /dev/dri/card0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    --device /dev/snd:/dev/snd:rw \
+    --group-add audio \
+    accetto/ubuntu-vnc-xfce-blender-g3:latest --skip-vnc
+
+xhost -local:$(whoami)
+```
+
+Sharing the X11 socket with the host (Linux only):
+
+```bash
+xhost +local:$(whoami)
+
+docker run -it -P --rm \
+    --device /dev/dri/card0 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    --device /dev/snd:/dev/snd:rw \
+    --group-add audio \
+    accetto/ubuntu-vnc-xfce-blender-g3:latest
+
+xhost -local:$(whoami)
+
+### use VirtualGL inside the container
+vglrun blender
+```
+
+Sharing the audio device is optional, but [Blender][blender] expects it by default.
+
+Find more in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+
+Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
 
 ### Table of contents
 
@@ -257,6 +308,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 [tightvnc]: http://www.tightvnc.com
 [tini]: https://github.com/krallin/tini
 [virtualgl]: https://virtualgl.org/About/Introduction
+[webgl-test]: https://get.webgl.org/
 [xfce]: http://www.xfce.org
 
 <!-- github badges common -->

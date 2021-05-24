@@ -19,6 +19,17 @@ These images are intended for experimenting with OpenGL/WebGL support and 3D app
 
 ### TL;DR
 
+I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
+
+You can also try to fix it by executing the following (the default `sudo` password is **headless**):
+
+```shell
+### apt cache needs to be updated only once
+sudo apt-get update
+
+sudo apt --fix-broken install
+```
+
 The fastest way to build the images including Mesa3D/VirtualGL locally:
 
 ```shell
@@ -34,9 +45,7 @@ The fastest way to build the images including Mesa3D/VirtualGL locally:
 ### and so on
 ```
 
-Discussion about [OpenGL support and HW acceleration][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
-
-Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
+Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
 Sharing the display with the host (Linux only):
 
@@ -63,9 +72,14 @@ docker run -it -P --rm \
     accetto/ubuntu-vnc-xfce-opengl-g3:vnc-novnc-mesa-vgl
 
 xhost -local:$(whoami)
+
+### use VirtualGL inside the container
+vglrun glmark2
 ```
 
-Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
+Find more in the section about using OpenGL/WebGL and HW acceleration below and in this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+
+Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
 
 ### Table of contents
 
