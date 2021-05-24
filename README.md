@@ -48,6 +48,17 @@ There are currently resources for the following Docker images:
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
   - [full Readme][this-readme-image-inkscape]
 
+I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
+
+You can also try to fix it by executing the following (the default `sudo` password is **headless**):
+
+```shell
+### apt cache needs to be updated only once
+sudo apt-get update
+
+sudo apt --fix-broken install
+```
+
 The fastest way to build the images locally:
 
 ```shell
@@ -112,6 +123,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
 <!-- external links -->
+
+[ubuntu-packages-search]: https://packages.ubuntu.com/
 
 [docker-ubuntu]: https://hub.docker.com/_/ubuntu/
 

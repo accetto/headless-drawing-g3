@@ -295,6 +295,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 [docker-doc]: https://docs.docker.com/
 [docker-doc-managing-data]: https://docs.docker.com/storage/
 
+[ubuntu-packages-search]: https://packages.ubuntu.com/
+
 [blender]: https://www.blender.org/
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org

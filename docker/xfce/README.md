@@ -423,6 +423,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 [docker-doc]: https://docs.docker.com/
 [docker-doc-managing-data]: https://docs.docker.com/storage/
 
+[ubuntu-packages-search]: https://packages.ubuntu.com/
+
 [mozilla-doc-webgl]: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API
 
 [chromium]: https://www.chromium.org/Home
