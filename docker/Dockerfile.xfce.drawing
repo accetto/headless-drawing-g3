@@ -446,11 +446,13 @@ ENV \
 RUN \
     --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    mesa_helper=${FEATURES_MESA:-mesa-utils} \
+    && mesa_helper=${mesa_helper/1/} \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libpci3 \
         libxss1 \
         libxtst6 \
-        ${FEATURES_MESA:-mesa-utils}
+        ${mesa_helper}
 
 ENV FEATURES_MESA=${FEATURES_MESA:-1}
 
