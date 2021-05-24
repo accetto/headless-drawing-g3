@@ -116,6 +116,10 @@ The main features and components of the images in the default configuration are:
 - current version of [tini][tini] as the entry-point initial process (PID 1)
 - support for overriding both the container user account and its group
 - support of **version sticker** (see below)
+- optionally [Mesa3D][mesa3d] libraries (Ubuntu distribution)
+- optionally OpenGL test applications `glxgears`, `es2gears` and `es2tri` (Ubuntu distribution)
+- optionally OpenGL benchmark application [glmark2][glmark2] (Ubuntu distribution)
+- optionally [VirtualGL][virtualgl] toolkit (latest version)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
 - optionally the current version of [Firefox][firefox] web browser and optionally also some additional **plus** features described in the [sibling image README][sibling-readme-xfce-firefox]
 
