@@ -38,6 +38,10 @@ case "$1" in
         ### source example: Mozilla Firefox 68.0.2
         echo $(firefox -v 2>/dev/null | grep -Po -m1 '(?<=Firefox\s)[0-9a-zA-Z.-]+')
         ;;
+    freecad )
+        ### source: FreeCAD_0.19-24291-Linux-Conda_glibc2.12-x86_64.AppImage
+        echo $(ls "${FREECAD_PATH}"/*.AppImage 2>/dev/null | grep -Po -m1 '[0-9.-]+' | head -n1 | head -c -2)
+        ;;
     gimp )
         ### source example: GNU Image Manipulation Program version 2.8.22
         echo $(gimp --version 2>/dev/null | grep -Po -m1 '[0-9.]+$')

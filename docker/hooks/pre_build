@@ -26,7 +26,7 @@ main() {
         ### headless-drawing-g3
         ### -------------------
 
-        blender-vnc* | drawio-vnc* | gimp-vnc* | inkscape-vnc* | latest-blender | latest-drawio | latest-gimp | latest-inkscape )
+        blender-vnc* | drawio-vnc* | freecad-vnc* | gimp-vnc* | inkscape-vnc* | latest-blender | latest-drawio | latest-freecad | latest-gimp | latest-inkscape )
 
             set -x
             docker build $@ \
@@ -58,6 +58,10 @@ main() {
                     \
                     ${DRAWIO_VERSION:+--build-arg ARG_DRAWIO_VERSION=${DRAWIO_VERSION}} \
                     ${FEATURES_DRAWIO:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_drawio"} \
+                    \
+                    ${FEATURES_FREECAD:+--build-arg ARG_FREECAD_APPIMAGE=${FREECAD_APPIMAGE}} \
+                    ${FEATURES_FREECAD:+--build-arg ARG_FREECAD_VERSION=${FREECAD_VERSION}} \
+                    ${FEATURES_FREECAD:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_freecad"} \
                     \
                     ${FEATURES_GIMP:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_gimp"} \
                     \
