@@ -23,6 +23,24 @@ main() {
             )
             ;;
 
+        freecad )
+            # result=$(wget -qO- \
+            result=$(curl -sL \
+                https://api.github.com/repos/FreeCAD/FreeCAD/releases/latest \
+                | grep -m1 "tag_name" \
+                | grep -Po '[0-9.]+'
+            )
+            ;;
+
+        freecad-appimage )
+            # result=$(wget -qO- \
+            result=$(curl -sL \
+                https://github.com/FreeCAD/FreeCAD/releases/latest \
+                | grep -m1 -Po '\<a href="[^"]+\-x86_64.AppImage' \
+                | cut -d / -f 7 \
+            )
+            ;;
+
         virtualgl )
             # result=$(wget -qO- \
             result=$(curl -sL \

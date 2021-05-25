@@ -430,6 +430,45 @@ RUN \
 COPY ./xfce-blender/src/home/Desktop "${HOME}"/Desktop/
 
 
+#################
+### stage_freecad
+#################
+
+FROM merge_stage_browser as stage_freecad
+ARG ARG_FREECAD_APPIMAGE
+ARG ARG_FREECAD_VERSION
+
+ENV \
+    FEATURES_FREECAD=1 \
+    FREECAD_PATH=/opt/FreeCAD
+
+### FreeCAD requires OpenGL, 'mesa-utils' must be installed if missing
+RUN \
+    --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
+    mesa_helper=${FEATURES_MESA:-mesa-utils} \
+    && mesa_helper=${mesa_helper/1/} \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        libpci3 \
+        libxss1 \
+        libxtst6 \
+        ${mesa_helper}
+
+ENV FEATURES_MESA=${FEATURES_MESA:-1}
+
+RUN \
+    mkdir -p "${FREECAD_PATH}" \
+    && wget -q "https://github.com/FreeCAD/FreeCAD/releases/download/${ARG_FREECAD_VERSION}/${ARG_FREECAD_APPIMAGE}" -P "${FREECAD_PATH}" \
+    && chmod 0775 "${FREECAD_PATH}/${ARG_FREECAD_APPIMAGE}"
+
+COPY ./xfce-freecad/src/freecad "${FREECAD_PATH}/"
+COPY ./xfce-freecad/src/home/Desktop "${HOME}"/Desktop/
+
+RUN \
+    chmod 0664 "${FREECAD_PATH}"/*.svg \
+    && chmod 0775 "${FREECAD_PATH}"/*.sh
+
+
 #######################
 ### merge_stage_drawing
 #######################
