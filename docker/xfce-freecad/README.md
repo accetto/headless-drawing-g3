@@ -11,17 +11,17 @@
 
 ***
 
-**Attention** The FreeCAD's AppImage size is about 800MB, so the download during image building can take some time. Don't interrupt the building process because of that. Also the application launch can take a few seconds, because the AppImage must be extracted.
+**Attention** The FreeCAD's AppImage size is about 800MB, so the download during image building can take some time. Don't interrupt the building process prematurely. Also the application launch can take a few seconds, because the AppImage must be extracted first.
 
 ***
 
 This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the free open-source 3D parametric modeler [FreeCAD][freecad].
 
-Because [FreeCAD] requires `OpenGL`, the Ubuntu package `mesa-utils` is always installed.
+Because [FreeCAD] requires `OpenGL`, the Ubuntu package `mesa-utils` is always installed. The package includes also the OpenGL test application `glxgears`.
 
-All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also additional [Mesa3D][mesa3d] utilities and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
+All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also additional [Mesa3D][mesa3d] utilities and the [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
 
-The images with additional [Mesa3D][mesa3d] utilities include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
+The images with additional [Mesa3D][mesa3d] utilities include also the OpenGL test applications `es2gears`, `es2tri` and the OpenGL benchmark application [glmark2][glmark2].
 
 Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
 
@@ -51,8 +51,6 @@ The fastest way to build the images locally:
 ./docker/hooks/build dev freecad-vnc-mesa
 ### and so on
 ```
-
-Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
@@ -134,7 +132,7 @@ The main features and components of the images in the default configuration are:
 - optionally additional [Mesa3D][mesa3d] utilities `mesa-utils-extra` (Ubuntu distribution)
 - optionally additional OpenGL test applications `es2gears` and `es2tri` (Ubuntu distribution)
 - optionally OpenGL benchmark application [glmark2][glmark2] (Ubuntu distribution)
-- optionally [VirtualGL][virtualgl] toolkit can be included (latest version)
+- optionally [VirtualGL][virtualgl] toolkit (latest version)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
 - optionally the current version of [Firefox][firefox] web browser and optionally also some additional **plus** features described in the [sibling image README][sibling-readme-xfce-firefox]
 
