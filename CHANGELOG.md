@@ -6,6 +6,12 @@
 
 ***
 
+### Release 21.05.4
+
+- **xfce-freecad** added, into [accetto/ubuntu-vnc-xfce-freecad-g3][accetto-ubuntu-vnc-xfce-freecad-g3]
+  - all **FreeCAD** images published on Docker Hub include the same 3D stuff as described by the previous release
+  - **Dockerfile.xfce.drawing** file, the stages diagram and the hook scripts updated accordingly
+
 ### Release 21.05.3
 
 - **xfce** images added, into [accetto/ubuntu-vnc-xfce-opengl-g3][accetto-ubuntu-vnc-xfce-opengl-g3]
@@ -66,11 +72,12 @@
 [sibling-wiki-building-stages]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/Building-stages
 [sibling-wiki-how-ci-works]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/How-CI-works
 
-[accetto-ubuntu-vnc-xfce-opengl-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-opengl-g3
 [accetto-ubuntu-vnc-xfce-blender-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-blender-g3
 [accetto-ubuntu-vnc-xfce-drawio-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
+[accetto-ubuntu-vnc-xfce-freecad-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-freecad-g3
 [accetto-ubuntu-vnc-xfce-gimp-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
 [accetto-ubuntu-vnc-xfce-inkscape-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
+[accetto-ubuntu-vnc-xfce-opengl-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-opengl-g3
 
 [accetto-tigervnc-release-mirror]: https://github.com/accetto/tigervnc/releases
 
