@@ -18,6 +18,9 @@ Useful links from **this project's** GitHub repository [accetto/headless-drawing
 - images with **`draw.io` Desktop**
   - [full Readme][this-readme-image-drawio] file on GitHub
   - [image repository][this-dockerhub-image-drawio] on Docker Hub
+- images with **FreeCAD**
+  - [full Readme][this-readme-image-freecad] file on GitHub
+  - [image repository][this-dockerhub-image-freecad] on Docker Hub
 - images with **Gimp**
   - [full Readme][this-readme-image-gimp] file on GitHub
   - [image repository][this-dockerhub-image-gimp] on Docker Hub
@@ -59,6 +62,9 @@ Useful links from the **sibling project's** GitHub repository [accetto/ubuntu-vn
 
 [this-readme-image-drawio]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-drawio/README.md
 [this-dockerhub-image-drawio]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-drawio-g3
+
+[this-readme-image-freecad]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-freecad/README.md
+[this-dockerhub-image-freecad]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-freecad-g3
 
 [this-readme-image-gimp]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-gimp/README.md
 [this-dockerhub-image-gimp]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-gimp-g3
