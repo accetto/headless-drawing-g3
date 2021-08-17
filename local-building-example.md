@@ -53,8 +53,12 @@ The helper utility `builder.sh` will be used. Alternatively you can also use the
 ```bash
 ./builder.sh latest-drawio pre_build
 
+### optionally
+./builder.sh latest-drawio pre_build --no-cache
+
 ### alternatively
 ./docker/hooks/pre_build dev latest-drawio
+./docker/hooks/pre_build dev latest-drawio --no-cache
 ```
 
 This step builds the temporary helper image and creates the following temporary helper files that are used by other scripts:
@@ -75,8 +79,12 @@ The other option is to set the environment variable `FORCE_BUILDING=1` **before*
 ```bash
 ./builder.sh latest-drawio build
 
+### optionally
+./builder.sh latest-drawio build --no-cache
+
 ### alternatively
 ./docker/hooks/build dev latest-drawio
+./docker/hooks/build dev latest-drawio --no-cache
 ```
 
 This step builds a new local image, named by default with the prefix `dev-` (e.g. `dev-ubuntu-vnc-xfce-g3`).
@@ -145,6 +153,9 @@ Alternatively you can execute the whole building pipeline using the `all` comman
 
 ```bash
 ./builder.sh latest-nodejs all
+
+### optionally
+./builder.sh latest-nodejs all --no-cache
 ```
 
 Note that you still have to execute the step 5 yourself.
