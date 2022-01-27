@@ -6,6 +6,10 @@
 
 ***
 
+### Release 22.01.1
+
+- IMPROVED: **Inkscape** on **Unraid** seems to require the environment variable `_INKSCAPE_GC=disable` (issue [#2](https://github.com/accetto/headless-drawing-g3/issues/2))
+
 ### Release 22.01
 
 - Dockerfiles use **TigerVNC** releases from **SourceForge** website
