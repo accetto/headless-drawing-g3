@@ -394,9 +394,11 @@ COPY ./xfce-gimp/src/home/Desktop "${HOME}"/Desktop/
 FROM merge_stage_browser as stage_inkscape
 ARG ARG_APT_NO_RECOMMENDS
 
+### '_INKSCAPE_GC=disable' seems to be required on 'Unraid' - see the issue #2
 ENV \
     FEATURES_BUILD_SLIM_INKSCAPE=${ARG_APT_NO_RECOMMENDS:+1} \
-    FEATURES_INKSCAPE=1
+    FEATURES_INKSCAPE=1 \
+    _INKSCAPE_GC=disable
 
 RUN \
     --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
