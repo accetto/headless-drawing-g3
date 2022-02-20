@@ -89,7 +89,8 @@ main() {
                     version=$("${_current_dir}/version_of.sh" novnc)
                     if [ -n "${version}" ] ; then echo "noVNC ${version}" ; fi
 
-                    # if [ -n "${python}" ] ; then echo "Python ${python}" ; fi
+                    version=$("${_current_dir}/version_of.sh" python3)
+                    if [ -n "${version}" ] ; then echo "Python ${version}" ; fi
 
                     version=$("${_current_dir}/version_of.sh" ristretto)
                     if [ -n "${version}" ] ; then echo "Ristretto ${version}" ; fi
