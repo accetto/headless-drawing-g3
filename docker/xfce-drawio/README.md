@@ -27,15 +27,15 @@ The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
-./docker/hooks/build dev latest-drawio
+./docker/hooks/build dev drawio
+./docker/hooks/build dev drawio-chromium
+./docker/hooks/build dev drawio-firefox
 ./docker/hooks/build dev drawio-vnc
 ./docker/hooks/build dev drawio-vnc-chromium
 ./docker/hooks/build dev drawio-vnc-firefox
-./docker/hooks/build dev drawio-vnc-firefox-plus
-./docker/hooks/build dev drawio-vnc-novnc-chromium
-./docker/hooks/build dev drawio-vnc-novnc-firefox
-./docker/hooks/build dev drawio-vnc-novnc-firefox-plus
 ```
+
+You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
@@ -91,18 +91,11 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following images will be regularly built and published on Docker Hub:
+The following image tags on Docker Hub are regularly rebuilt:
 
-- base images
-  - `latest` is identical to `vnc-novnc`
-  - `vnc` implements only VNC
-  - `vnc-novnc` implements VNC and noVNC
-- adding [Chromium Browser][chromium]
-  - `vnc-chromium`
-  - `vnc-novnc-chromium`
-- adding [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
-  - `vnc-firefox-plus`
-  - `vnc-novnc-firefox-plus`
+- `latest` implements VNC and noVNC
+- `chromium` adds [Chromium Browser][chromium]
+- `firefox` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
 
 The following image tags will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
 
