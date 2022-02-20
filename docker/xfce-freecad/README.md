@@ -42,21 +42,22 @@ The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
-./docker/hooks/build dev latest-freecad
-./docker/hooks/build dev freecad-vnc-mesa-vgl
-./docker/hooks/build dev freecad-vnc-novnc-mesa-vgl-chromium
-./docker/hooks/build dev freecad-vnc-novnc-mesa-vgl-firefox
-./docker/hooks/build dev freecad-vnc-novnc-mesa-vgl-firefox-plus
+./docker/hooks/build dev freecad
+./docker/hooks/build dev freecad-chromium
+./docker/hooks/build dev freecad-firefox
 ./docker/hooks/build dev freecad-vnc
-./docker/hooks/build dev freecad-vnc-mesa
+./docker/hooks/build dev freecad-vnc-chromium
+./docker/hooks/build dev freecad-vnc-firefox
 ### and so on
 ```
+
+You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
 Sharing the display with the host (Linux only):
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
@@ -70,7 +71,7 @@ xhost -local:$(whoami)
 
 Sharing the X11 socket with the host (Linux only):
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
@@ -144,16 +145,11 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following images will be regularly built and published on Docker Hub:
+The following image tags on Docker Hub are regularly rebuilt:
 
-- base images
-  - `latest` is identical to `vnc-novnc-mesa-vgl`
-  - `vnc-novnc-mesa-vgl` implements VNC, noVNC, Mesa3D and VirtualGL
-  - `vnc-mesa-vgl` implements VNC, Mesa3D and VirtualGL
-- adding [Chromium Browser][chromium]
-  - `vnc-novnc-mesa-vgl-chromium`
-- adding [Firefox][firefox] with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
-  - `vnc-novnc-mesa-vgl-firefox-plus`
+- `latest` implements VNC, noVNC, Mesa3D and VirtualGL
+- `chromium` adds [Chromium Browser][chromium]
+- `firefox` adds [Firefox][firefox] with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
 
 Images with the other possible feature combinations will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github].
 
