@@ -9,66 +9,18 @@
 
 [link_latest_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker-verbose.txt
 
-<!-- vnc -->
+<!-- chromium -->
 
-[badge_vnc_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc@created.json
+[badge_chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@chromium@created.json
 
-[badge_vnc_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc@version-sticker.json
+[badge_chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@chromium@version-sticker.json
 
-[link_vnc_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc@version-sticker-verbose.txt
+[link_chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@chromium@version-sticker-verbose.txt
 
-<!-- vnc-chromium -->
+<!-- firefox -->
 
-[badge_vnc-chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-chromium@created.json
+[badge_firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@firefox@created.json
 
-[badge_vnc-chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-chromium@version-sticker.json
+[badge_firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@firefox@version-sticker.json
 
-[link_vnc-chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-chromium@version-sticker-verbose.txt
-
-<!-- vnc-firefox -->
-
-[badge_vnc-firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox@created.json
-
-[badge_vnc-firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox@version-sticker.json
-
-[link_vnc-firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox@version-sticker-verbose.txt
-
-<!-- vnc-firefox-plus -->
-
-[badge_vnc-firefox-plus_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox-plus@created.json
-
-[badge_vnc-firefox-plus_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox-plus@version-sticker.json
-
-[link_vnc-firefox-plus_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-firefox-plus@version-sticker-verbose.txt
-
-<!-- vnc-novnc -->
-
-[badge_vnc-novnc_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc@created.json
-
-[badge_vnc-novnc_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc@version-sticker.json
-
-[link_vnc-novnc_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc@version-sticker-verbose.txt
-
-<!-- vnc-novnc-chromium -->
-
-[badge_vnc-novnc-chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-chromium@created.json
-
-[badge_vnc-novnc-chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-chromium@version-sticker.json
-
-[link_vnc-novnc-chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-chromium@version-sticker-verbose.txt
-
-<!-- vnc-novnc-firefox -->
-
-[badge_vnc-novnc-firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox@created.json
-
-[badge_vnc-novnc-firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox@version-sticker.json
-
-[link_vnc-novnc-firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox@version-sticker-verbose.txt
-
-<!-- vnc-novnc-firefox-plus -->
-
-[badge_vnc-novnc-firefox-plus_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox-plus@created.json
-
-[badge_vnc-novnc-firefox-plus_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox-plus@version-sticker.json
-
-[link_vnc-novnc-firefox-plus_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@vnc-novnc-firefox-plus@version-sticker-verbose.txt
+[link_firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@firefox@version-sticker-verbose.txt

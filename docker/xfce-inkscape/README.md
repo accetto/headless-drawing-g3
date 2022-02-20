@@ -20,15 +20,15 @@ The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
-./docker/hooks/build dev latest-inkscape
+./docker/hooks/build dev inkscape
+./docker/hooks/build dev inkscape-chromium
+./docker/hooks/build dev inkscape-firefox
 ./docker/hooks/build dev inkscape-vnc
 ./docker/hooks/build dev inkscape-vnc-chromium
 ./docker/hooks/build dev inkscape-vnc-firefox
-./docker/hooks/build dev inkscape-vnc-firefox-plus
-./docker/hooks/build dev inkscape-vnc-novnc-chromium
-./docker/hooks/build dev inkscape-vnc-novnc-firefox
-./docker/hooks/build dev inkscape-vnc-novnc-firefox-plus
 ```
+
+You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
@@ -84,24 +84,11 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following images will be regularly built and published on Docker Hub:
+The following image tags on Docker Hub are regularly rebuilt:
 
-- base images
-  - `latest` is identical to `vnc-novnc`
-  - `vnc` implements only VNC
-  - `vnc-novnc` implements VNC and noVNC
-- adding [Chromium Browser][chromium]
-  - `vnc-chromium`
-  - `vnc-novnc-chromium`
-- adding [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
-  - `vnc-firefox-plus`
-  - `vnc-novnc-firefox-plus`
-
-The following image tags will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
-
-- adding only [Firefox][firefox]
-  - `vnc-firefox`
-  - `vnc-novnc-firefox`
+- `latest` implements VNC and noVNC
+- `vnc-chromium` adds [Chromium Browser][chromium]
+- `firefox` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
 
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
