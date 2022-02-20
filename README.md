@@ -16,8 +16,8 @@
 ![badge-github-commits][badge-github-commits]
 ![badge-github-last-commit][badge-github-last-commit]
 
-![badge-github-workflow-dockerhub-autobuild][badge-github-workflow-dockerhub-autobuild]
-![badge-github-workflow-dockerhub-post-push][badge-github-workflow-dockerhub-post-push]
+<!-- ![badge-github-workflow-dockerhub-autobuild][badge-github-workflow-dockerhub-autobuild] -->
+<!-- ![badge-github-workflow-dockerhub-post-push][badge-github-workflow-dockerhub-post-push] -->
 
 ***
 
@@ -66,11 +66,33 @@ The fastest way to build the images locally:
 ```shell
 ### PWD = project root
 ./docker/hooks/build dev latest
-./docker/hooks/build dev latest-blender
-./docker/hooks/build dev latest-drawio
-./docker/hooks/build dev latest-gimp
-./docker/hooks/build dev latest-inkscape
+./docker/hooks/build dev latest-chromium
+./docker/hooks/build dev latest-firefox
+./docker/hooks/build dev blender
+./docker/hooks/build dev blender-chromium
+./docker/hooks/build dev blender-firefox
+./docker/hooks/build dev drawio
+./docker/hooks/build dev drawio-chromium
+./docker/hooks/build dev drawio-firefox
+./docker/hooks/build dev freecad
+./docker/hooks/build dev freecad-chromium
+./docker/hooks/build dev freecad-firefox
+./docker/hooks/build dev gimp
+./docker/hooks/build dev gimp-chromium
+./docker/hooks/build dev gimp-firefox
+./docker/hooks/build dev inkscape
+./docker/hooks/build dev inkscape-chromium
+./docker/hooks/build dev inkscape-firefox
+./docker/hooks/build dev vnc
+./docker/hooks/build dev vnc-chromium
+./docker/hooks/build dev vnc-firefox
+./docker/hooks/build dev blender-vnc
+./docker/hooks/build dev blender-vnc-chromium
+./docker/hooks/build dev blender-vnc-firefox
+and so on...
 ```
+
+You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
