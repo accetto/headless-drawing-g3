@@ -6,6 +6,43 @@
 
 ***
 
+### Release 22.02
+
+- Updated components:
+
+  - **TigerVNC** to version **1.12.0**
+  - **noVNC** to version **1.3.0**
+  - **websockify** to version **0.10.0**
+
+- Added components:
+
+  - **python3** (also added into the `verbose version sticker`)
+  - **systemctl**
+
+- Updated files:
+
+  - `Dockerfile.xfce` (components updated and added)
+  - `vnc_startup.rc` (new **noVNC** startup)
+  - `version_of.sh` (**python3** included)
+  - `version_sticker.sh` (**python3** included)
+  - `env.rc` (handling of tags)
+  - `build` (handling of tags)
+  - `pre_build` (handling of tags)
+  - `util-readme.sh` (fixed token parsing)
+  - all readme files
+
+- Added files:
+
+  - `local-builder-readme.md`
+
+- Changes in building and publishing policy:
+
+  - The images without **noVNC** will not be published on Docker Hub any more, because the size difference is now only 2MB. However, they always can be built locally.
+  - The images tagged `latest` will always implement **VNC** and **noVNC**.
+  - The Firefox images will always include also *Firefox plus features*. They do not change the default Firefox installation in any way and you can simply ignore them, if you wish.
+  - The base images (*accetto/ubuntu-vnc-xfce-opengl-g3*) without **Mesa3D** and **VirtualGL** will not be published on Docker Hub any more. They can still be built locally after minor adjustments in the hook script `env.rc`.
+  - The **Mesa3D** and **VirtualGL** libraries will be always implemented by the **Blender** and **FreeCAD** images.
+
 ### Release 22.01.1
 
 - IMPROVED: **Inkscape** on **Unraid** seems to require the environment variable `_INKSCAPE_GC=disable` (issue [#2](https://github.com/accetto/headless-drawing-g3/issues/2))
