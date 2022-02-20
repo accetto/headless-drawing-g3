@@ -33,7 +33,7 @@ sudo apt --fix-broken install
 
 Sharing the display with the host (Linux only):
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
@@ -49,7 +49,7 @@ xhost -local:$(whoami)
 
 Sharing the X11 socket with the host (Linux only):
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
@@ -131,32 +131,22 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags will be regularly built and published on Docker Hub:
+The following image tags on Docker Hub are regularly rebuilt:
 
-- `latest` is identical to `vnc-novnc-mesa-vgl`
+- `latest` implements VNC/noVNC, Mesa3D and VirtualGL
 
     ![badge_latest_created][badge_latest_created]
     [![badge_latest_version-sticker][badge_latest_version-sticker]][link_latest_version-sticker-verbose]
 
-- `vnc-novnc-mesa-vgl` implements VNC, noVNC, Mesa3D and VirtualGL
+- `chromium` adds [Chromium Browser][chromium]
 
-    ![badge_vnc-novnc-mesa-vgl_created][badge_vnc-novnc-mesa-vgl_created]
-    [![badge_vnc-novnc-mesa-vgl_version-sticker][badge_vnc-novnc-mesa-vgl_version-sticker]][link_vnc-novnc-mesa-vgl_version-sticker-verbose]
+    ![badge_chromium_created][badge_chromium_created]
+    [![badge_chromium_version-sticker][badge_chromium_version-sticker]][link_chromium_version-sticker-verbose]
 
-- `vnc-mesa-vgl` implements VNC, Mesa3D and VirtualGL
+- `firefox` adds [Firefox][firefox] with the **plus features**
 
-    ![badge_vnc-mesa-vgl_created][badge_vnc-mesa-vgl_created]
-    [![badge_vnc-mesa-vgl_version-sticker][badge_vnc-mesa-vgl_version-sticker]][link_vnc-mesa-vgl_version-sticker-verbose]
-
-- `vnc-novnc-mesa-vgl-chromium` adds [Chromium Browser][chromium], implements VNC, noVNC, Mesa3D and VirtualGL
-
-    ![badge_vnc-novnc-mesa-vgl-chromium_created][badge_vnc-novnc-mesa-vgl-chromium_created]
-    [![badge_vnc-novnc-mesa-vgl-chromium_version-sticker][badge_vnc-novnc-mesa-vgl-chromium_version-sticker]][link_vnc-novnc-mesa-vgl-chromium_version-sticker-verbose]
-
-- `vnc-novnc-mesa-vgl-firefox-plus` adds [Firefox][firefox] with the **plus features**, implements VNC, noVNC, Mesa3D and VirtualGL
-
-    ![badge_vnc-novnc-mesa-vgl-firefox-plus_created][badge_vnc-novnc-mesa-vgl-firefox-plus_created]
-    [![badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker][badge_vnc-novnc-mesa-vgl-firefox-plus_version-sticker]][link_vnc-novnc-mesa-vgl-firefox-plus_version-sticker-verbose]
+    ![badge_firefox_created][badge_firefox_created]
+    [![badge_firefox_version-sticker][badge_firefox_version-sticker]][link_firefox_version-sticker-verbose]
 
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
