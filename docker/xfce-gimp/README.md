@@ -90,12 +90,6 @@ The following image tags on Docker Hub are regularly rebuilt:
 - `vnc-chromium` adds [Chromium Browser][chromium]
 - `firefox` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
 
-The following image tags will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github]:
-
-- adding only [Firefox][firefox]
-  - `vnc-firefox`
-  - `vnc-novnc-firefox`
-
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
 ### Ports
