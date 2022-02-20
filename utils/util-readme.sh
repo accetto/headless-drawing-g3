@@ -4,8 +4,7 @@
 ### https://github.com/accetto/ubuntu-vnc-xfce-g3
 ### https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
-# Created by argbash-init v2.8.1
-# ARG_VERSION([echo $0 v21.07.31])
+# ARG_VERSION([echo $0 v22.02.20])
 # ARG_HELP([Utility for previewing README files and publishing them on Docker Hub. Assumes to be executed from the current directory.])
 #
 # ARG_POSITIONAL_SINGLE([command],[Command to execute. Available commands: \n \
@@ -119,11 +118,11 @@ parse_commandline()
 		fi
 		case "$_key" in
 			-v|--version)
-				echo $0 v21.07.31
+				echo $0 v22.02.20
 				exit 0
 				;;
 			-v*)
-				echo $0 v21.07.31
+				echo $0 v22.02.20
 				exit 0
 				;;
 			-h|--help)
@@ -388,7 +387,7 @@ do_publish() {
 		-X POST \
 		"${api_base_url}/users/login/" \
 		-H "Content-Type: application/json" \
-		-d '{"username": "'${user_name}'", "password": "'${user_pwd}'"}' | sed -e 's/.*"token": "\(.*\)".*/\1/' )
+		-d '{"username": "'${user_name}'", "password": "'${user_pwd}'"}' | sed -e 's/.*"token":"\(.*\)".*/\1/' )
 
 	echo "UPDATE Docker Hub description using '${_readme_upload_file}'"
 
