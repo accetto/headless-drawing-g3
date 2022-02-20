@@ -1,4 +1,4 @@
-#!/bin/bash -e
+###!/bin/bash -e
 
 declare _mydir=$(dirname $0)
 source "${_mydir}"/env.rc
@@ -29,7 +29,7 @@ main() {
         ### headless-drawing-g3
         ### -------------------
 
-        blender-vnc* | drawio-vnc* | freecad-vnc* | gimp-vnc* | inkscape-vnc* | latest-blender | latest-drawio | latest-freecad | latest-gimp | latest-inkscape )
+        drawio | drawio-* | blender | blender-* | freecad | freecad-* | gimp | gimp-* | inkscape | inkscape-* )
 
             set -x
             docker build $@ \
@@ -78,13 +78,11 @@ main() {
             set +x
             ;;
 
-        ### ---------------------------------
-        ### headless-drawing-g3 (base images)
-        ### ---------------------------------
+        ### -----------------------------------------------
+        ### accetto/ubuntu-vnc-xfce-opengl-g3 (base images)
+        ### -----------------------------------------------
 
-        ### accetto/ubuntu-vnc-xfce-opengl-g3
-
-        vnc* | latest )
+        latest | latest-* | vnc | vnc-* )
 
             set -x
             docker build $@ \
