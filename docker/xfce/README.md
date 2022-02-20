@@ -35,41 +35,41 @@ The fastest way to build the images including Mesa3D/VirtualGL locally:
 ```shell
 ### PWD = project root
 ./docker/hooks/build dev latest
-./docker/hooks/build dev vnc-novnc-mesa-vgl
-./docker/hooks/build dev vnc-novnc-mesa-chromium
-./docker/hooks/build dev vnc-novnc-mesa-firefox
-./docker/hooks/build dev vnc-novnc-mesa-vgl-chromium
-./docker/hooks/build dev vnc-novnc-mesa-vgl-firefox
-./docker/hooks/build dev vnc-mesa
-./docker/hooks/build dev vnc-mesa-vgl
+./docker/hooks/build dev latest-chromium
+./docker/hooks/build dev latest-firefox
+./docker/hooks/build dev vnc
+./docker/hooks/build dev vnc-chromium
+./docker/hooks/build dev vnc-firefox
 ### and so on
 ```
+
+You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
 
 Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
 
 Sharing the display with the host (Linux only):
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
     -e DISPLAY=${DISPLAY} \
     --device /dev/dri/card0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-mesa --skip-vnc
+    accetto/ubuntu-vnc-xfce-opengl-g3:latest --skip-vnc
 
 xhost -local:$(whoami)
 ```
 
 Sharing the X11 socket with the host (Linux only):
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
     --device /dev/dri/card0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-novnc-mesa-vgl
+    accetto/ubuntu-vnc-xfce-opengl-g3:latest
 
 xhost -local:$(whoami)
 
@@ -141,19 +141,11 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following images will be regularly built and published on Docker Hub:
+The following image tags on Docker Hub are regularly rebuilt:
 
-- base images
-  - `latest` is identical to `vnc-novnc-mesa-vgl`
-  - `vnc-novnc-mesa` implements VNC, noVNC and Mesa3D
-  - `vnc-novnc-mesa-vgl` implements VNC, noVNC, Mesa3D and VirtualGL
-  - `vnc-mesa` implements VNC and Mesa3D
-  - `vnc-mesa-vgl` implements VNC, Mesa3D and VirtualGL
-- adding [Chromium Browser][chromium]
-  - `vnc-novnc-mesa-vgl-chromium`
-- adding [Firefox][firefox], optionally with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
-  - `vnc-novnc-mesa-vgl-firefox`
-  - `vnc-novnc-mesa-vgl-firefox-plus`
+- `latest` implements VNC/noVNC, Mesa3D and VirtualGL
+- `chromium` adds [Chromium Browser][chromium]
+- `firefox` adds [Firefox][firefox] with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
 
 The images with other possible combinations of features will not be regularly built or published on Docker Hub, but they can be built any time locally from the same [source repository][this-github].
 
@@ -266,7 +258,7 @@ Start a new container from any of my images that include [Mesa3D][mesa3d]. You d
 
 For example:
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
@@ -274,20 +266,20 @@ docker run -it -P --rm \
     --device /dev/dri/card0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     --name devrun \
-    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-mesa --skip-vnc
+    accetto/ubuntu-vnc-xfce-opengl-g3:latest --skip-vnc
 
 xhost -local:$(whoami)
 ```
 
 After the container is running, start the OpenGL benchmark application [glmark2][glmark2] from an another terminal window on the host:
 
-```bash
+```shell
 docker exec -it devrun glmark2
 ```
 
 You should see a spinning horse and then the other animations of the test. In the terminal window you should see, that your graphics hardware has been recognized correctly. In my particular case it was:
 
-```bash
+```shell
 =======================================================
     glmark2 2014.03+git20150611.fa71af2d
 =======================================================
@@ -309,20 +301,20 @@ You will need to use [VirtualGL][virtualgl] to access the graphics hardware of t
 Start a new container from any of my images that include [Mesa3D][mesa3d] and [VirtualGL][virtualgl].
  For example:
 
-```bash
+```shell
 xhost +local:$(whoami)
 
 docker run -it -P --rm \
     --device /dev/dri/card0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    accetto/ubuntu-vnc-xfce-opengl-g3:vnc-novnc-mesa-vgl
+    accetto/ubuntu-vnc-xfce-opengl-g3:latest
 
 xhost -local:$(whoami)
 ```
 
 After the container is running, connect to it using a VNC viewer or from a browser over noVNC. Start the `glmark2` benchmark from a terminal window inside the container using `VirtualGL`:
 
-```bash
+```shell
 vglrun glmark2
 ```
 
@@ -336,19 +328,19 @@ You can start a new container a usual way and you don't need to care about `xhos
 
 For example:
 
-```bash
+```shell
 docker run -it -P --rm accetto/ubuntu-vnc-xfce-opengl-g3:latest
 ```
 
 After the container is running, connect to it using a VNC viewer or from a browser over noVNC and start the `glmark2` benchmark from a terminal window inside the container:
 
-```bash
+```shell
 glmark2
 ```
 
 You should see in the terminal window, that the software rendering is used:
 
-```bash
+```shell
 =======================================================
     glmark2 2014.03+git20150611.fa71af2d
 =======================================================
