@@ -24,7 +24,6 @@
   - `Dockerfile.xfce` (components updated and added)
   - `Dockerfile.xfce.drawing` (components updated and added)
   - `vnc_startup.rc` (new **noVNC** startup)
-  - `version_of.sh` (**python3** included)
   - `version_sticker.sh` (**python3** included)
   - `env.rc` (handling of tags)
   - `build` (handling of tags)
