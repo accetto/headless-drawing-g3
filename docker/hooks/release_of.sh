@@ -27,7 +27,7 @@ main() {
             # result=$(wget -qO- \
             result=$(curl -sL \
                 https://api.github.com/repos/FreeCAD/FreeCAD/releases/latest \
-                | grep -m1 "tag_name" \
+                | grep -m1 '"tag_name"' \
                 | grep -Po '[0-9.]+'
             )
             ;;
