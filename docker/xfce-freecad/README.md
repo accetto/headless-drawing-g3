@@ -188,7 +188,7 @@ The default `VNC_PORT` value is `5901`. The default `DISPLAY` value is `:1`. The
 
 The containers that are created from the images built with the **noVNC feature** can be also accessed over [noVNC][noVNC] by any web browser supporting HTML5.
 
-The default `NO_VNC_PORT` value is `6901`. The noVNC password is always identical to the VNC password.
+The default `NOVNC_PORT` value is `6901`. The noVNC password is always identical to the VNC password.
 
 There are several ways of connecting to headless containers and the possibilities also differ between the Linux and Windows environments, but usually it is done by mapping the VNC/noVNC ports exposed by the container to some free TCP ports on its host system.
 
