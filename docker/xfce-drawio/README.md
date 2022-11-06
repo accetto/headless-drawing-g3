@@ -9,6 +9,30 @@
 ![badge-github-release][badge-github-release]
 ![badge-github-release-date][badge-github-release-date]
 
+***
+
+- [Headless Ubuntu/Xfce container with VNC/noVNC and `draw.io Desktop`](#headless-ubuntuxfce-container-with-vncnovnc-and-drawio-desktop)
+  - [accetto/ubuntu-vnc-xfce-drawio-g3](#accettoubuntu-vnc-xfce-drawio-g3)
+    - [Introduction](#introduction)
+    - [TL;DR](#tldr)
+    - [Description](#description)
+    - [Image tags](#image-tags)
+    - [Ports](#ports)
+    - [Volumes](#volumes)
+    - [Version sticker](#version-sticker)
+  - [Using headless containers](#using-headless-containers)
+    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
+    - [Startup options and help](#startup-options-and-help)
+  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
+  - [Credits](#credits)
+  - [Diagrams](#diagrams)
+    - [Dockerfile.xfce.drawing](#dockerfilexfcedrawing)
+
+***
+
+### Introduction
+
 This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the current version of the free open-source diagramming application [draw.io Desktop][drawio-desktop] from the authors of the [diagrams.net][diagrams-net].
 
 All images can optionally contain also the current [Chromium][chromium] or [Firefox][firefox] web browsers.
@@ -23,40 +47,42 @@ All images can optionally contain also the current [Chromium][chromium] or [Fire
 
 ### TL;DR
 
+I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
+
+You can also try to fix it by executing the following (the default `sudo` password is **headless**):
+
+```shell
+### apt cache needs to be updated only once
+sudo apt-get update
+
+sudo apt --fix-broken install
+```
+
 The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
-./docker/hooks/build dev drawio
-./docker/hooks/build dev drawio-chromium
-./docker/hooks/build dev drawio-firefox
-./docker/hooks/build dev drawio-vnc
-./docker/hooks/build dev drawio-vnc-chromium
-./docker/hooks/build dev drawio-vnc-firefox
+### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
+
+### examples of building and publishing the individual images
+### 'drawio' stands for 'opengl' in this context
+./builder.sh drawio all
+./builder.sh drawio-chromium all
+./builder.sh drawio-firefox all
+
+### or skipping the publishing to the Docker Hub
+./builder.sh drawio all-no-push
+
+### examples of building and publishing the images as a group
+./ci-builder.sh all group drawio drawio-firefox
+
+### or all the images featuring the drawio-desktop
+./ci-builder.sh all group complete-drawio
 ```
 
-You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
 
-Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
-
-### Table of contents
-
-- [Headless Ubuntu/Xfce container with VNC/noVNC and `draw.io Desktop`](#headless-ubuntuxfce-container-with-vncnovnc-and-drawio-desktop)
-  - [accetto/ubuntu-vnc-xfce-drawio-g3](#accettoubuntu-vnc-xfce-drawio-g3)
-    - [TL;DR](#tldr)
-    - [Table of contents](#table-of-contents)
-    - [Image tags](#image-tags)
-    - [Ports](#ports)
-    - [Volumes](#volumes)
-    - [Version sticker](#version-sticker)
-  - [Using headless containers](#using-headless-containers)
-    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
-    - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
-    - [Startup options and help](#startup-options-and-help)
-  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
-  - [Credits](#credits)
-  - [Diagrams](#diagrams)
-    - [Dockerfile.xfce.drawing](#dockerfilexfcedrawing)
+### Description
 
 This is the **third generation** (G3) of my headless images. They replace the **second generation** (G2) of similar images from the GitHub repository [accetto/xubuntu-vnc][accetto-github-xubuntu-vnc], which will be archived.
 

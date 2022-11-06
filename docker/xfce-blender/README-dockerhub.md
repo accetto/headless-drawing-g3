@@ -14,9 +14,35 @@
 
 ***
 
-**Tip:** This is the **short README** version for Docker Hub. There is also the [full-length README][this-readme-full] on GitHub.
+- [Headless Ubuntu/Xfce container with VNC/noVNC and `Blender`](#headless-ubuntuxfce-container-with-vncnovnc-and-blender)
+  - [accetto/ubuntu-vnc-xfce-blender-g3](#accettoubuntu-vnc-xfce-blender-g3)
+    - [Introduction](#introduction)
+    - [TL;DR](#tldr)
+    - [Description](#description)
+    - [Image tags](#image-tags)
+    - [Ports](#ports)
+    - [Volumes](#volumes)
+  - [Using headless containers](#using-headless-containers)
+    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Startup options and help](#startup-options-and-help)
+    - [More information](#more-information)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
+  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
+  - [Credits](#credits)
 
 ***
+
+### Introduction
+
+This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the current version of the free open-source 3D creation suite [Blender][blender].
+
+All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
+
+The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
+
+Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+
+This is the **short README** version for the **Docker Hub**. There is also the [full-length README][this-readme-full] on the **GitHub**.
 
 ### TL;DR
 
@@ -30,6 +56,29 @@ sudo apt-get update
 
 sudo apt --fix-broken install
 ```
+
+The fastest way to build the images locally:
+
+```shell
+### PWD = project root
+### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
+
+### examples of building and publishing the individual images
+./builder.sh blender all
+./builder.sh blender-chromium all
+./builder.sh blender-firefox all
+
+### or skipping the publishing to the Docker Hub
+./builder.sh blender all-no-push
+
+### examples of building and publishing the images as a group
+./ci-builder.sh all group blender blender-firefox
+
+### or all the images featuring the Blender
+./ci-builder.sh all group complete-blender
+```
+
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
 
 Sharing the display with the host (Linux only):
 
@@ -71,30 +120,7 @@ Find more in this [readme][sibling-opengl-readme-full] file and this [discussion
 
 Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
 
-### Table of contents
-
-- [Headless Ubuntu/Xfce container with VNC/noVNC and `Blender`](#headless-ubuntuxfce-container-with-vncnovnc-and-blender)
-  - [accetto/ubuntu-vnc-xfce-blender-g3](#accettoubuntu-vnc-xfce-blender-g3)
-    - [TL;DR](#tldr)
-    - [Table of contents](#table-of-contents)
-    - [Image tags](#image-tags)
-    - [Ports](#ports)
-    - [Volumes](#volumes)
-  - [Using headless containers](#using-headless-containers)
-    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
-    - [Startup options and help](#startup-options-and-help)
-    - [More information](#more-information)
-  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
-  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
-  - [Credits](#credits)
-
-This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the current version of the free open-source 3D creation suite [Blender][blender].
-
-All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
-
-The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
-
-Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+### Description
 
 This is the **third generation** (G3) of my headless images. More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
 

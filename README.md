@@ -2,6 +2,8 @@
 
 ## Project `accetto/headless-drawing-g3`
 
+Version: G3v2
+
 ***
 
 [Docker Hub][this-docker] - [Changelog][this-changelog] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
@@ -21,6 +23,16 @@
 
 ***
 
+- [Headless Ubuntu/Xfce containers with VNC/noVNC for diagramming, image editing and 2D/3D drawing](#headless-ubuntuxfce-containers-with-vncnovnc-for-diagramming-image-editing-and-2d3d-drawing)
+  - [Project `accetto/headless-drawing-g3`](#project-accettoheadless-drawing-g3)
+  - [Introduction](#introduction)
+  - [TL;DR](#tldr)
+  - [Project versions](#project-versions)
+  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
+  - [Credits](#credits)
+
+## Introduction
+
 This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment and [VNC][tigervnc]/[noVNC][novnc] servers for headless use and selected applications for diagramming, vector drawing and bitmap image editing.
 
 All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
@@ -28,6 +40,10 @@ All images can optionally include the web browsers [Chromium][chromium] or [Fire
 The resources for the individual images and their variations (tags) are stored in the subfolders of the **master** branch. Each image has its own README file describing its features and usage.
 
 This is a sibling project to the project [accetto/ubuntu-vnc-xfce-g3][sibling-github], which contains the detailed description of the third generation (G3) of my Docker images. Please check the [sibling project README][sibling-readme] and the [sibling Wiki][sibling-wiki] for common information.
+
+**Deprecating `FreeCAD`**
+
+The image featuring the `FreeCAD` is **deprecated** and it will be re-designed sometimes in the future. The reason is, that it's really huge and that its deployment pattern does not really fit. You can still build the image containing the `FreeCAD` version **0.19.3**, but the image will be excluded from the examples and from the `complete` group used by the utility `ci-builder.sh`. Be also aware, that downloading `FreeCAD` will take considerable time.
 
 ## TL;DR
 
@@ -50,7 +66,7 @@ There are currently resources for the following Docker images:
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
   - [full Readme][this-readme-image-inkscape]
 
-I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
+I try to keep the images slim. Consequently you can sometimes encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
 
 You can also try to fix it by executing the following (the default `sudo` password is **headless**):
 
@@ -65,36 +81,68 @@ The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
-./docker/hooks/build dev latest
-./docker/hooks/build dev latest-chromium
-./docker/hooks/build dev latest-firefox
-./docker/hooks/build dev blender
-./docker/hooks/build dev blender-chromium
-./docker/hooks/build dev blender-firefox
-./docker/hooks/build dev drawio
-./docker/hooks/build dev drawio-chromium
-./docker/hooks/build dev drawio-firefox
-./docker/hooks/build dev freecad
-./docker/hooks/build dev freecad-chromium
-./docker/hooks/build dev freecad-firefox
-./docker/hooks/build dev gimp
-./docker/hooks/build dev gimp-chromium
-./docker/hooks/build dev gimp-firefox
-./docker/hooks/build dev inkscape
-./docker/hooks/build dev inkscape-chromium
-./docker/hooks/build dev inkscape-firefox
-./docker/hooks/build dev vnc
-./docker/hooks/build dev vnc-chromium
-./docker/hooks/build dev vnc-firefox
-./docker/hooks/build dev blender-vnc
-./docker/hooks/build dev blender-vnc-chromium
-./docker/hooks/build dev blender-vnc-firefox
-and so on...
+### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
+
+### examples of building and publishing the individual images
+### and also replacing 'latest' by 'blender|drawio|gimp|inkscape'
+### (or also by 'freecad' if you really wish so)
+./builder.sh latest all
+./builder.sh latest-chromium all
+./builder.sh latest-firefox all
+
+### or skipping the publishing to the Docker Hub
+./builder.sh latest all-no-push
+./builder.sh latest-chromium all-no-push
+./builder.sh latest-firefox all-no-push
+
+### example of building and publishing a group of images
+./ci-builder.sh all group latest blender drawio drawio-chromium inkscape-firefox
+
+### or all the images at once (excluding 'freecad')
+./ci-builder.sh all group complete
+
+### or skipping the publishing to the Docker Hub
+./ci-builder.sh all-no-push group complete
+
+### or all images featuring 'Chromium Browser' or 'Firefox' (excluding 'freecad')
+./ci-builder.sh all group complete-chromium
+./ci-builder.sh all group complete-firefox
+
+### or, for example, complete 'drawio' or 'inkscape' group
+./ci-builder.sh all group complete-drawio
+./ci-builder.sh all group complete-inkscape
+
+### and so on
 ```
 
-You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the [sibling Wiki][sibling-wiki] for more information.
 
-Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
+Sharing the audio device for video with sound (only Chromium and only on Linux):
+
+```shell
+docker run -it -P --rm \
+  --device /dev/snd:/dev/snd:rw \
+  --group-add audio \
+accetto/ubuntu-vnc-xfce-opengl-g3:chromium
+```
+
+## Project versions
+
+This file describes the **second version** (G3v2) of the project.
+
+The **first version** (G3v1, or simply G3) will still be available in this **GitHub** repository as the branch `archived-generation-g3v1`.
+
+The version `G3v2` brings the following major changes comparing to the previous version `G3v1`:
+
+- Significantly improved building performance by introducing a local cache (`g3-cache`).
+- Auto-building on the **Docker Hub** and using of the **GitHub Actions** have been abandoned.
+- The enhanced building pipeline moves towards building the images outside the **Docker Hub** and aims to support also stages with CI/CD capabilities (e.g. the **GitLab**).
+- The **local stage** is the default building stage now. However, the new building pipeline has already been tested also with a local **GitLab** installation in a Docker container on a Linux machine.
+- Automatic publishing of README files to the **Docker Hub** has been removed, because it was not working properly any more. However, the README files for the **Docker Hub** can still be prepared with the provided utility `util-readme.sh` and then copy-and-pasted to the **Docker Hub** manually.
+
+The changes affect only the building pipeline, not the Docker images themselves. The `Dockerfile`, apart from using the new local `g3-cache`, stays conceptually unchanged.
+
+You can learn more about the project generations in the [sibling project README][sibling-readme] and the [sibling Wiki][sibling-wiki].
 
 ## Issues, Wiki and Discussions
 

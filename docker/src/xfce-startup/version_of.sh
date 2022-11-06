@@ -62,7 +62,7 @@ case "$1" in
         ### source sample: heroku/7.29.0 linux-x64 node-v11.14.0
         echo $(heroku --version 2>/dev/null | grep -Po -m1 '(?<=heroku/)[0-9.]+')
         ;;
-    inkscape | ink )
+    inkscape )
         ### Inkscape requires display!
         ### source sample: Inkscape 0.92.3 (2405546, 2018-03-11)
         echo $(inkscape --version 2>/dev/null | grep -Po -m1 '(?<=Inkscape\s)[0-9.]+')
@@ -80,7 +80,7 @@ case "$1" in
         ### source example: GNU nano, version 4.8
         echo $(nano --version 2>/dev/null | grep -Po -m1 '(?<=version\s)[0-9.]+')
         ;;
-    node | nodejs | node-js )
+    nodejs | node-js | node )
         ### source example: v10.16.3
         echo $(node --version 2>/dev/null | grep -Po -m1 '[0-9.]+$')
         ;;

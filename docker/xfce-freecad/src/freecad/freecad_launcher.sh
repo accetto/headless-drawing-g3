@@ -3,7 +3,7 @@
 app_image=$(ls "${FREECAD_PATH}"/FreeCAD_*.AppImage 2>/dev/null)
 startup_log="${HOME}/freecad_launcher.log"
 
-if [ -z "${app_image}" ] ; then
+if [[ -z "${app_image}" ]] ; then
 
     echo "No FreeCAD found!"
     echo "Exiting..."

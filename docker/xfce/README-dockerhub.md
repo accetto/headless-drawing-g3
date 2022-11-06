@@ -14,9 +14,31 @@
 
 ***
 
-**Tip:** This is the **short README** version for Docker Hub. There is also the [full-length README][this-readme-full] on GitHub.
+- [Headless Ubuntu/Xfce container with VNC/noVNC and OpenGL/WebGL/VirtualGL](#headless-ubuntuxfce-container-with-vncnovnc-and-openglwebglvirtualgl)
+  - [accetto/ubuntu-vnc-xfce-opengl-g3](#accettoubuntu-vnc-xfce-opengl-g3)
+    - [Introduction](#introduction)
+    - [TL;DR](#tldr)
+    - [Description](#description)
+    - [Image tags](#image-tags)
+    - [Ports](#ports)
+    - [Volumes](#volumes)
+  - [Using headless containers](#using-headless-containers)
+    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Startup options and help](#startup-options-and-help)
+    - [More information](#more-information)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
+  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
+  - [Credits](#credits)
 
 ***
+
+### Introduction
+
+This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use. The images include [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics. They also include the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
+
+All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox].
+
+This is the **short README** version for the **Docker Hub**. There is also the [full-length README][this-readme-full] on the **GitHub**.
 
 ### TL;DR
 
@@ -30,6 +52,30 @@ sudo apt-get update
 
 sudo apt --fix-broken install
 ```
+
+The fastest way to build the images including Mesa3D/VirtualGL locally:
+
+```shell
+### PWD = project root
+### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
+
+### examples of building and publishing the individual images
+### 'latest' stands for 'opengl' in this context
+./builder.sh latest all
+./builder.sh latest-chromium all
+./builder.sh latest-firefox all
+
+### or skipping the publishing to the Docker Hub
+./builder.sh latest all-no-push
+
+### examples of building and publishing the images as a group
+./ci-builder.sh all group latest latest-firefox
+
+### or all the 'accetto/ubuntu-vnc-xfce-opengl-g3' images
+./ci-builder.sh all group complete-latest
+```
+
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
 
 Sharing the display with the host (Linux only):
 
@@ -67,26 +113,7 @@ Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-
 
 ***
 
-### Table of contents
-
-- [Headless Ubuntu/Xfce container with VNC/noVNC and OpenGL/WebGL/VirtualGL](#headless-ubuntuxfce-container-with-vncnovnc-and-openglwebglvirtualgl)
-  - [accetto/ubuntu-vnc-xfce-opengl-g3](#accettoubuntu-vnc-xfce-opengl-g3)
-    - [TL;DR](#tldr)
-    - [Table of contents](#table-of-contents)
-    - [Image tags](#image-tags)
-    - [Ports](#ports)
-    - [Volumes](#volumes)
-  - [Using headless containers](#using-headless-containers)
-    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
-    - [Startup options and help](#startup-options-and-help)
-    - [More information](#more-information)
-  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
-  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
-  - [Credits](#credits)
-
-This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use. The images include [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics. They also include the OpenGL test applications `glxgears`, `es2gears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
-
-All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox].
+### Description
 
 This is the **third generation** (G3) of my headless images. More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
 

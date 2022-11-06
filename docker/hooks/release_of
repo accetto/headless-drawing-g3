@@ -32,6 +32,7 @@ main() {
             )
             ;;
 
+        # TODO 'freecad-appimage' not working
         freecad-appimage )
             # result=$(wget -qO- \
             result=$(curl -sL \
@@ -51,7 +52,7 @@ main() {
             ;;
 
         * )
-            echo "Unknown key '$1'"
+            echo "Exiting '${0}' with code '1' because of unknown key '${1}'"
             return 1
             ;;
 

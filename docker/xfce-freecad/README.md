@@ -11,9 +11,34 @@
 
 ***
 
-**Attention** The FreeCAD's AppImage size is about 800MB, so the download during image building can take some time. Don't interrupt the building process prematurely. Also the application launch can take a few seconds, because the AppImage must be extracted first.
+- [Headless Ubuntu/Xfce container with VNC/noVNC and `FreeCAD`](#headless-ubuntuxfce-container-with-vncnovnc-and-freecad)
+  - [accetto/ubuntu-vnc-xfce-freecad-g3](#accettoubuntu-vnc-xfce-freecad-g3)
+    - [Introduction](#introduction)
+    - [TL;DR](#tldr)
+    - [Description](#description)
+    - [Image tags](#image-tags)
+    - [Ports](#ports)
+    - [Volumes](#volumes)
+    - [Version sticker](#version-sticker)
+  - [Using headless containers](#using-headless-containers)
+    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
+    - [Startup options and help](#startup-options-and-help)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
+  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
+  - [Credits](#credits)
+  - [Diagrams](#diagrams)
+    - [Dockerfile.xfce.drawing](#dockerfilexfcedrawing)
 
 ***
+
+**Attention** The FreeCAD's AppImage size is about 800MB, so the download during image building can take some time. Don't interrupt the building process prematurely. Also the application launch can take a few seconds, because the AppImage must be extracted first.
+
+This image is **deprecated** since the **second project** version (G3v2). The reason is, that it's really huge and that its deployment pattern does not really fit. You can still build the image containing the `FreeCAD` version **0.19.3**. It will be re-designed sometimes in the future. Be also aware, that downloading `FreeCAD` will take considerable time.
+
+***
+
+### Introduction
 
 This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the free open-source 3D parametric modeler [FreeCAD][freecad].
 
@@ -42,18 +67,22 @@ The fastest way to build the images locally:
 
 ```shell
 ### PWD = project root
-./docker/hooks/build dev freecad
-./docker/hooks/build dev freecad-chromium
-./docker/hooks/build dev freecad-firefox
-./docker/hooks/build dev freecad-vnc
-./docker/hooks/build dev freecad-vnc-chromium
-./docker/hooks/build dev freecad-vnc-firefox
-### and so on
+### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
+
+### examples of building and publishing the individual images
+### 'freecad' stands for 'opengl' in this context
+./builder.sh freecad all
+./builder.sh freecad-chromium all
+./builder.sh freecad-firefox all
+
+### or skipping the publishing to the Docker Hub
+./builder.sh freecad all-no-push
+
+### examples of building and publishing the images as a group
+./ci-builder.sh all group freecad freecad-firefox
 ```
 
-You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
-
-Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
 
 Sharing the display with the host (Linux only):
 
@@ -89,25 +118,7 @@ Find more in this [readme][sibling-opengl-readme-full] file and this [discussion
 
 Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
 
-### Table of contents
-
-- [Headless Ubuntu/Xfce container with VNC/noVNC and `FreeCAD`](#headless-ubuntuxfce-container-with-vncnovnc-and-freecad)
-  - [accetto/ubuntu-vnc-xfce-freecad-g3](#accettoubuntu-vnc-xfce-freecad-g3)
-    - [TL;DR](#tldr)
-    - [Table of contents](#table-of-contents)
-    - [Image tags](#image-tags)
-    - [Ports](#ports)
-    - [Volumes](#volumes)
-    - [Version sticker](#version-sticker)
-  - [Using headless containers](#using-headless-containers)
-    - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
-    - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
-    - [Startup options and help](#startup-options-and-help)
-  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
-  - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
-  - [Credits](#credits)
-  - [Diagrams](#diagrams)
-    - [Dockerfile.xfce.drawing](#dockerfilexfcedrawing)
+### Description
 
 This is the **third generation** (G3) of my headless images. More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
 

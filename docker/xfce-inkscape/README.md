@@ -9,35 +9,13 @@
 ![badge-github-release][badge-github-release]
 ![badge-github-release-date][badge-github-release-date]
 
-This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use
-and the free open-source vector drawing application [inkscape][inkscape] from the `Ubuntu 20.04 LTS` distribution.
-
-All images can optionally contain also the current [Chromium][chromium] or [Firefox][firefox] web browsers.
-
-### TL;DR
-
-The fastest way to build the images locally:
-
-```shell
-### PWD = project root
-./docker/hooks/build dev inkscape
-./docker/hooks/build dev inkscape-chromium
-./docker/hooks/build dev inkscape-firefox
-./docker/hooks/build dev inkscape-vnc
-./docker/hooks/build dev inkscape-vnc-chromium
-./docker/hooks/build dev inkscape-vnc-firefox
-```
-
-You can also use the provided helper script `builder.sh`, which can also publish the images on Docker Hub, if you correctly set the required environment variables (see the file `example-secrets.rc`). Check the files `local-builder-readme.md` and `local-building-example.md`.
-
-Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
-
-### Table of contents
+***
 
 - [Headless Ubuntu/Xfce container with VNC/noVNC and `inkscape`](#headless-ubuntuxfce-container-with-vncnovnc-and-inkscape)
   - [accetto/ubuntu-vnc-xfce-inkscape-g3](#accettoubuntu-vnc-xfce-inkscape-g3)
+    - [Introduction](#introduction)
     - [TL;DR](#tldr)
-    - [Table of contents](#table-of-contents)
+    - [Description](#description)
     - [Image tags](#image-tags)
     - [Ports](#ports)
     - [Volumes](#volumes)
@@ -50,6 +28,53 @@ Find more in the hook script `env.rc` and in the [sibling Wiki][sibling-wiki].
   - [Credits](#credits)
   - [Diagrams](#diagrams)
     - [Dockerfile.xfce.drawing](#dockerfilexfcedrawing)
+
+***
+
+### Introduction
+
+This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use
+and the free open-source vector drawing application [inkscape][inkscape] from the `Ubuntu 20.04 LTS` distribution.
+
+All images can optionally contain also the current [Chromium][chromium] or [Firefox][firefox] web browsers.
+
+### TL;DR
+
+I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
+
+You can also try to fix it by executing the following (the default `sudo` password is **headless**):
+
+```shell
+### apt cache needs to be updated only once
+sudo apt-get update
+
+sudo apt --fix-broken install
+```
+
+The fastest way to build the images locally:
+
+```shell
+### PWD = project root
+### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
+
+### examples of building and publishing the individual images
+./builder.sh inkscape all
+./builder.sh inkscape-chromium all
+./builder.sh inkscape-firefox all
+
+### or skipping the publishing to the Docker Hub
+./builder.sh inkscape all-no-push
+
+### examples of building and publishing the images as a group
+./ci-builder.sh all group inkscape inkscape-firefox
+
+### or all the images featuring the Inkscape
+./ci-builder.sh all group complete-inkscape
+```
+
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
+
+### Description
 
 This is the **third generation** (G3) of my headless images. They replace the **second generation** (G2) of similar images from the GitHub repository [accetto/xubuntu-vnc][accetto-github-xubuntu-vnc], which will be archived.
 
