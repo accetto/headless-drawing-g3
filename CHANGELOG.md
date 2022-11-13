@@ -6,6 +6,11 @@
 
 ***
 
+### Release 22.11.2
+
+This is a quick fix release for the images featuring `FreeCAD`. The version is locked to `v0.19.3`.
+
+
 ### Release 22.11.1
 
 This is a quick fix release, because the `Chromium Browser` has changed its package naming pattern.

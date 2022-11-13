@@ -25,21 +25,25 @@ main() {
 
         freecad )
             # result=$(wget -qO- \
-            result=$(curl -sL \
-                https://api.github.com/repos/FreeCAD/FreeCAD/releases/latest \
-                | grep -m1 '"tag_name"' \
-                | grep -Po '[0-9.]+'
-            )
+            # result=$(curl -sL \
+            #     https://api.github.com/repos/FreeCAD/FreeCAD/releases/latest \
+            #     | grep -m1 '"tag_name"' \
+            #     | grep -Po '[0-9.]+'
+            # )
+            # TODO temporary hardcoded result
+            result="0.19.3"
             ;;
 
         # TODO 'freecad-appimage' regex pattern not working
         freecad-appimage )
             # result=$(wget -qO- \
-            result=$(curl -sL \
-                https://github.com/FreeCAD/FreeCAD/releases/latest \
-                | grep -m1 -Po '\<a href="[^"]+\-x86_64.AppImage' \
-                | cut -d / -f 7 \
-            )
+            # result=$(curl -sL \
+            #     https://github.com/FreeCAD/FreeCAD/releases/latest \
+            #     | grep -m1 -Po '\<a href="[^"]+\-x86_64.AppImage' \
+            #     | cut -d / -f 7 \
+            # )
+            # TODO temporary hardcoded result
+            result="FreeCAD_0.19.3-Linux-Conda_glibc2.12-x86_64.AppImage"
             ;;
 
         virtualgl )
