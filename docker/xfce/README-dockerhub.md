@@ -18,6 +18,11 @@
   - [accetto/ubuntu-vnc-xfce-opengl-g3](#accettoubuntu-vnc-xfce-opengl-g3)
     - [Introduction](#introduction)
     - [TL;DR](#tldr)
+      - [Installing packages](#installing-packages)
+      - [Shared memory size](#shared-memory-size)
+      - [Extending images](#extending-images)
+      - [Building images](#building-images)
+      - [Sharing devices](#sharing-devices)
     - [Description](#description)
     - [Image tags](#image-tags)
     - [Ports](#ports)
@@ -42,6 +47,8 @@ This is the **short README** version for the **Docker Hub**. There is also the [
 
 ### TL;DR
 
+#### Installing packages
+
 I try to keep the images slim. Consequently you can encounter missing dependencies while adding more applications yourself. You can track the missing libraries on the [Ubuntu Packages Search][ubuntu-packages-search] page and install them subsequently.
 
 You can also try to fix it by executing the following (the default `sudo` password is **headless**):
@@ -53,7 +60,29 @@ sudo apt-get update
 sudo apt --fix-broken install
 ```
 
-The fastest way to build the images including Mesa3D/VirtualGL locally:
+#### Shared memory size
+
+Note that some applications require larger shared memory than the default 64MB. Using 256MB usually solves crashes or strange behavior.
+
+You can check the current shared memory size by executing the following command inside the container:
+
+```shell
+df -h /dev/shm
+```
+
+The Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
+
+#### Extending images
+
+The provided example file `Dockerfile.extend` shows how to use the images as the base for your own images.
+
+Your concrete `Dockerfile` may need more statements, but the concept should be clear.
+
+The compose file `example.yml` shows how to switch to another non-root user and how to set the VNC password and resolution.
+
+#### Building images
+
+The fastest way to build the images including Mesa3D/VirtualGL:
 
 ```shell
 ### PWD = project root
@@ -77,7 +106,18 @@ The fastest way to build the images including Mesa3D/VirtualGL locally:
 
 You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
 
-Sharing the display with the host (Linux only):
+#### Sharing devices
+
+Sharing the audio device for video with sound works only with `Chromium` and only on Linux:
+
+```shell
+docker run -it -P --rm \
+  --device /dev/snd:/dev/snd:rw \
+  --group-add audio \
+accetto/ubuntu-vnc-xfce-opengl-g3:chromium
+```
+
+Sharing the display with the host works only on Linux:
 
 ```shell
 xhost +local:$(whoami)
@@ -91,7 +131,7 @@ docker run -it -P --rm \
 xhost -local:$(whoami)
 ```
 
-Sharing the X11 socket with the host (Linux only):
+Sharing the X11 socket with the host works only on Linux:
 
 ```shell
 xhost +local:$(whoami)
