@@ -6,7 +6,7 @@ Version: G3v2
 
 ***
 
-[Docker Hub][this-docker] - [Changelog][this-changelog] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
+[Docker Hub][this-docker] - [Changelog][this-changelog] - [sibling Wiki][sibling-wiki] - [sibling Discussions][sibling-discussions]
 
 ![badge-github-release][badge-github-release]
 ![badge-github-release-date][badge-github-release-date]

@@ -2,7 +2,7 @@
 
 ## accetto/ubuntu-vnc-xfce-opengl-g3
 
-[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Docker Readme][this-readme-dockerhub] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
+[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Docker Readme][this-readme-dockerhub] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [sibling Wiki][sibling-wiki] - [sibling Discussions][sibling-discussions]
 
 ![badge-docker-pulls][badge-docker-pulls]
 ![badge-docker-stars][badge-docker-stars]
@@ -220,7 +220,7 @@ Both **named volumes** and **bind mounts** can be used. More about volumes can b
 
 ### Version sticker
 
-Version sticker serves multiple purposes that are closer described in the [sibling Wiki][sibling-wiki]. Note that the usage of the version sticker has changed between the generations of images.
+Version sticker serves multiple purposes that are closer described in the [sibling Wiki][sibling-wiki-version-stickers]. Note that the usage of the version sticker has changed between the generations of images.
 
 The **short version sticker value** describes the version of the image and it is persisted in its **label** during the build-time. It is also shown as its **badge** in the README file.
 
@@ -435,6 +435,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 [this-readme-dockerhub]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-opengl-g3
 [this-readme-project]: https://github.com/accetto/headless-drawing-g3/blob/master/README.md
 
+<!-- Sibling project -->
+
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
 [sibling-discussion-supporting-opengl-and-using-hw-acceleration]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10
 [sibling-discussion-supporting-opengl-and-using-hw-acceleration-test-results]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10#discussioncomment-773317
@@ -445,6 +447,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 [sibling-readme-xfce]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce/README.md
 [sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
+[sibling-wiki-version-stickers]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/Concepts-of-dockerfiles
 
 <!-- Docker image specific -->
 

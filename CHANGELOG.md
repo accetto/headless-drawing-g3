@@ -2,7 +2,7 @@
 
 ## Project `accetto/headless-drawing-g3`
 
-[Docker Hub][this-docker] - [Git Hub][this-github] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
+[Docker Hub][this-docker] - [Git Hub][this-github] - [sibling Wiki][sibling-wiki] - [sibling Discussions][sibling-discussions]
 
 ***
 
