@@ -2,7 +2,7 @@
 
 ## accetto/ubuntu-vnc-xfce-gimp-g3
 
-[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Full Readme][this-readme-full] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
+[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Full Readme][this-readme-full] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [sibling Wiki][sibling-wiki] - [sibling Discussions][sibling-discussions]
 
 ![badge-docker-pulls][badge-docker-pulls]
 ![badge-docker-stars][badge-docker-stars]
@@ -38,8 +38,8 @@
 
 ### Introduction
 
-This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use
-and the free open-source bitmap image editor [gimp][gimp] from the `Ubuntu 20.04 LTS` distribution.
+This repository contains Docker images based on [Ubuntu 22.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use
+and the free open-source bitmap image editor [gimp][gimp] from the Ubuntu distribution.
 
 All images can optionally contain also the current [Chromium][chromium] or [Firefox][firefox] web browsers.
 
@@ -70,7 +70,7 @@ You can check the current shared memory size by executing the following command 
 df -h /dev/shm
 ```
 
-The Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
+The older sibling Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
 
 #### Extending images
 
@@ -94,8 +94,8 @@ The fastest way to build the images:
 ./builder.sh gimp-chromium all
 ./builder.sh gimp-firefox all
 
-### or skipping the publishing to the Docker Hub
-./builder.sh gimp all-no-push
+### just building the image, skipping the publishing and the version sticker update
+./builder.sh gimp build
 
 ### examples of building and publishing the images as a group
 ./ci-builder.sh all group gimp gimp-firefox
@@ -104,7 +104,9 @@ The fastest way to build the images:
 ./ci-builder.sh all group complete-gimp
 ```
 
-You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the files `local-builder-readme.md`, `local-building-example.md` and the sibling [Wiki][sibling-wiki] for more information.
+You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the [builder-utility-readme][this-builder-readme], [local-building-example][this-readme-local-building-example] and [sibling Wiki][sibling-wiki] for more information.
+
+Note that selected features that are enabled by default can be explicitly disabled via environment variables. This allows to build even smaller images by excluding, for example, `noVNC`. See the [local-building-example][this-readme-local-building-example] for more information.
 
 #### Sharing devices
 
@@ -114,7 +116,7 @@ Sharing the audio device for video with sound works only with `Chromium` and onl
 docker run -it -P --rm \
   --device /dev/snd:/dev/snd:rw \
   --group-add audio \
-accetto/ubuntu-vnc-xfce-gimp-g3:chromium
+  accetto/ubuntu-vnc-xfce-gimp-g3:chromium
 ```
 
 Sharing the display with the host works only on Linux:
@@ -146,9 +148,13 @@ xhost -local:$(whoami)
 
 ### Description
 
-This is the **third generation** (G3) of my headless images. They replace the **second generation** (G2) of similar images from the GitHub repository [accetto/xubuntu-vnc][accetto-github-xubuntu-vnc], which will be archived.
+This is the **third generation** (G3) of my headless images. The **second generation** (G2) of similar images is contained in the GitHub repository [accetto/xubuntu-vnc-novnc][accetto-github-xubuntu-vnc-novnc]. The **first generation** (G1) of similar images is contained in the GitHub repository [accetto/ubuntu-vnc-xfce][accetto-github-ubuntu-vnc-xfce].
 
-More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
+**Remark:** The images can optionally contain the current `Chromium Browser` version from the `Ubuntu 18.04 LTS` distribution. This is because the version for `Ubuntu 22.04 LTS` depends on `snap`, which is currently not working correctly in Docker containers. They can also optionally contain the current non-snap [Firefox][firefox] version from the Mozilla Team PPA.
+
+**Remark:** If you will build an image containing the [Chromium Browser][chromium], then the browser will run in the `--no-sandbox` mode. You should be aware of the implications. The image is intended for testing and development.
+
+**Remark:** If you will build an image containing the [Firefox][firefox] browser, then the browser will run in the `multi-process` mode. Be aware, that this mode requires larger shared memory (`/dev/shm`). At least 256MB is recommended. Please check the **Firefox multi-process** page in this older [sibling Wiki][that-wiki-firefox-multiprocess] for more information and the instructions, how to set the shared memory size in different scenarios.
 
 The main features and components of the images in the default configuration are:
 
@@ -160,12 +166,12 @@ The main features and components of the images in the default configuration are:
 - popular text editor [nano][nano] (Ubuntu distribution)
 - lite but advanced graphical editor [mousepad][mousepad] (Ubuntu distribution)
 - current version of [tini][tini] as the entry-point initial process (PID 1)
-- support for overriding both the container user account and its group
-- support of **version sticker** (see below)
+- support for overriding both the container user and the group
+- support of **version sticker** (see the [full-length README][this-readme-full] on the **GitHub**)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
-- optionally the current version of [Firefox][firefox] web browser and optionally also some additional **plus** features described in the [sibling image README][sibling-readme-xfce-firefox]
+- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling image README][sibling-readme-xfce-firefox]
 
-All images contain the free open-source bitmap image editor [gimp][gimp] from the `Ubuntu 20.04 LTS` distribution.
+All images contain the free open-source bitmap image editor [gimp][gimp] from the Ubuntu distribution.
 
 The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
@@ -173,19 +179,19 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags on Docker Hub are regularly rebuilt:
+The following image tags are regularly built and published on the **Docker Hub**:
 
 - `latest` implements VNC and noVNC
 
     ![badge_latest_created][badge_latest_created]
     [![badge_latest_version-sticker][badge_latest_version-sticker]][link_latest_version-sticker-verbose]
 
-- `chromium` adds [Chromium Browser][chromium]
+- `chromium` adds Chromium Browser
 
     ![badge_chromium_created][badge_chromium_created]
     [![badge_chromium_version-sticker][badge_chromium_version-sticker]][link_chromium_version-sticker-verbose]
 
-- `firefox` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+- `firefox` adds Firefox with the **Firefox plus features** (described in the [sibling README][sibling-readme-xfce-firefox])
 
     ![badge_firefox_created][badge_firefox_created]
     [![badge_firefox_version-sticker][badge_firefox_version-sticker]][link_firefox_version-sticker-verbose]
@@ -199,7 +205,7 @@ Following **TCP** ports are exposed by default:
 - **5901** is used for access over **VNC**
 - **6901** is used for access over [noVNC][novnc]
 
-These default ports and also some other parameters can be overridden several ways as it is described in the [sibling image README file][sibling-readme-xfce].
+These default ports and also some other parameters can be overridden several ways as it is described in the [sibling README][sibling-readme-xfce].
 
 ### Volumes
 
@@ -247,12 +253,13 @@ Credit goes to all the countless people and companies, who contribute to open so
 [this-readme-project]: https://github.com/accetto/headless-drawing-g3/blob/master/README.md
 
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
-[sibling-github]: https://github.com/accetto/ubuntu-vnc-xfce-g3/
 [sibling-issues]: https://github.com/accetto/ubuntu-vnc-xfce-g3/issues
-[sibling-readme-project]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/README.md
 [sibling-readme-xfce]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce/README.md
 [sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
+
+[this-builder-readme]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-builder.md
+[this-readme-local-building-example]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-local-building-example.md
 
 <!-- Docker image specific -->
 
@@ -263,7 +270,9 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 <!-- Previous generations -->
 
-[accetto-github-xubuntu-vnc]: https://github.com/accetto/xubuntu-vnc/
+[accetto-github-xubuntu-vnc-novnc]: https://github.com/accetto/xubuntu-vnc-novnc/
+[accetto-github-ubuntu-vnc-xfce]: https://github.com/accetto/ubuntu-vnc-xfce
+
 [that-wiki-firefox-multiprocess]: https://github.com/accetto/xubuntu-vnc/wiki/Firefox-multiprocess
 
 <!-- External links -->
@@ -273,6 +282,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 [docker-doc]: https://docs.docker.com/
 [docker-doc-managing-data]: https://docs.docker.com/storage/
 
+[ubuntu-packages-search]: https://packages.ubuntu.com/
+
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
 [gimp]: https://www.gimp.org/
@@ -281,7 +292,6 @@ Credit goes to all the countless people and companies, who contribute to open so
 [nano]: https://www.nano-editor.org/
 [novnc]: https://github.com/kanaka/noVNC
 [tigervnc]: http://tigervnc.org
-[tightvnc]: http://www.tightvnc.com
 [tini]: https://github.com/krallin/tini
 [xfce]: http://www.xfce.org
 

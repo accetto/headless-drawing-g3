@@ -2,17 +2,21 @@
 
 - [Utility `ci-builder.sh`](#utility-ci-buildersh)
   - [Introduction](#introduction)
-  - [Prerequisites](#prerequisites)
+  - [Preparation](#preparation)
+    - [Ensure file attributes after cloning](#ensure-file-attributes-after-cloning)
+    - [Set environment variables before building](#set-environment-variables-before-building)
+    - [Ensure `wget` utility](#ensure-wget-utility)
   - [Usage modes](#usage-modes)
-    - [Family mode](#family-mode)
-      - [Family mode examples](#family-mode-examples)
     - [Group mode](#group-mode)
       - [Group mode examples](#group-mode-examples)
+    - [Family mode](#family-mode)
+      - [Family mode examples](#family-mode-examples)
     - [Log processing](#log-processing)
       - [Digest command](#digest-command)
-      - [Stickers commands](#stickers-commands)
+      - [Stickers command](#stickers-command)
       - [Timing command](#timing-command)
       - [Errors command](#errors-command)
+  - [Additional building parameters](#additional-building-parameters)
 
 ## Introduction
 
@@ -27,8 +31,8 @@ The common usage pattern
 has the following typical forms that also described below:
 
 ```shell
-./ci-builder.sh [<options>] <command> family <parent-blend> [<child-suffix>]...
 ./ci-builder.sh [<options>] <command> group <blend> [<blend>]...
+./ci-builder.sh [<options>] <command> family <parent-blend> [<child-suffix>]...
 ./ci-builder.sh [--log-all] log get (digest|stickers|timing|errors)
 ```
 
@@ -41,20 +45,20 @@ This script can:
 
 Usage: <script> <mode> <argument> [<optional-argument>]...
 
-    ./ci-builder.sh [<options>] <command> family <parent-blend> [<child-suffix>]...
     ./ci-builder.sh [<options>] <command> group <blend> [<blend>]...
+    ./ci-builder.sh [<options>] <command> family <parent-blend> [<child-suffix>]...       
     ./ci-builder.sh [--log-all] log get (digest|stickers|timing|errors)
 
 <options>      := (--log-all|--no-cache) 
 <command>      := (all|all-no-push)
 <mode>         := (family|group)
-<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape|freecad)
+<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape)
 <child-suffix> := (-chromium|-firefox)
 <blend>        := (pivotal)
                   |(complete[-chromium|-firefox|-latest|-blender|-drawio|-gimp|-inkscape])
-                  |(latest|blender|drawio|gimp|inkscape|freecad)[-(chromium|firefox)])
+                  |(latest|blender|drawio|gimp|inkscape)[-(chromium|firefox)])
 
-Family mode: The children are skipped if a new parent image was not actually built.
+Family mode: The children are skipped if a new parent image was not actually built.       
 Group mode : All images are processed independently.
 
 The command and the blend are passed to the builder script.
@@ -67,39 +71,147 @@ The optional parameter `--no-cache` will be passed to the internally used script
 
 The optional parameter `--log-all` will cause that the script's output will be written into the log file in all cases. Normally the command line errors or the **log processing mode** commands are not logged. 
 
-## Prerequisites
+## Preparation
 
-Before building and publishing the images prepare and source a file containing the necessary environment variables. You can use the provided file `example-secrets.rc` as a template.
+### Ensure file attributes after cloning
 
-If you name your file `secrets.rc` and you store it into the folder `docker/hooks/`, then it will sourced automatically by the hook script `env.rc`.
+It may be necessary to repair the executable files attributes after cloning the repository (by `git clone`).
 
-Otherwise you can source it in the terminal manually, for example:
+You can do that by executing the following commands from the project's root directory:
 
 ```shell
-source secrets.rc
+find . -type f -name "*.sh" -exec chmod +x '{}' \;
+chmod +x docker/hooks/*
+```
+
+For example, if the files in the folder `docker/hooks` would not be executable, then you would get errors similar to this:
+
+```shell
+$ ./builder.sh latest build
+
+==> EXECUTING @2023-03-05_16-42-57: ./builder.sh 
+
+./builder.sh: line 84: ./docker/hooks/build: Permission denied
+```
+
+### Set environment variables before building
+
+Open a terminal windows and change the current directory to the root of the project (where the license file is).
+
+Make a copy of the secrets example file, modify it and then source it in the terminal:
+
+```shell
+### make a copy and then modify it
+cp examples/example-secrets.rc secrets.rc
+
+### source the secrets
+source ./secrets.rc
 
 ### or also
 
-. secrets.rc
+. ./secrets.rc
 ```
 
+**TIP**: If you copy a file named `secrets.rc` into the folder `docker/hooks/`, then it will be automatically sourced by the hook script `env.rc`.
+
+Be aware that the following environment variables are mandatory and must be always set:
+
+- `REPO_OWNER_NAME`
+- `BUILDER_REPO`
+
+Ensure that your `secrets.rc` file contains at least the lines similar to these:
+
+```shell
+export REPO_OWNER_NAME="accetto"
+export BUILDER_REPO="headless-drawing-g3"
+```
+
+You can use your own names if you wish.
+
+Alternatively you can modify the hook script file env.rc like this:
+
+```shell
+### original lines
+declare _owner="${REPO_OWNER_NAME:?Need repo owner name}"
+DOCKER_REPO="${_owner}/${BUILDER_REPO:?Need builder repo name}"
+
+### modified lines
+declare _owner="${REPO_OWNER_NAME:-accetto}"
+DOCKER_REPO="${_owner}/${BUILDER_REPO:-headless-drawing-g3}"
+```
+
+Again, you can use your own names if you wish.
+
+You can also use other ways to set the variables.
+
+### Ensure `wget` utility
+
+If you are on Windows, you can encounter the problem of missing `wget` utility. It is used by refreshing the `g3-cache` and it's available on Linux by default.
+
+On Windows you have generally two choices. You can build your images inside the `WSL` environment or you can download the `wget.exe` application for Windows. Make sure to update also the `PATH` environment variable appropriately.
+
 ## Usage modes
+
+### Group mode
+
+The **group mode** is intended for building sets of independent images.
+
+The **group mode** usage pattern:
+
+```shell
+./ci-builder.sh [<options>] <command> group <blend> [<blend>]...
+```
+
+#### Group mode examples
+
+The image tags can be listed in the command line. For example, all these images will be built independently of each other.
+
+```shell
+./ci-builder.sh all group blender drawio-firefox gimp inkscape
+```
+
+You can also use one of the **named groups**:
+
+```shell
+### includes the images 'latest', 'blender', 'drawio', 'gimp' and 'inkscape'
+### 'latest' stands for 'opengl' in this context
+./ci-builder.sh all group pivotal
+
+### includes all the pivotal images plus each one also with '-chromium' and '-firefox'
+./ci-builder.sh all group complete
+
+### includes all the images featuring the Firefox browser
+./ci-builder.sh all group complete-firefox
+
+### includes all the images featuring the Chromium Browser
+./ci-builder.sh all group complete-chromium
+
+### includes all the images featuring the named application
+### 'latest' stands for 'opengl' in this context
+./ci-builder.sh all group complete-latest
+./ci-builder.sh all group complete-blender
+./ci-builder.sh all group complete-drawio
+./ci-builder.sh all group complete-gimp
+./ci-builder.sh all group complete-inkscape
+```
 
 ### Family mode
 
 The **family mode** is intended for an efficient building of the sets of dependent images.
 
+**Remark:** Since the version G3v3 of the sibling project [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3] is this mode for advanced use only. The previous images `accetto/ubuntu-vnc-xfce-g3:latest-fugo` and `accetto/ubuntu-vnc-xfce-firefox-g3:latest-plus` that used it are not published any more. The image `accetto/ubuntu-vnc-xfce-firefox-g3:latest-plus` has been renamed to `accetto/ubuntu-vnc-xfce-firefox-g3:latest`.
+
 The dependency in this context is meant more technically than conceptually.
 
 The following example will help to understand the concept.
 
-This project currently does not include any images that are in such a relation. Therefore it will be explained using the images from the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github].
+This project currently does not include any images that are in such a relation. Therefore it will be explained using the images from the sibling project [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3].
 
-The image `accetto/ubuntu-vnc-xfce-firefox-g3:latest-plus` adds some additional features to the image `accetto/ubuntu-vnc-xfce-firefox-g3:latest`, but otherwise are both images identical.
+The image `accetto/ubuntu-vnc-xfce-firefox-g3:latest-plus` added some additional features to the image `accetto/ubuntu-vnc-xfce-firefox-g3:latest`, but otherwise were both images identical.
 
-In such case a conclusion can be made, that if the `latest` tag does not need a refresh, then also the `latest-plus` tag doesn't need it and it can be skipped.
+In such case a conclusion can be made, that if the `latest` tag does not need a refresh, then also the `latest-plus` tag doesn't need it and its building can be skipped.
 
-There is a similar dependency between the images `accetto/ubuntu-vnc-xfce-g3:latest` and `accetto/ubuntu-vnc-xfce-g3:latest-fugo`.
+There had been a similar dependency between the images `accetto/ubuntu-vnc-xfce-g3:latest` and `accetto/ubuntu-vnc-xfce-g3:latest-fugo`.
 
 This kind of family-like relation allows to refresh the images more efficiently by skipping the "children" if the "parent" doesn't need a re-build.
 
@@ -136,47 +248,6 @@ You can also skip the publishing to the **Docker Hub** by replacing the `all` co
 ./ci-builder.sh all-no-push family latest -fugo
 ```
 
-### Group mode
-
-The **group mode** is intended for building sets of independent images.
-
-The **group mode** usage pattern:
-
-```shell
-./ci-builder.sh [<options>] <command> group <blend> [<blend>]...
-```
-
-#### Group mode examples
-
-The image tags can be listed in the command line. For example, all these images will be built independently of each other.
-
-```shell
-./ci-builder.sh all group blender drawio-firefox gimp inkscape
-```
-You can also use one of the **named groups**:
-
-```shell
-### includes the images 'latest', 'blender', 'drawio', 'gimp' and 'inkscape'
-### 'latest' stands for 'opengl' in this context
-./ci-builder.sh all group pivotal
-
-### includes all the pivotal images plus each one also with '-chromium' and '-firefox'
-./ci-builder.sh all group complete
-
-### includes all the images featuring the Firefox browser
-./ci-builder.sh all group complete-firefox
-
-### includes all the images featuring the Chromium Browser
-./ci-builder.sh all group complete-chromium
-
-### includes all the images featuring the named application
-### 'latest' stands for 'opengl' in this context
-./ci-builder.sh all group complete-latest
-./ci-builder.sh all group complete-blender
-./ci-builder.sh all group complete-drawio
-./ci-builder.sh all group complete-gimp
-./ci-builder.sh all group complete-inkscape
-```
 ### Log processing
 
 The **log processing** mode is intended for evaluating the outcome of the latest image building session. The result are extracted from the **ci-builder log** by `grep` utility.
@@ -200,15 +271,15 @@ The output can look out like this:
 ```text
 --> Log digest:
 
-Building image 'headless-ubuntu-drawing-g3:gimp'
-Building image 'headless-ubuntu-drawing-g3:gimp-chromium'
-Building image 'headless-ubuntu-drawing-g3:gimp-firefox'
-No build needed for 'headless-ubuntu-drawing-g3:gimp'.
-No build needed for 'headless-ubuntu-drawing-g3:gimp-chromium'.
-No build needed for 'headless-ubuntu-drawing-g3:gimp-firefox'.
+Building image 'headless-drawing-g3:gimp'
+Building image 'headless-drawing-g3:gimp-chromium'
+Building image 'headless-drawing-g3:gimp-firefox' 
+Built new 'headless-drawing-g3:gimp'.
+Built new 'headless-drawing-g3:gimp-chromium'.    
+Built new 'headless-drawing-g3:gimp-firefox'.
 ```
 
-#### Stickers commands
+#### Stickers command
 
 The `stickers` command extracts the information about the **version stickers** of the ephemeral helper images that have been built by the `pre_build` hook script. That does not mean that the final persistent images have also been built (and optionally also published).
 
@@ -221,9 +292,9 @@ The output can look out like this:
 ```text
 --> Version stickers:
 
-Current version sticker of 'accetto/devops-headless-ubuntu-drawing-g3:gimp-chromium_helper': ubuntu20.04.5-gimp2.10.18-chromium105.0.5195.102
-Current version sticker of 'accetto/devops-headless-ubuntu-drawing-g3:gimp-firefox_helper': ubuntu20.04.5-gimp2.10.18-firefox106.0.2
-Current version sticker of 'accetto/devops-headless-ubuntu-drawing-g3:gimp_helper': ubuntu20.04.5-gimp2.10.18
+Current version sticker of 'accetto/headless-drawing-g3:gimp_helper': ubuntu22.04.2-gimp2.10.30
+Current version sticker of 'accetto/headless-drawing-g3:gimp-chromium_helper': ubuntu22.04.2-gimp2.10.30-chromium110.0.5481.100
+Current version sticker of 'accetto/headless-drawing-g3:gimp-firefox_helper': ubuntu22.04.2-gimp2.10.30-firefox111.0
 ```
 
 #### Timing command
@@ -239,14 +310,14 @@ The output can look out like this:
 ```text
 --> Building timing:
 
-==> EXECUTING @2022-11-06_09-36-24: ./ci-builder.sh 
-==> EXECUTING @2022-11-06_09-36-24: ./builder.sh 
-==> FINISHED  @2022-11-06_09-39-05: ./builder.sh 
-==> EXECUTING @2022-11-06_09-39-05: ./builder.sh 
-==> FINISHED  @2022-11-06_09-39-49: ./builder.sh 
-==> EXECUTING @2022-11-06_09-39-49: ./builder.sh 
-==> FINISHED  @2022-11-06_09-40-35: ./builder.sh 
-==> FINISHED  @2022-11-06_09-40-35: ./ci-builder.sh 
+==> EXECUTING @2023-03-11_17-04-05: ./ci-builder.sh
+==> EXECUTING @2023-03-11_17-04-05: ./builder.sh
+==> FINISHED  @2023-03-11_17-04-43: ./builder.sh
+==> EXECUTING @2023-03-11_17-04-43: ./builder.sh
+==> FINISHED  @2023-03-11_17-05-22: ./builder.sh
+==> EXECUTING @2023-03-11_17-05-22: ./builder.sh
+==> FINISHED  @2023-03-11_17-06-43: ./builder.sh
+==> FINISHED  @2023-03-11_17-06-43: ./ci-builder.sh
 ```
 
 #### Errors command
@@ -264,6 +335,14 @@ The output is mostly empty:
 
 ```
 
+## Additional building parameters
+
+There is no notion of additional building parameters by the script `ci-builder.sh` (compare to [builder.sh][readme-builder]).
+
+There is no way to build the images only from particular Dockerfile stages using the script `ci-builder.sh`.
+
 ***
 
-[sibling-github]: https://github.com/accetto/ubuntu-vnc-xfce-g3/
+[readme-builder]: https://github.com/accetto/debian-vnc-xfce-g3/blob/master/readme-builder.md
+
+[accetto-github-ubuntu-vnc-xfce-g3]: https://github.com/accetto/ubuntu-vnc-xfce-g3

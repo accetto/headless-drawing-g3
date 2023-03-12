@@ -3,6 +3,9 @@
 - [Local building example](#local-building-example)
   - [Introduction](#introduction)
   - [Preparation](#preparation)
+    - [Ensure file attributes after cloning](#ensure-file-attributes-after-cloning)
+    - [Set environment variables before building](#set-environment-variables-before-building)
+    - [Ensure `wget` utility](#ensure-wget-utility)
   - [Building pipeline](#building-pipeline)
   - [Three ways of building images](#three-ways-of-building-images)
     - [Building and publishing sets of images](#building-and-publishing-sets-of-images)
@@ -12,7 +15,12 @@
       - [Step 2: `build`](#step-2-build)
       - [Step 3: `push`](#step-3-push)
       - [Step 4: `post_push`](#step-4-post_push)
-    - [README files for Docker Hub](#readme-files-for-docker-hub)
+  - [Additional parameters](#additional-parameters)
+    - [Special handling of `--target` parameter](#special-handling-of---target-parameter)
+  - [Disabling default features](#disabling-default-features)
+    - [Disabling `noVNC`](#disabling-novnc)
+    - [Disabling `Firefox Plus`](#disabling-firefox-plus)
+  - [README files for Docker Hub](#readme-files-for-docker-hub)
 
 ## Introduction
 
@@ -24,11 +32,34 @@ The **second version** (G3v2) of the building pipeline makes it really easy, eve
 
 ## Preparation
 
+### Ensure file attributes after cloning
+
+It may be necessary to repair the executable files attributes after cloning the repository (by `git clone`).
+
+You can do that by executing the following commands from the project's root directory:
+
+```shell
+find . -type f -name "*.sh" -exec chmod +x '{}' \;
+chmod +x docker/hooks/*
+```
+
+For example, if the files in the folder `docker/hooks` would not be executable, then you would get errors similar to this:
+
+```shell
+$ ./builder.sh latest build
+
+==> EXECUTING @2023-03-05_16-42-57: ./builder.sh 
+
+./builder.sh: line 84: ./docker/hooks/build: Permission denied
+```
+
+### Set environment variables before building
+
 Open a terminal windows and change the current directory to the root of the project (where the license file is).
 
 Make a copy of the secrets example file, modify it and then source it in the terminal:
 
-```bash
+```shell
 ### make a copy and then modify it
 cp examples/example-secrets.rc secrets.rc
 
@@ -41,6 +72,42 @@ source ./secrets.rc
 ```
 
 **TIP**: If you copy a file named `secrets.rc` into the folder `docker/hooks/`, then it will be automatically sourced by the hook script `env.rc`.
+
+Be aware that the following environment variables are mandatory and must be always set:
+
+- `REPO_OWNER_NAME`
+- `BUILDER_REPO`
+
+Ensure that your `secrets.rc` file contains at least the lines similar to these:
+
+```shell
+export REPO_OWNER_NAME="accetto"
+export BUILDER_REPO="headless-drawing-g3"
+```
+
+You can use your own names if you wish.
+
+Alternatively you can modify the hook script file env.rc like this:
+
+```shell
+### original lines
+declare _owner="${REPO_OWNER_NAME:?Need repo owner name}"
+DOCKER_REPO="${_owner}/${BUILDER_REPO:?Need builder repo name}"
+
+### modified lines
+declare _owner="${REPO_OWNER_NAME:-accetto}"
+DOCKER_REPO="${_owner}/${BUILDER_REPO:-headless-drawing-g3}"
+```
+
+Again, you can use your own names if you wish.
+
+You can also use other ways to set the variables.
+
+### Ensure `wget` utility
+
+If you are on Windows, you can encounter the problem of missing `wget` utility. It is used by refreshing the `g3-cache` and it's available on Linux by default.
+
+On Windows you have generally two choices. You can build your images inside the `WSL` environment or you can download the `wget.exe` application for Windows. Make sure to update also the `PATH` environment variable appropriately.
 
 ## Building pipeline
 
@@ -96,6 +163,7 @@ Building and publishing of individual images is also very easy. Let's say we wan
 
 ```shell
 ### PWD = project's root directory
+### 'latest' stands for 'opengl' in this context
 ./builder.sh latest all
 
 ### alternatively with additional Docker CLI options
@@ -117,7 +185,7 @@ The script `builder.sh` is using the individual hook scripts internally.
 
 #### Step 1: `pre_build`
 
-```bash
+```shell
 ### PWD = project's root directory
 
 ./builder.sh latest pre_build
@@ -145,7 +213,7 @@ The other option is to set the environment variable `FORCE_BUILDING=1` **before*
 
 #### Step 2: `build`
 
-```bash
+```shell
 ### PWD = project's root directory
 
 ./builder.sh latest build
@@ -158,13 +226,13 @@ The other option is to set the environment variable `FORCE_BUILDING=1` **before*
 ./docker/hooks/build dev latest --no-cache
 ```
 
-This step builds a new persistent image, named by default according the variable `BUILDER_REPO` (e.g. `headless-ubuntu-drawing-g3`).
+This step builds a new persistent image, named by default according the variable `BUILDER_REPO` (e.g. `headless-drawing-g3`).
 
 **Remark**: Ensure that the file `scrap-demand-stop-building` is not present or the environment variable is set `FORCE_BUILDING=1`.
 
 #### Step 3: `push`
 
-```bash
+```shell
 ### PWD = project's root directory
 
 ./builder.sh latest push
@@ -176,7 +244,7 @@ This step creates the deployment image tag and pushes it to the deployment repos
 
 #### Step 4: `post_push`
 
-```bash
+```shell
 ### PWD = project's root directory
 
 ./builder.sh latest post_push
@@ -186,7 +254,73 @@ This step creates the deployment image tag and pushes it to the deployment repos
 
 This step updates the **GitHub Gists** belonging to the **builder repository** and the **deployment repository** and removes the temporary helper files created by the hook script `pre_build`.
 
-### README files for Docker Hub
+## Additional parameters
+
+Additional parameters, that come after the mandatory ones, can be passed to the hook scripts in the folder `docker/hooks`.
+
+The individual hook scripts can use the additional parameters or ignore them.
+
+Currently only the `build` and `pre_build` scripts actually process the additional parameters.
+
+Both scripts insert the additional parameters just after the `docker build` part of the Docker build command line.
+
+For example, if the additional parameters `--target stage_xfce --no-cache` are provided to the script `docker/hooks/build`, then the result Docker command line will begin like this:
+
+```shell
+docker build --target stage_xfce --no-cache -f ./docker/Dockerfile.xfce.22-04 ...
+```
+
+However, there is a special handling of the parameter `--target`.
+
+### Special handling of `--target` parameter
+
+The Docker `build` parameter `--target` allows processing multi-stage Dockerfiles only to a particular stage.
+
+Therefore this parameter makes sense only by the hook script `docker/hooks/build`.
+
+For example, this would build an image including only the stages `stage_essentials`, `stage_xserver` and `stage_xfce`:
+
+```shell
+docker build --target stage_xfce --no-cache -f ./docker/Dockerfile.xfce.22-04 ...
+```
+
+The result image tag will get the suffix `_stage_xfce`, e.g. `accetto/headless-ubuntu-g3:latest_stage_xfce`.
+
+This is generally useful only during development and debugging.
+
+On the other hand, the hook script `docker/hooks/pre_build` ignores and  removes the parameter `--target` with its value.
+
+Therefore `pre_build` always process all Dockerfile stages.
+
+For example, if the additional parameters `--target stage_xfce --no-cache` are provided to the script `docker/hooks/pre_build`, then the result Docker command line will begin like this:
+
+```shell
+docker build --no-cache -f ./docker/Dockerfile.xfce.22-04 ...
+```
+
+Note that both hook scripts always remove an orphaned `--target` parameter which comes with no value.
+
+## Disabling default features
+
+Some features, that are enabled by default, can be disabled via environment variables.
+
+It allows to build even smaller images by excluding `noVNC` or `Firefox Plus features`.
+
+### Disabling `noVNC`
+
+If the environment variable `FEATURES_NOVNC` is explicitly set to zero (by `export FEATURES_NOVNC="0"`), then
+
+- image will not include `noVNC`
+- image tag will get the `-vnc` suffix (e.g. `latest-vnc` etc.)
+
+### Disabling `Firefox Plus`
+
+If the environment variable `FEATURES_FIREFOX_PLUS` is explicitly set to zero (by `export FEATURES_FIREFOX_PLUS="0"`) and the variable `FEATURES_FIREFOX="1"`, then
+
+- image with Firefox will not include the *Firefox Plus features*
+- image tag will get the `-default` suffix (e.g. `latest-firefox-default` or also `latest-firefox-default-vnc` etc.)
+
+## README files for Docker Hub
 
 Each **deployment repository** has its own `README` file for the **Docker Hub**.
 
@@ -206,7 +340,7 @@ Therefore there is always also the full-length `README` file version, which is p
 
 For example, the `README` file for the repository `accetto/ubuntu-vnc-xfce-opengl-g3` can be generated by the following command:
 
-```bash
+```shell
 ### PWD = utils/
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-opengl-g3 --context=../docker/xfce --gist <deployment-gist-ID> -- preview
 
