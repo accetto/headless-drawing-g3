@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 echo -e "\n==> EXECUTING @$(date -u +'%Y-%m-%d_%H-%M-%S'): ${0} $@\n"
 
@@ -7,6 +7,7 @@ source "${_mydir}"/env.rc
 source "${_mydir}"/util.rc
 
 main() {
+    local params=$@
     local helper_suffix="_helper"
     local now
     local version_sticker
@@ -27,6 +28,34 @@ main() {
     echo -e "\nRemoving helper files\n"
     cleanup_scrap_files
 
+    ### check for the '--target' parameter
+    if [[ $# -gt 0 ]] ; then
+
+        ### no quotes around 'params'
+        for i in ${params} ; do
+            if [[ "${i}" == "--target" ]] ; then
+
+                target_stage="${i}"
+
+            elif [[ -n "${target_stage}" ]] ; then
+
+                ### only if '--target' is followed by a value
+                if [[ ! "${i}" =~ ^- ]] ; then
+
+                    ### remove the '--target' with its value
+                    params="${params/--target ${i}/}"
+                fi
+                break
+            fi
+        done
+
+        ### remove the orphaned '--target' (missing value)
+        if [[ "${target_stage}" == "--target" ]] ; then
+            params="${params/--target/}"
+            target_stage=""
+        fi
+    fi
+
     ### build a temporary helper image for getting the current version sticker values
 
     case "${_blend}" in
@@ -35,19 +64,18 @@ main() {
         ### headless-drawing-g3
         ### -------------------
 
-        drawio | drawio-* | blender | blender-* | freecad | freecad-* | gimp | gimp-* | inkscape | inkscape-* )
+        drawio | drawio-* | blender | blender-* | gimp | gimp-* | inkscape | inkscape-* )
 
             set -x
-            docker build $@ \
+            ### no quotes around 'params'
+            docker build ${params} \
                 -f "${DOCKERFILE_PATH}" \
-                    --build-arg BUILDKIT_INLINE_CACHE=1 \
                     --build-arg BASEIMAGE="${BASEIMAGE}" \
                     --build-arg BASETAG="${BASETAG}" \
                     \
                     ${FEATURES_BUILD_SLIM:+--build-arg ARG_APT_NO_RECOMMENDS=1} \
                     ${FEATURES_SCREENSHOOTING:+--build-arg ARG_FEATURES_SCREENSHOOTING=1} \
                     ${FEATURES_THUMBNAILING:+--build-arg ARG_FEATURES_THUMBNAILING=1} \
-                    ${FEATURES_USER_GROUP_OVERRIDE:+--build-arg ARG_FEATURES_USER_GROUP_OVERRIDE=1} \
                     \
                     ${FEATURES_VIRTUALGL:+--build-arg ARG_FEATURES_VIRTUALGL=1} \
                     ${FEATURES_VIRTUALGL:+--build-arg ARG_VIRTUALGL_VERSION=${VIRTUALGL_VERSION}} \
@@ -76,10 +104,6 @@ main() {
                     ${FEATURES_DRAWIO:+--build-arg ARG_DRAWIO_VERSION=${DRAWIO_VERSION}} \
                     ${FEATURES_DRAWIO:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_drawio"} \
                     \
-                    ${FEATURES_FREECAD:+--build-arg ARG_FREECAD_APPIMAGE=${FREECAD_APPIMAGE}} \
-                    ${FEATURES_FREECAD:+--build-arg ARG_FREECAD_VERSION=${FREECAD_VERSION}} \
-                    ${FEATURES_FREECAD:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_freecad"} \
-                    \
                     ${FEATURES_GIMP:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_gimp"} \
                     \
                     ${FEATURES_INKSCAPE:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_inkscape"} \
@@ -95,16 +119,15 @@ main() {
         latest | latest-* | vnc | vnc-* )
 
             set -x
-            docker build $@ \
+            ### no quotes around 'params'
+            docker build ${params} \
                 -f "${DOCKERFILE_PATH}" \
-                    --build-arg BUILDKIT_INLINE_CACHE=1 \
                     --build-arg BASEIMAGE="${BASEIMAGE}" \
                     --build-arg BASETAG="${BASETAG}" \
                     \
                     ${FEATURES_BUILD_SLIM:+--build-arg ARG_APT_NO_RECOMMENDS=1} \
                     ${FEATURES_SCREENSHOOTING:+--build-arg ARG_FEATURES_SCREENSHOOTING=1} \
                     ${FEATURES_THUMBNAILING:+--build-arg ARG_FEATURES_THUMBNAILING=1} \
-                    ${FEATURES_USER_GROUP_OVERRIDE:+--build-arg ARG_FEATURES_USER_GROUP_OVERRIDE=1} \
                     \
                     ${FEATURES_VIRTUALGL:+--build-arg ARG_FEATURES_VIRTUALGL=1} \
                     ${FEATURES_VIRTUALGL:+--build-arg ARG_VIRTUALGL_VERSION=${VIRTUALGL_VERSION}} \
@@ -146,16 +169,13 @@ main() {
     if [[ "${should_build}" == "1" ]] ; then
 
         echo ; echo "Building of new image has been forced."
-
     else
-
         echo; echo "Building of new image has not been forced."
 
         echo "Getting the previous verbose version sticker value from the builder gist '${GIST_ID}'"
         if [[ -n "${GIST_ID}" ]] ; then
 
             get_gist_file "${GIST_ID}" "${DOCKER_REPO}" "${DOCKER_TAG}" "version-sticker-verbose.txt" "${_build_context}/${_scrap_version_sticker_verbose_previous}"
-
         else
             ### create an empty file instead
             echo -n "" > "${_build_context}/${_scrap_version_sticker_verbose_previous}"
@@ -170,7 +190,6 @@ main() {
             ### if this file is present, the building will not continue
             echo "Demanding building stop"
             touch "${_build_context}/${_scrap_demand_stop_building}"
-
         else
             ### verbose version sticker has changed since the last build - a new image should be built
             echo "Verbose version sticker has changed, a new image should be built."

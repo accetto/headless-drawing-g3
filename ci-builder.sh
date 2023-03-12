@@ -1,6 +1,7 @@
 #!/bin/bash
 ### do not use '-e'
 ### @accetto, September 2022
+### updated: January 2023
 
 ### depends on the script 'builder.sh'
 ### set the environment variables first, e.g. 'source .secrets'
@@ -92,18 +93,18 @@ This script can:
 
 Usage: <script> <mode> <argument> [<optional-argument>]...
 
-    ${0} [<options>] <command> family <parent-blend> [<child-suffix>]...
     ${0} [<options>] <command> group <blend> [<blend>]...
+    ${0} [<options>] <command> family <parent-blend> [<child-suffix>]...
     ${0} [--log-all] log get (digest|stickers|timing|errors)
 
 <options>      := (--log-all|--no-cache) 
 <command>      := (all|all-no-push)
 <mode>         := (family|group)
-<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape|freecad)
+<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape)
 <child-suffix> := (-chromium|-firefox)
 <blend>        := (pivotal)
                   |(complete[-chromium|-firefox|-latest|-blender|-drawio|-gimp|-inkscape])
-                  |(latest|blender|drawio|gimp|inkscape|freecad)[-(chromium|firefox)])
+                  |(latest|blender|drawio|gimp|inkscape)[-(chromium|firefox)])
 
 Family mode: The children are skipped if a new parent image was not actually built.
 Group mode : All images are processed independently.
@@ -288,14 +289,13 @@ main() {
 
                             clear_log
 
-                            ### freecad is excluded by intention, build it separately
                             for p in "${pivotal_blends[@]}" ; do
                             
                                 build_family "${command}" "${p}" "-chromium" "-firefox"
                             done
                             ;;
 
-                        latest | blender | drawio | gimp | inkscape | freecad )
+                        latest | blender | drawio | gimp | inkscape )
 
                             clear_log
                             build_family "${command}" "${subject}" $@
@@ -321,7 +321,6 @@ main() {
 
                             clear_log
 
-                            ### freecad is excluded by intention, build it separately
                             for p in "${pivotal_blends[@]}" ; do
 
                                 list+=( "${p}-chromium" )
@@ -333,7 +332,6 @@ main() {
 
                             clear_log
 
-                            ### freecad is excluded by intention, build it separately
                             for p in "${pivotal_blends[@]}" ; do
 
                                 list+=( "${p}-firefox" )
@@ -375,7 +373,6 @@ main() {
 
                             clear_log
 
-                            ### freecad is excluded by intention, build it separately
                             for p in "${pivotal_blends[@]}" ; do
 
                                 list+=( "${p}" "${p}-chromium" "${p}-firefox" )
@@ -388,7 +385,6 @@ main() {
                         | gimp | gimp-chromium | gimp-firefox \
                         | inkscape | inkscape-chromium | inkscape-firefox \
                         | blender | blender-chromium | blender-firefox \
-                        | freecad | freecad-chromium | freecad-firefox \
                         )
                         
                             clear_log
@@ -420,7 +416,7 @@ main() {
     fi
 }
 
-declare _builder_project="${BUILDER_REPO:-headless-ubuntu-drawing-g3}"
+declare _builder_project="${BUILDER_REPO:-headless-drawing-g3}"
 declare _builder_log="scrap_builder.log"
 
 declare _builder_script="builder.sh"

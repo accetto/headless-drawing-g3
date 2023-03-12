@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 main() {
     local result=""
@@ -7,7 +7,7 @@ main() {
 
         chromium-1804 )
             # result=$(wget -qO- \
-            result=$(curl -sL \
+            result=$(curl -sLN \
                 http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/ \
                 | grep -Po -m1 '(?<=href=")[^_]*_([0-9.]+-0ubuntu\d+\.18\.04\.[^_"]*)_[^"]*' \
                 | cut -d _ -f 2 \
@@ -16,39 +16,16 @@ main() {
 
         drawio )
             # result=$(wget -qO- \
-            result=$(curl -sL -H "Accept: application/vnd.github.v3+json" \
+            result=$(curl -sLN -H "Accept: application/vnd.github.v3+json" \
                 https://api.github.com/repos/jgraph/drawio-desktop/releases/latest \
                 | grep -m1 "tag_name" \
                 | grep -Po '[0-9.]+'
             )
             ;;
 
-        freecad )
-            # result=$(wget -qO- \
-            # result=$(curl -sL \
-            #     https://api.github.com/repos/FreeCAD/FreeCAD/releases/latest \
-            #     | grep -m1 '"tag_name"' \
-            #     | grep -Po '[0-9.]+'
-            # )
-            # TODO temporary hardcoded result
-            result="0.19.3"
-            ;;
-
-        # TODO 'freecad-appimage' regex pattern not working
-        freecad-appimage )
-            # result=$(wget -qO- \
-            # result=$(curl -sL \
-            #     https://github.com/FreeCAD/FreeCAD/releases/latest \
-            #     | grep -m1 -Po '\<a href="[^"]+\-x86_64.AppImage' \
-            #     | cut -d / -f 7 \
-            # )
-            # TODO temporary hardcoded result
-            result="FreeCAD_0.19.3-Linux-Conda_glibc2.12-x86_64.AppImage"
-            ;;
-
         virtualgl )
             # result=$(wget -qO- \
-            result=$(curl -sL \
+            result=$(curl -sLN \
                 https://sourceforge.net/projects/virtualgl/files/ \
                 | grep -Po -m1 '<tr title="[0-9.]+" class="folder\s?">' \
                 | grep -Po '[0-9.]+' \
@@ -66,7 +43,7 @@ main() {
 
         echo "${result}"
     else
-        echo "Exiting '${0}' with code '1' because not able to get version of '$1'"
+        echo "Exiting '${0}' with code '1' because unable to get version of '$1'"
         return 1
     fi
 }

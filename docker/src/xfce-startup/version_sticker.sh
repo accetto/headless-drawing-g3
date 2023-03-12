@@ -1,4 +1,5 @@
 #!/bin/bash
+### @accetto, September 2019
 
 ### resolve also symlinks
 _current_dir="$(dirname "$(readlink -f "$0")")"
@@ -7,7 +8,6 @@ blender=$("${_current_dir}/version_of.sh" blender)
 chromium=$("${_current_dir}/version_of.sh" chromium)
 drawio=$("${_current_dir}/version_of.sh" drawio)
 firefox=$("${_current_dir}/version_of.sh" firefox)
-freecad=$("${_current_dir}/version_of.sh" freecad)
 gimp=$("${_current_dir}/version_of.sh" gimp)
 inkscape=$("${_current_dir}/version_of.sh" inkscape)
 ubuntu=$("${_current_dir}/version_of.sh" ubuntu)
@@ -21,7 +21,10 @@ main() {
 
             key="$1"
 
-            if [[ "${key}" = '--' ]] ; then shift ; fi
+            if [[ "${key}" = '--' ]] ; then
+            
+                shift
+            fi
 
             case "${key}" in
 
@@ -42,7 +45,6 @@ main() {
                     if [[ -n "${chromium}" ]] ; then echo "Chromium ${chromium}" ; fi
                     if [[ -n "${drawio}" ]] ; then echo "draw.io Desktop ${drawio}" ; fi
                     if [[ -n "${firefox}" ]] ; then echo "Firefox ${firefox}" ; fi
-                    if [[ -n "${freecad}" ]] ; then echo "FreeCAD ${freecad}" ; fi
                     if [[ -n "${gimp}" ]] ; then echo "Gimp ${gimp}" ; fi
                     if [[ -n "${inkscape}" ]] ; then echo "Inkscape ${inkscape}" ; fi
                     echo "Ubuntu ${ubuntu}"
@@ -65,8 +67,6 @@ main() {
                     if [[ -n "${version}" ]] ; then echo "fakeroot ${version}" ; fi
 
                     if [[ -n "${firefox}" ]] ; then echo "Firefox ${firefox}" ; fi
-
-                    if [[ -n "${freecad}" ]] ; then echo "FreeCAD ${freecad}" ; fi
 
                     # version=$("${_current_dir}/version_of.sh" gdebi)
                     # if [[ -n "${version}" ]] ; then echo "gdebi ${version}" ; fi
@@ -122,7 +122,7 @@ main() {
             shift
         done
     else
-        sticker="ubuntu$ubuntu"
+        sticker="ubuntu${ubuntu}"
 
         if [[ -n "${blender}" ]] ; then
 
@@ -134,10 +134,6 @@ main() {
         elif [[ -n "${drawio}" ]] ; then
 
             sticker="${sticker}"-"drawio${drawio}"
-
-        elif [[ -n "${freecad}" ]] ; then
-
-            sticker="${sticker}"-"freecad${freecad}"
 
         elif [[ -n "${gimp}" ]] ; then
 

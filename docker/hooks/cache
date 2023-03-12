@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash
+
 ### @accetto, September 2022
 
 echo -e "\n==> EXECUTING @$(date -u +'%Y-%m-%d_%H-%M-%S'): ${0} $@\n"
@@ -190,24 +191,6 @@ cache_drawio() {
     refresh_file "${section}" "${file}" "${source_url}" "${target}"
 }
 
-cache_freecad() {
-    local section="freecad"
-    local source_base_url="https://github.com/FreeCAD/FreeCAD/releases/download"
-    local target_path="${_cache}/${section}"
-    local target=""
-    local file=""
-
-    mkdir -p "${target_path}"
-
-    ### this is specific for 'freecad'
-    file="${FREECAD_APPIMAGE}"
-
-    source_url="${source_base_url}/${FREECAD_VERSION}/${file}"
-    target="${target_path}/${file}"
-
-    refresh_file "${section}" "${file}" "${source_url}" "${target}"
-}
-
 ### ==========
 ### cache_main
 ### ==========
@@ -244,17 +227,11 @@ main() {
         cache_drawio
     fi
 
-    if [[ "${FEATURES_FREECAD}" == "1" ]] ; then
-    
-        cache_freecad
-    fi
-
     echo
 }
 
 declare _quiet=""
 declare _mark="\n==> G3-CACHE"
-declare _script_release_of="release_of"
 declare _cache="${_build_context}/.g3-cache"
 declare _shared_cache_path="${SHARED_G3_CACHE_PATH}"
 

@@ -12,9 +12,6 @@ declare _gist_key_created="created.json"
 declare _gist_key_version_sticker="version-sticker.json"
 declare _gist_key_version_sticker_verbose="version-sticker-verbose.txt"
 
-### other configuration data
-declare _post_push_workflow_file="dockerhub-post-push.yml"
-
 cleanup_scrap_files() {
     rm -f "${_build_context}/${_scrap_prefix}"*
 }
@@ -39,7 +36,6 @@ dump_environment() {
     echo "FEATURES_NOVNC=${FEATURES_NOVNC}"
     echo "FEATURES_SCREENSHOOTING=${FEATURES_SCREENSHOOTING}"
     echo "FEATURES_THUMBNAILING=${FEATURES_THUMBNAILING}"
-    echo "FEATURES_USER_GROUP_OVERRIDE=${FEATURES_USER_GROUP_OVERRIDE}"
 
     echo "DOCKERFILE_PATH=${DOCKERFILE_PATH}"
     echo "BASEIMAGE=${BASEIMAGE}"
