@@ -50,7 +50,7 @@ Another sibling projects [accetto/headless-coding-g3][accetto-github-headless-co
 
 **Removed `FreeCAD`**
 
-The image featuring `FreeCAD` has been removed from this project. It will come back sometimes in the future, possibly as a stand-alone project. You can still download working images containing `FreeCAD v0.19.3` from the **Docker Hub** repository [accetto/ubuntu-vnc-xfce-freecad-g3][accetto-docker-ubuntu-vnc-xfce-freecad-g3].
+The image featuring `FreeCAD` has been removed from this project. It will come back sometimes in the future, possibly as a stand-alone project. You can still download images containing `FreeCAD v0.19.3` from the **Docker Hub** repository [accetto/ubuntu-vnc-xfce-freecad-g3][accetto-docker-ubuntu-vnc-xfce-freecad-g3].
 
 ## TL;DR
 
@@ -187,7 +187,7 @@ xhost -local:$(whoami)
 
 ## Project versions
 
-This file describes the **third version** (G3v3) of the project, which however corresponds to the **fourth version** (G3v4) of the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3] (as of the release 23.02.1).
+This file describes the **third version** (G3v3) of the project, which however corresponds to the **fourth version** (G3v4) of the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3] (as of the release 23.03.1).
 
 The **second version** (G3v2) and the **first version** (G3v1, or simply G3) will still be available in this GitHub repository as the branches `archived-generation-g3v2` and `archived-generation-g3v1`.
 

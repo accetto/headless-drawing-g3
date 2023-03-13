@@ -166,7 +166,7 @@ The main features and components of the images in the default configuration are:
 - support for overriding both the container user and the group
 - support of **version sticker** (see below)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
-- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling image README][sibling-readme-xfce-firefox]
+- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling README][sibling-readme-xfce-firefox]
 
 All images contain the free open-source bitmap image editor [gimp][gimp] from the Ubuntu distribution.
 

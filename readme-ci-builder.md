@@ -343,6 +343,6 @@ There is no way to build the images only from particular Dockerfile stages using
 
 ***
 
-[readme-builder]: https://github.com/accetto/debian-vnc-xfce-g3/blob/master/readme-builder.md
+[readme-builder]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-builder.md
 
 [accetto-github-ubuntu-vnc-xfce-g3]: https://github.com/accetto/ubuntu-vnc-xfce-g3

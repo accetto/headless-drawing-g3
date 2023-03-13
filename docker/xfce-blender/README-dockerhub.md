@@ -201,7 +201,7 @@ The main features and components of the images in the default configuration are:
 - optionally OpenGL benchmark application [glmark2][glmark2] (Ubuntu distribution)
 - optionally [VirtualGL][virtualgl] toolkit (latest version)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
-- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling image README][sibling-readme-xfce-firefox]
+- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling README][sibling-readme-xfce-firefox]
 
 All images contain the free open-source 3D creation suite [Blender][blender] from the Ubuntu distribution.
 
@@ -251,11 +251,11 @@ More information about using headless containers can be found in the [full-lengt
 
 ### Overriding VNC/noVNC parameters
 
-This image supports several ways of overriding the VNC/noVNV parameters. The [sibling image README file][sibling-readme-xfce] describes how to do it.
+This image supports several ways of overriding the VNC/noVNV parameters. The [sibling README file][sibling-readme-xfce] describes how to do it.
 
 ### Startup options and help
 
-The startup options and help are also described in the [sibling image README file][sibling-readme-xfce].
+The startup options and help are also described in the [sibling README file][sibling-readme-xfce].
 
 ### More information
 

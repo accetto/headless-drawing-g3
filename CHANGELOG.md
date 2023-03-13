@@ -10,6 +10,8 @@
 
 This is the first `G3v3` release, switching the images from `Ubuntu 20.04 LTS` to `Ubuntu 22.04 LTS` and introducing the updated startup scripts. The previous version `G3v2` will still be available in this repository as the branch `archived-generation-g3v2`.
 
+The image featuring `FreeCAD` has been removed from this project. It will come back sometimes in the future, possibly as a stand-alone project. You can still download images containing `FreeCAD v0.19.3` from the **Docker Hub** repository [accetto/ubuntu-vnc-xfce-freecad-g3][accetto-docker-ubuntu-vnc-xfce-freecad-g3].
+
 This release corresponds to the version `G3v4` of the sibling project [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3] (as of the release `23.03.1`).
 
 The updated startup scripts that support overriding the user ID (`id`) and group ID (`gid`) without needing the former build argument `ARG_FEATURES_USER_GROUP_OVERRIDE`, which has been removed.
@@ -25,7 +27,7 @@ Features `NOVNC` and `FIREFOX_PLUS`, that are enabled by default, can be disable
 
 - If `FEATURES_NOVNC="0"`, then
   - image will not include `noVNC`
-  - image tag will get the `-vnc` suffix (e.g. `latest-vnc`, `20.04-firefox-vnc` etc.)
+  - image tag will get the `-vnc` suffix (e.g. `latest-vnc` etc.)
 - If `FEATURES_FIREFOX_PLUS="0"` and `FEATURES_FIREFOX="1"`, then
   - image with Firefox will not include the *Firefox Plus features*
   - image tag will get the `-default` suffix (e.g. `latest-firefox-default` or also `latest-firefox-default-vnc` etc.)
@@ -54,6 +56,10 @@ Updated versions:
 - **noVNC** to version `1.4.0`
 - **Blender** to version `3.0.1` (Ubuntu distribution)
 - **Gimp** to version `2.10.30` (Ubuntu distribution)
+
+Removed applications/images:
+
+- **FreeCAD** version `0.19.3`
 
 ### Release 22.12.1
 
@@ -276,6 +282,8 @@ This is just a maintenance release.
 
 [this-docker]: https://hub.docker.com/u/accetto/
 [this-github]: https://github.com/accetto/headless-drawing-g3/
+
+[accetto-docker-ubuntu-vnc-xfce-freecad-g3]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-freecad-g3
 
 <!-- Sibling projects -->
 
