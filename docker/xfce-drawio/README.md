@@ -27,6 +27,7 @@
     - [Version sticker](#version-sticker)
   - [Using headless containers](#using-headless-containers)
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Container user account](#container-user-account)
     - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
     - [Startup options and help](#startup-options-and-help)
   - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
@@ -256,6 +257,10 @@ It is also possible to provide the password through the links:
 ### Overriding VNC/noVNC parameters
 
 This image supports several ways of overriding the VNC/noVNV parameters. The [sibling README file][sibling-readme-xfce] describes how to do it.
+
+### Container user account
+
+The [sibling README file][sibling-readme-xfce] describes how the container user account and its group are created and how they can be overridden. It also explains the user permissions and ownership.
 
 ### Running containers in background or foreground
 
