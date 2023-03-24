@@ -548,16 +548,16 @@ COPY ./xfce/src/home/readme*.md "${HOME}"/
 ### Note that the line 'chmod 666 /etc/passwd /etc/group' sets the "softer" permissions only temporary.
 ### It allows the user generator startup script to configure the user and the group correctly.
 ### The script will set the permissions of both files back to the default '644'.
-### The script will aslo delete the file '.initial_sudo_password' after using it.
-### However, note that the initial sudo password will be persisted in the image history.
+### The script will also clear the file '.initial_sudo_password' after using it.
+### However, note that the initial sudo password will still be persisted in the image history.
 ### You have to change it inside the container, if you want to keep it really secret.
 ### Note that all this will not be done, if the startup script will not be executed.
 RUN \
     chmod 666 /etc/passwd /etc/group \
     &&  echo "${HEADLESS_USER_NAME}:x:${HEADLESS_USER_ID}:${HEADLESS_USER_GROUP_ID}:Default:${HOME}:/bin/bash" >> /etc/passwd \
     &&  echo "${HEADLESS_USER_NAME}  ALL=(ALL:ALL) ALL" | sudo tee /etc/sudoers.d/"${HEADLESS_USER_NAME}" \
-    &&  echo "${ARG_SUDO_INITIAL_PW:-headless}" > "${HOME}"/.initial_sudo_password \
-    &&  echo "${HEADLESS_USER_NAME}:$(cat "${HOME}"/.initial_sudo_password)" | chpasswd \
+    &&  echo "${ARG_SUDO_INITIAL_PW:-headless}" > "${STARTUPDIR}"/.initial_sudo_password \
+    &&  echo "${HEADLESS_USER_NAME}:$(cat "${STARTUPDIR}"/.initial_sudo_password)" | chpasswd \
     &&  ln -s "${HOME}"/readme.md "${HOME}"/Desktop/README \
     && "${STARTUPDIR}"/set_user_permissions.sh "${STARTUPDIR}" "${HOME}"
 
