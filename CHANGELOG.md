@@ -6,6 +6,18 @@
 
 ***
 
+### Release 23.04
+
+Fixing a bug in the Dockerfile's **stage_freecad** of the archived branch `archived-generation-g3v2`. The new archived branch name is `archived-generation-g3v2-fix`.
+
+Updated components (archived branch):
+
+- `TigerVNC` to version **1.13.1**
+- `noVNC` to version **1.4.0**
+- `VirtualGL` to version **3.1**
+- `Chromium Browser` to version **111.0.5563.64**
+- `Firefox` to version **111.0.1**
+
 ### Release 23.03.1
 
 This release mitigates the problems with the edge use case, when users bind the whole `$HOME` directory to an external folder on the host computer.
