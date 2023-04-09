@@ -495,7 +495,8 @@ ARG ARG_FREECAD_VERSION
 
 ENV \
     FEATURES_MESA=1 \
-    FEATURES_FREECAD=1
+    FEATURES_FREECAD=1 \
+    FREECAD_PATH="/opt/FreeCAD"
 
 ### FreeCAD requires OpenGL, 'mesa-utils' must be installed if missing
 RUN \
@@ -513,7 +514,6 @@ RUN \
     --mount=type=cache,from=stage_cache,sharing=locked,source=/tmp/g3-cache/,target=/tmp/g3-cache/ \
     FREECAD_APPIMAGE="${ARG_FREECAD_APPIMAGE}" \
     FREECAD_VERSION="${ARG_FREECAD_VERSION}" \
-    FREECAD_PATH="/opt/FreeCAD" \
     &&  mkdir -p "${FREECAD_PATH}" \
     &&  if [ ! -s "/tmp/g3-cache/freecad/${FREECAD_APPIMAGE}" ] ; then \
             wget --show-progress --progress=bar:force:noscroll \
