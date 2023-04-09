@@ -6,6 +6,18 @@
 
 ***
 
+### Release 23.04
+
+Fixing a bug in the Dockerfile's **stage_freecad** of the archived branch `archived-generation-g3v2`. The new archived branch name is `archived-generation-g3v2-fix`.
+
+Updated components:
+
+  - `TigerVNC` to version **1.13.1**
+  - `noVNC` to version **1.4.0**
+  - `VirtualGL` to version **3.1**
+  - `Chromium Browser` to version **111.0.5563.64**
+  - `Firefox` to version **111.0.1**
+
 ### Release 22.12.1
 
 - Updated components:
