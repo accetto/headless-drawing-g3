@@ -27,6 +27,8 @@ Embedded help describes the parameters:
 
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-drawio-g3 --context=../docker/xfce-drawio --gist <deployment-gist-ID> -- preview
 
+./util-readme.sh --repo accetto/ubuntu-vnc-xfce-freecad-g3 --context=../docker/xfce-freecad --gist <deployment-gist-ID> -- preview
+
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-gimp-g3 --context=../docker/xfce-gimp --gist <deployment-gist-ID> -- preview
 
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-inkscape-g3 --context=../docker/xfce-inkscape --gist <deployment-gist-ID> -- preview
@@ -38,6 +40,8 @@ Embedded help describes the parameters:
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-blender-g3 --context=../docker/xfce-blender -- preview
 
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-drawio-g3 --context=../docker/xfce-drawio -- preview
+
+./util-readme.sh --repo accetto/ubuntu-vnc-xfce-freecad-g3 --context=../docker/xfce-freecad -- preview
 
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-gimp-g3 --context=../docker/xfce-gimp -- preview
 

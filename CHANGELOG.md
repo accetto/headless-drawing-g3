@@ -6,6 +6,10 @@
 
 ***
 
+### Release 23.04.1
+
+`FreeCAD` is back in its current version **0.20.2** and the image based on `Ubuntu 22.04 LTS`.
+
 ### Release 23.04
 
 Fixing a bug in the Dockerfile's **stage_freecad** of the archived branch `archived-generation-g3v2`. The new archived branch name is `archived-generation-g3v2-fix`.
