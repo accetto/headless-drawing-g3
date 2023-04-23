@@ -1,8 +1,8 @@
-# Headless Ubuntu/Xfce container with VNC/noVNC and `inkscape`
+# Headless Ubuntu/Xfce container with VNC/noVNC and `FreeCAD`
 
-## accetto/ubuntu-vnc-xfce-inkscape-g3
+## accetto/ubuntu-vnc-xfce-freecad-g3
 
-[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Full Readme][this-readme-full] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
+[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Full Readme][this-readme-full] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [sibling Wiki][sibling-wiki] - [sibling Discussions][sibling-discussions]
 
 ![badge-docker-pulls][badge-docker-pulls]
 ![badge-docker-stars][badge-docker-stars]
@@ -14,8 +14,8 @@
 
 ***
 
-- [Headless Ubuntu/Xfce container with VNC/noVNC and `inkscape`](#headless-ubuntuxfce-container-with-vncnovnc-and-inkscape)
-  - [accetto/ubuntu-vnc-xfce-inkscape-g3](#accettoubuntu-vnc-xfce-inkscape-g3)
+- [Headless Ubuntu/Xfce container with VNC/noVNC and `FreeCAD`](#headless-ubuntuxfce-container-with-vncnovnc-and-freecad)
+  - [accetto/ubuntu-vnc-xfce-freecad-g3](#accettoubuntu-vnc-xfce-freecad-g3)
     - [Introduction](#introduction)
     - [TL;DR](#tldr)
       - [Installing packages](#installing-packages)
@@ -31,17 +31,25 @@
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
     - [Startup options and help](#startup-options-and-help)
     - [More information](#more-information)
+  - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
   - [Issues, Wiki and Discussions](#issues-wiki-and-discussions)
   - [Credits](#credits)
 
 ***
 
+**Attention** The FreeCAD's AppImage size is about 950MB, so the download during the image building can take some time. Don't interrupt the building process prematurely. Also the application launch in the running container can take a few seconds, because the AppImage file must be extracted first. Similarly, there are a few seconds for cleaning things up after the application is closed.
+
 ### Introduction
 
-This repository contains Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use
-and the free open-source vector drawing application [inkscape][inkscape] from the `Ubuntu 20.04 LTS` distribution.
+This repository contains Docker images based on [Ubuntu 22.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the free open-source 3D parametric modeler [FreeCAD][freecad].
 
-All images can optionally contain also the current [Chromium][chromium] or [Firefox][firefox] web browsers.
+Because [FreeCAD] requires `OpenGL`, the Ubuntu package `mesa-utils` is always installed. The package includes also the OpenGL test application `glxgears`.
+
+All images can optionally include the current [Chromium][chromium] or [Firefox][firefox] web browsers and also additional [Mesa3D][mesa3d] utilities and the [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
+
+The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
+
+Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [sibling readme][sibling-opengl-readme-full] file and this [sibling discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
 
 This is the **short README** version for the **Docker Hub**. There is also the [full-length README][this-readme-full] on the **GitHub**.
 
@@ -70,7 +78,7 @@ You can check the current shared memory size by executing the following command 
 df -h /dev/shm
 ```
 
-The Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
+The older sibling Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
 
 #### Extending images
 
@@ -82,25 +90,25 @@ The compose file `example.yml` shows how to switch to another non-root user and 
 
 #### Building images
 
-The fastest way to build the images:
+The fastest way to build the images including Mesa3D/VirtualGL:
 
 ```shell
 ### PWD = project root
 ### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
 
 ### examples of building and publishing the individual images
-./builder.sh inkscape all
-./builder.sh inkscape-chromium all
-./builder.sh inkscape-firefox all
+./builder.sh freecad all
+./builder.sh freecad-chromium all
+./builder.sh freecad-firefox all
 
-### or skipping the publishing to the Docker Hub
-./builder.sh inkscape all-no-push
+### just building the image, skipping the publishing and the version sticker update
+./builder.sh freecad build
 
 ### examples of building and publishing the images as a group
-./ci-builder.sh all group inkscape inkscape-firefox
+./ci-builder.sh all group freecad freecad-firefox
 
-### or all the images featuring the Inkscape
-./ci-builder.sh all group complete-inkscape
+### or all the 'accetto/ubuntu-vnc-xfce-freecad-g3' images
+./ci-builder.sh all group complete-freecad
 ```
 
 You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the [builder-utility-readme][this-builder-readme], [local-building-example][this-readme-local-building-example] and [sibling Wiki][sibling-wiki] for more information.
@@ -115,7 +123,10 @@ Sharing the audio device for video with sound works only with `Chromium` and onl
 docker run -it -P --rm \
   --device /dev/snd:/dev/snd:rw \
   --group-add audio \
-accetto/ubuntu-vnc-xfce-inkscape-g3:chromium
+accetto/ubuntu-vnc-xfce-freecad-g3:chromium
+
+### use VirtualGL inside the container
+vglrun /opt/FreeCAD/freecad_launcher.sh
 ```
 
 Sharing the display with the host works only on Linux:
@@ -127,9 +138,12 @@ docker run -it -P --rm \
     -e DISPLAY=${DISPLAY} \
     --device /dev/dri/card0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    accetto/ubuntu-vnc-xfce-inkscape-g3:latest --skip-vnc
+    accetto/ubuntu-vnc-xfce-freecad-g3:latest --skip-vnc
 
 xhost -local:$(whoami)
+
+### use VirtualGL inside the container
+vglrun /opt/FreeCAD/freecad_launcher.sh
 ```
 
 Sharing the X11 socket with the host works only on Linux:
@@ -140,16 +154,29 @@ xhost +local:$(whoami)
 docker run -it -P --rm \
     --device /dev/dri/card0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    accetto/ubuntu-vnc-xfce-inkscape-g3:latest
+    accetto/ubuntu-vnc-xfce-freecad-g3:latest
 
 xhost -local:$(whoami)
+
+### use VirtualGL inside the container
+vglrun /opt/FreeCAD/freecad_launcher.sh
 ```
+
+Find more in this [sibling readme][sibling-opengl-readme-full] file and this [sibling discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+
+Testing WebGL support in a browser - navigate to the official [WebGL testing page][webgl-test]. You should see a spinning cube.
+
+Interestingly enough, [Firefox][firefox] requires the `mesa-utils` to be installed in the container, but [Chromium][chromium] does not.
 
 ### Description
 
-This is the **third generation** (G3) of my headless images. They replace the **second generation** (G2) of similar images from the GitHub repository [accetto/xubuntu-vnc][accetto-github-xubuntu-vnc], which will be archived.
+This is the **third generation** (G3) of my headless images. The **second generation** (G2) of similar images is contained in the GitHub repository [accetto/xubuntu-vnc-novnc][accetto-github-xubuntu-vnc-novnc]. The **first generation** (G1) of similar images is contained in the GitHub repository [accetto/ubuntu-vnc-xfce][accetto-github-ubuntu-vnc-xfce].
 
-More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
+**Remark:** The images can optionally contain the current `Chromium Browser` version from the `Ubuntu 18.04 LTS` distribution. This is because the version for `Ubuntu 22.04 LTS` depends on `snap`, which is currently not working correctly in Docker containers. They can also optionally contain the current non-snap [Firefox][firefox] version from the Mozilla Team PPA.
+
+**Remark:** If you will build an image containing the [Chromium Browser][chromium], then the browser will run in the `--no-sandbox` mode. You should be aware of the implications. The image is intended for testing and development.
+
+**Remark:** If you will build an image containing the [Firefox][firefox] browser, then the browser will run in the `multi-process` mode. Be aware, that this mode requires larger shared memory (`/dev/shm`). At least 256MB is recommended. Please check the **Firefox multi-process** page in this older [sibling Wiki][that-wiki-firefox-multiprocess] for more information and the instructions, how to set the shared memory size in different scenarios.
 
 The main features and components of the images in the default configuration are:
 
@@ -161,12 +188,16 @@ The main features and components of the images in the default configuration are:
 - popular text editor [nano][nano] (Ubuntu distribution)
 - lite but advanced graphical editor [mousepad][mousepad] (Ubuntu distribution)
 - current version of [tini][tini] as the entry-point initial process (PID 1)
-- support for overriding both the container user account and its group
-- support of **version sticker** (see below)
+- support for overriding both the container user and the group
+- support of **version sticker** (see the [full-length README][this-readme-full] on the **GitHub**)
+- optionally [Mesa3D][mesa3d] libraries (Ubuntu distribution)
+- optionally OpenGL test applications `glxgears` and `es2tri` (Ubuntu distribution)
+- optionally OpenGL benchmark application [glmark2][glmark2] (Ubuntu distribution)
+- optionally [VirtualGL][virtualgl] toolkit (latest version)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
-- optionally the current version of [Firefox][firefox] web browser and optionally also some additional **plus** features described in the [sibling image README][sibling-readme-xfce-firefox]
+- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling README][sibling-readme-xfce-firefox]
 
-All images contain the free open-source vector drawing application [inkscape][inkscape] from the `Ubuntu 20.04 LTS` distribution.
+All images contain the latest version of the free open-source 3D parametric modeler [FreeCAD][freecad].
 
 The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
@@ -174,19 +205,19 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags on Docker Hub are regularly rebuilt:
+The following image tags are regularly built and published on the **Docker Hub**:
 
-- `latest` implements VNC and noVNC
+- `latest` implements VNC/noVNC, Mesa3D and VirtualGL
 
     ![badge_latest_created][badge_latest_created]
     [![badge_latest_version-sticker][badge_latest_version-sticker]][link_latest_version-sticker-verbose]
 
-- `chromium` adds [Chromium Browser][chromium]
+- `chromium` adds Chromium Browser
 
     ![badge_chromium_created][badge_chromium_created]
     [![badge_chromium_version-sticker][badge_chromium_version-sticker]][link_chromium_version-sticker-verbose]
 
-- `firefox` adds [Firefox][firefox] with **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+- `firefox` adds Firefox with the **Firefox plus features** (described in the [sibling README][sibling-readme-xfce-firefox])
 
     ![badge_firefox_created][badge_firefox_created]
     [![badge_firefox_version-sticker][badge_firefox_version-sticker]][link_firefox_version-sticker-verbose]
@@ -200,7 +231,7 @@ Following **TCP** ports are exposed by default:
 - **5901** is used for access over **VNC**
 - **6901** is used for access over [noVNC][novnc]
 
-These default ports and also some other parameters can be overridden several ways as it is described in the [sibling image README file][sibling-readme-xfce].
+These default ports and also some other parameters can be overridden several ways as it is described in the [sibling README][sibling-readme-xfce].
 
 ### Volumes
 
@@ -214,15 +245,23 @@ More information about using headless containers can be found in the [full-lengt
 
 ### Overriding VNC/noVNC parameters
 
-This image supports several ways of overriding the VNC/noVNV parameters. The [sibling image README file][sibling-readme-xfce] describes how to do it.
+This image supports several ways of overriding the VNC/noVNV parameters. The [sibling README file][sibling-readme-xfce] describes how to do it.
 
 ### Startup options and help
 
-The startup options and help are also described in the [sibling image README file][sibling-readme-xfce].
+The startup options and help are also described in the [sibling README file][sibling-readme-xfce].
 
 ### More information
 
 More information about these images can be found in the [full-length README][this-readme-full] file on GitHub.
+
+## Using OpenGL/WebGL and HW acceleration
+
+Support for hardware graphics acceleration in these images is still experimental. The images are intended as the base for experiments with your particular graphics hardware.
+
+For sharing the experience and ideas I've started the discussion [Supporting OpenGL/WebGL and using HW acceleration (GPU)][sibling-discussion-supporting-opengl-and-using-hw-acceleration] in the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github]. There are also some links to interesting articles about the subject.
+
+The usage examples can be found in this [sibling readme][sibling-opengl-readme-full] file.
 
 ## Issues, Wiki and Discussions
 
@@ -243,9 +282,14 @@ Credit goes to all the countless people and companies, who contribute to open so
 [this-changelog]: https://github.com/accetto/headless-drawing-g3/blob/master/CHANGELOG.md
 [this-github]: https://github.com/accetto/headless-drawing-g3/
 [this-issues]: https://github.com/accetto/headless-drawing-g3/issues
-[this-readme-dockerhub]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3
-[this-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-inkscape/README.md
+[this-readme-dockerhub]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-freecad-g3
+[this-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-freecad/README.md
 [this-readme-project]: https://github.com/accetto/headless-drawing-g3/blob/master/README.md
+
+[this-builder-readme]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-builder.md
+[this-readme-local-building-example]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-local-building-example.md
+
+<!-- Sibling project -->
 
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
 [sibling-github]: https://github.com/accetto/ubuntu-vnc-xfce-g3/
@@ -255,19 +299,22 @@ Credit goes to all the countless people and companies, who contribute to open so
 [sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
-[this-builder-readme]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-builder.md
-[this-readme-local-building-example]: https://github.com/accetto/headless-drawing-g3/blob/master/readme-local-building-example.md
+[sibling-opengl-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce/README.md
+
+[sibling-discussion-supporting-opengl-and-using-hw-acceleration]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions/10
 
 <!-- Docker image specific -->
 
-[this-docker]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-inkscape-g3/
+[this-docker]: https://hub.docker.com/r/accetto/ubuntu-vnc-xfce-freecad-g3/
 [this-dockerfile]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
 
-[this-screenshot-container]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/ubuntu-vnc-xfce-inkscape.jpg
+[this-screenshot-container]: https://raw.githubusercontent.com/accetto/headless-drawing-g3/master/docker/doc/images/ubuntu-vnc-xfce-freecad.jpg
 
 <!-- Previous generations -->
 
-[accetto-github-xubuntu-vnc]: https://github.com/accetto/xubuntu-vnc/
+[accetto-github-xubuntu-vnc-novnc]: https://github.com/accetto/xubuntu-vnc-novnc/
+[accetto-github-ubuntu-vnc-xfce]: https://github.com/accetto/ubuntu-vnc-xfce
+
 [that-wiki-firefox-multiprocess]: https://github.com/accetto/xubuntu-vnc/wiki/Firefox-multiprocess
 
 <!-- External links -->
@@ -277,16 +324,22 @@ Credit goes to all the countless people and companies, who contribute to open so
 [docker-doc]: https://docs.docker.com/
 [docker-doc-managing-data]: https://docs.docker.com/storage/
 
+[ubuntu-packages-search]: https://packages.ubuntu.com/
+
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
-[inkscape]: https://inkscape.org/
+[freecad]: https://www.freecadweb.org/
+[glmark2]: https://github.com/glmark2/glmark2
 [jq]: https://stedolan.github.io/jq/
+[mesa3d]: https://mesa3d.org/
 [mousepad]: https://github.com/codebrainz/mousepad
 [nano]: https://www.nano-editor.org/
 [novnc]: https://github.com/kanaka/noVNC
 [tigervnc]: http://tigervnc.org
 [tightvnc]: http://www.tightvnc.com
 [tini]: https://github.com/krallin/tini
+[virtualgl]: https://virtualgl.org/About/Introduction
+[webgl-test]: https://get.webgl.org/
 [xfce]: http://www.xfce.org
 
 <!-- github badges common -->
@@ -297,8 +350,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 <!-- docker badges specific -->
 
-[badge-docker-pulls]: https://badgen.net/docker/pulls/accetto/ubuntu-vnc-xfce-inkscape-g3?icon=docker&label=pulls
+[badge-docker-pulls]: https://badgen.net/docker/pulls/accetto/ubuntu-vnc-xfce-freecad-g3?icon=docker&label=pulls
 
-[badge-docker-stars]: https://badgen.net/docker/stars/accetto/ubuntu-vnc-xfce-inkscape-g3?icon=docker&label=stars
+[badge-docker-stars]: https://badgen.net/docker/stars/accetto/ubuntu-vnc-xfce-freecad-g3?icon=docker&label=stars
 
 <!-- Appendix -->

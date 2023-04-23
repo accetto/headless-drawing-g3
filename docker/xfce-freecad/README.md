@@ -2,7 +2,7 @@
 
 ## accetto/ubuntu-vnc-xfce-freecad-g3
 
-[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Docker Readme][this-readme-dockerhub] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [Wiki][sibling-wiki] - [Discussions][sibling-discussions]
+[Docker Hub][this-docker] - [Git Hub][this-github] - [Dockerfile][this-dockerfile] - [Docker Readme][this-readme-dockerhub] - [Changelog][this-changelog] - [Project Readme][this-readme-project] - [sibling Wiki][sibling-wiki] - [sibling Discussions][sibling-discussions]
 
 ![badge-docker-pulls][badge-docker-pulls]
 ![badge-docker-stars][badge-docker-stars]
@@ -27,6 +27,7 @@
     - [Version sticker](#version-sticker)
   - [Using headless containers](#using-headless-containers)
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
+    - [Container user account](#container-user-account)
     - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
     - [Startup options and help](#startup-options-and-help)
   - [Using OpenGL/WebGL and HW acceleration](#using-openglwebgl-and-hw-acceleration)
@@ -37,23 +38,21 @@
 
 ***
 
-**Attention** The FreeCAD's AppImage size is about 800MB, so the download during image building can take some time. Don't interrupt the building process prematurely. Also the application launch can take a few seconds, because the AppImage must be extracted first.
-
-This image is **deprecated** since the **second project** version (G3v2). The reason is, that it's really huge and that its deployment pattern does not really fit. You can still build the image containing the `FreeCAD` version **0.19.3**. It will be re-designed sometimes in the future. Be also aware, that downloading `FreeCAD` will take considerable time.
+**Attention** The FreeCAD's AppImage size is about 950MB, so the download during the image building can take some time. Don't interrupt the building process prematurely. Also the application launch in the running container can take a few seconds, because the AppImage file must be extracted first. Similarly, there are a few seconds for cleaning things up after the application is closed.
 
 ***
 
 ### Introduction
 
-This repository contains resources for building Docker images based on [Ubuntu 20.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the free open-source 3D parametric modeler [FreeCAD][freecad].
+This repository contains resources for building Docker images based on [Ubuntu 22.04 LTS][docker-ubuntu] with [Xfce][xfce] desktop environment, [VNC][tigervnc]/[noVNC][novnc] servers for headless use and the free open-source 3D parametric modeler [FreeCAD][freecad].
 
 Because [FreeCAD] requires `OpenGL`, the Ubuntu package `mesa-utils` is always installed. The package includes also the OpenGL test application `glxgears`.
 
-All images can optionally include the web browsers [Chromium][chromium] or [Firefox][firefox] and also additional [Mesa3D][mesa3d] utilities and the [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
+All images can optionally include the current [Chromium][chromium] or [Firefox][firefox] web browsers and also additional [Mesa3D][mesa3d] utilities and the [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
 
-The images with additional [Mesa3D][mesa3d] utilities include also the OpenGL test applications `es2gears`, `es2tri` and the OpenGL benchmark application [glmark2][glmark2].
+The images with [Mesa3D][mesa3d] include also the OpenGL test applications `glxgears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
 
-Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+Please read more about the **OpenGL/WebGL/VirtualGL** support and hardware acceleration in this [sibling readme][sibling-opengl-readme-full] file and this [sibling discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
 
 ### TL;DR
 
@@ -80,7 +79,7 @@ You can check the current shared memory size by executing the following command 
 df -h /dev/shm
 ```
 
-The Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
+The older sibling Wiki page [Firefox multi-process][that-wiki-firefox-multiprocess] describes several ways, how to increase the shared memory size.
 
 #### Extending images
 
@@ -92,23 +91,25 @@ The compose file `example.yml` shows how to switch to another non-root user and 
 
 #### Building images
 
-The fastest way to build the images:
+The fastest way to build the images including Mesa3D/VirtualGL:
 
 ```shell
 ### PWD = project root
 ### prepare and source the 'secrets.rc' file first (see 'example-secrets.rc')
 
 ### examples of building and publishing the individual images
-### 'freecad' stands for 'opengl' in this context
 ./builder.sh freecad all
 ./builder.sh freecad-chromium all
 ./builder.sh freecad-firefox all
 
-### or skipping the publishing to the Docker Hub
-./builder.sh freecad all-no-push
+### just building the image, skipping the publishing and the version sticker update
+./builder.sh freecad build
 
 ### examples of building and publishing the images as a group
 ./ci-builder.sh all group freecad freecad-firefox
+
+### or all the 'accetto/ubuntu-vnc-xfce-freecad-g3' images
+./ci-builder.sh all group complete-freecad
 ```
 
 You can still execute the individual hook scripts as before (see the folder `/docker/hooks/`). However, the provided utilities `builder.sh` and `ci-builder.sh` are more convenient. Before pushing the images to the **Docker Hub** you have to prepare and source the file `secrets.rc` (see `example-secrets.rc`). The script `builder.sh` builds the individual images. The script `ci-builder.sh` can build various groups of images or all of them at once. Check the [builder-utility-readme][this-builder-readme], [local-building-example][this-readme-local-building-example] and [sibling Wiki][sibling-wiki] for more information.
@@ -123,7 +124,7 @@ Sharing the audio device for video with sound works only with `Chromium` and onl
 docker run -it -P --rm \
   --device /dev/snd:/dev/snd:rw \
   --group-add audio \
-accetto/ubuntu-vnc-xfce-freecad-g3:chromium
+  accetto/ubuntu-vnc-xfce-freecad-g3:chromium
 
 ### use VirtualGL inside the container
 vglrun /opt/FreeCAD/freecad_launcher.sh
@@ -162,19 +163,21 @@ xhost -local:$(whoami)
 vglrun /opt/FreeCAD/freecad_launcher.sh
 ```
 
-Find more in this [readme][sibling-opengl-readme-full] file and this [discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
+Find more in this [sibling readme][sibling-opengl-readme-full] file and this [sibling discussion][sibling-discussion-supporting-opengl-and-using-hw-acceleration].
 
-Testing WebGL support in a browser - navigate to [https://get.webgl.org/][webgl-test].
+Testing WebGL support in a browser - navigate to the official [WebGL testing page][webgl-test]. You should see a spinning cube.
+
+Interestingly enough, [Firefox][firefox] requires the `mesa-utils` to be installed in the container, but [Chromium][chromium] does not.
 
 ### Description
 
-This is the **third generation** (G3) of my headless images. More information about the image generations can be found in the [sibling project README][sibling-readme-project] file and the [sibling Wiki][sibling-wiki].
+This is the **third generation** (G3) of my headless images. The **second generation** (G2) of similar images is contained in the GitHub repository [accetto/xubuntu-vnc-novnc][accetto-github-xubuntu-vnc-novnc]. The **first generation** (G1) of similar images is contained in the GitHub repository [accetto/ubuntu-vnc-xfce][accetto-github-ubuntu-vnc-xfce].
 
-**Remark:** The images can optionally contain the current `Chromium Browser` version from the `Ubuntu 18.04 LTS` distribution. This is because the version for `Ubuntu 20.04 LTS` depends on `snap`, which is not working correctly in Docker at this time. They can also optionally contain the latest version of the current [Firefox][firefox] browser for `Ubuntu 20.04 LTS`.
+**Remark:** The images can optionally contain the current `Chromium Browser` version from the `Ubuntu 18.04 LTS` distribution. This is because the version for `Ubuntu 22.04 LTS` depends on `snap`, which is currently not working correctly in Docker containers. They can also optionally contain the current non-snap [Firefox][firefox] version from the Mozilla Team PPA.
 
-**Attention:** If you will build an image containing the [Chromium Browser][chromium], then the browser will run in the `--no-sandbox` mode. You should be aware of the implications. The image is intended for testing and development.
+**Remark:** If you will build an image containing the [Chromium Browser][chromium], then the browser will run in the `--no-sandbox` mode. You should be aware of the implications. The image is intended for testing and development.
 
-**Attention:** If you will build an image containing the [Firefox][firefox] browser, then the browser will run in the `multi-process` mode. Be aware, that this mode requires larger shared memory (`/dev/shm`). At least 256MB is recommended. Please check the **Firefox multi-process** page in [this Wiki][that-wiki-firefox-multiprocess] for more information and the instructions, how to set the shared memory size in different scenarios.
+**Remark:** If you will build an image containing the [Firefox][firefox] browser, then the browser will run in the `multi-process` mode. Be aware, that this mode requires larger shared memory (`/dev/shm`). At least 256MB is recommended. Please check the **Firefox multi-process** page in this older [sibling Wiki][that-wiki-firefox-multiprocess] for more information and the instructions, how to set the shared memory size in different scenarios.
 
 The main features and components of the images in the default configuration are:
 
@@ -186,15 +189,14 @@ The main features and components of the images in the default configuration are:
 - popular text editor [nano][nano] (Ubuntu distribution)
 - lite but advanced graphical editor [mousepad][mousepad] (Ubuntu distribution)
 - current version of [tini][tini] as the entry-point initial process (PID 1)
-- support for overriding both the container user account and its group
+- support for overriding both the container user and the group
 - support of **version sticker** (see below)
-- OpenGL library `mesa-utils` and the testing application `glxgears` (Ubuntu distribution)
-- optionally additional [Mesa3D][mesa3d] utilities `mesa-utils-extra` (Ubuntu distribution)
-- optionally additional OpenGL test applications `es2gears` and `es2tri` (Ubuntu distribution)
+- optionally [Mesa3D][mesa3d] libraries (Ubuntu distribution)
+- optionally OpenGL test applications `glxgears` and `es2tri` (Ubuntu distribution)
 - optionally OpenGL benchmark application [glmark2][glmark2] (Ubuntu distribution)
 - optionally [VirtualGL][virtualgl] toolkit (latest version)
 - optionally the current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
-- optionally the current version of [Firefox][firefox] web browser and optionally also some additional **plus** features described in the [sibling image README][sibling-readme-xfce-firefox]
+- optionally the current non-snap [Firefox][firefox] version from the Mozilla Team PPA and the additional **Firefox plus features** described in the [sibling README][sibling-readme-xfce-firefox]
 
 All images contain the latest version of the free open-source 3D parametric modeler [FreeCAD][freecad].
 
@@ -204,11 +206,11 @@ The history of notable changes is documented in the [CHANGELOG][this-changelog].
 
 ### Image tags
 
-The following image tags on Docker Hub are regularly rebuilt:
+The following image tags are regularly built and published on the **Docker Hub**:
 
-- `latest` implements VNC, noVNC, Mesa3D and VirtualGL
-- `chromium` adds [Chromium Browser][chromium]
-- `firefox` adds [Firefox][firefox] with the **plus features** (described in the [sibling image README][sibling-readme-xfce-firefox])
+- `latest` implements VNC/noVNC, Mesa3D and VirtualGL
+- `chromium` adds Chromium Browser
+- `firefox` adds Firefox with the **Firefox plus features** (described in the [sibling README][sibling-readme-xfce-firefox])
 
 Clicking on the version sticker badge in the [README on Docker Hub][this-readme-dockerhub] reveals more information about the actual configuration of the image.
 
@@ -219,7 +221,7 @@ Following **TCP** ports are exposed by default:
 - **5901** is used for access over **VNC**
 - **6901** is used for access over [noVNC][novnc]
 
-These default ports and also some other parameters can be overridden several ways as it is described in the [sibling image README file][sibling-readme-xfce].
+These default ports and also some other parameters can be overridden several ways as it is described in the [sibling README][sibling-readme-xfce].
 
 ### Volumes
 
@@ -275,23 +277,27 @@ It is also possible to provide the password through the links:
 
 ### Overriding VNC/noVNC parameters
 
-This image supports several ways of overriding the VNC/noVNV parameters. The [sibling image README file][sibling-readme-xfce] describes how to do it.
+This image supports several ways of overriding the VNC/noVNV parameters. The [sibling README file][sibling-readme-xfce] describes how to do it.
+
+### Container user account
+
+The [sibling README file][sibling-readme-xfce] describes how the container user account and its group are created and how they can be overridden. It also explains the user permissions and ownership.
 
 ### Running containers in background or foreground
 
-The [sibling image README file][sibling-readme-xfce] describes how to run the containers in the background (detached) of foreground (interactively).
+The [sibling README file][sibling-readme-xfce] describes how to run the containers in the background (detached) of foreground (interactively).
 
 ### Startup options and help
 
-The startup options and help are also described in the [sibling image README file][sibling-readme-xfce].
+The startup options and help are also described in the [sibling README file][sibling-readme-xfce].
 
 ## Using OpenGL/WebGL and HW acceleration
 
 Support for hardware graphics acceleration in these images is still experimental. The images are intended as the base for experiments with your particular graphics hardware.
 
-For sharing the experience and ideas I've started the discussion [Supporting OpenGL/WebGL and using HW acceleration (GPU)][sibling-discussion-supporting-opengl-and-using-hw-acceleration] in the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github]. There are also some links to interesting articles about the subject.
+For sharing the experience and ideas I've started the sibling discussion [Supporting OpenGL/WebGL and using HW acceleration (GPU)][sibling-discussion-supporting-opengl-and-using-hw-acceleration] in the sibling project [accetto/ubuntu-vnc-xfce-g3][sibling-github]. There are also some links to interesting articles about the subject.
 
-The usage examples can be found in this [readme][sibling-opengl-readme-full] file.
+The usage examples can be found in this [sibling readme][sibling-opengl-readme-full] file.
 
 ## Issues, Wiki and Discussions
 
@@ -350,8 +356,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 <!-- Previous generations -->
 
-[accetto-github-xubuntu-vnc]: https://github.com/accetto/xubuntu-vnc/
-
+[accetto-github-xubuntu-vnc-novnc]: https://github.com/accetto/xubuntu-vnc-novnc/
+[accetto-github-ubuntu-vnc-xfce]: https://github.com/accetto/ubuntu-vnc-xfce
 [that-wiki-firefox-multiprocess]: https://github.com/accetto/xubuntu-vnc/wiki/Firefox-multiprocess
 
 <!-- External links -->
