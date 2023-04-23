@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FreeCAD
+Comment=
+Exec=${FREECAD_PATH}/freecad_launcher.sh
+Icon=${FREECAD_PATH}/freecad.svg
+Path=${FREECAD_PATH}/
+Terminal=true
+StartupNotify=true

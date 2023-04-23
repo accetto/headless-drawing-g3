@@ -1,0 +1,26 @@
+<!-- This is the template of the file to append to the main part of README file for Docker Hub. -->
+<!-- The following variables will be replaced (related to the deployment repository): OWNER, GIST, REPO -->
+
+<!-- latest -->
+
+[badge_latest_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@created.json
+
+[badge_latest_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker.json
+
+[link_latest_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@latest@version-sticker-verbose.txt
+
+<!-- chromium -->
+
+[badge_chromium_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@chromium@created.json
+
+[badge_chromium_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@chromium@version-sticker.json
+
+[link_chromium_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@chromium@version-sticker-verbose.txt
+
+<!-- firefox -->
+
+[badge_firefox_created]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@firefox@created.json
+
+[badge_firefox_version-sticker]: https://badgen.net/https/gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@firefox@version-sticker.json
+
+[link_firefox_version-sticker-verbose]: https://gist.githubusercontent.com/${OWNER}/${GIST}/raw/${REPO}@firefox@version-sticker-verbose.txt

@@ -2,6 +2,7 @@
 
 main() {
     local result=""
+    local version=""
 
     case "$1" in
 
@@ -20,6 +21,25 @@ main() {
                 https://api.github.com/repos/jgraph/drawio-desktop/releases/latest \
                 | grep -m1 "tag_name" \
                 | grep -Po '[0-9.]+'
+            )
+            ;;
+
+        freecad )
+            # result=$(wget -qO- \
+            result=$(curl -sL \
+                https://www.freecad.org/downloads.php \
+                | grep -m1 -Po 'href="[^"]+\.AppImage' \
+                | grep -Po '/[0-9.]+/' \
+                | grep -Po '[0-9.]+'
+            )
+            ;;
+
+        freecad-appimage )
+            # result=$(wget -qO- \
+            result=$(curl -sL \
+                https://www.freecad.org/downloads.php \
+                | grep -m1 -Po 'href="[^"]+\.AppImage' \
+                | grep -Po 'FreeCAD_.*'
             )
             ;;
 

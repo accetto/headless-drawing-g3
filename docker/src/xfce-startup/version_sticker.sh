@@ -8,6 +8,7 @@ blender=$("${_current_dir}/version_of.sh" blender)
 chromium=$("${_current_dir}/version_of.sh" chromium)
 drawio=$("${_current_dir}/version_of.sh" drawio)
 firefox=$("${_current_dir}/version_of.sh" firefox)
+freecad=$("${_current_dir}/version_of.sh" freecad)
 gimp=$("${_current_dir}/version_of.sh" gimp)
 inkscape=$("${_current_dir}/version_of.sh" inkscape)
 ubuntu=$("${_current_dir}/version_of.sh" ubuntu)
@@ -45,6 +46,7 @@ main() {
                     if [[ -n "${chromium}" ]] ; then echo "Chromium ${chromium}" ; fi
                     if [[ -n "${drawio}" ]] ; then echo "draw.io Desktop ${drawio}" ; fi
                     if [[ -n "${firefox}" ]] ; then echo "Firefox ${firefox}" ; fi
+                    if [[ -n "${freecad}" ]] ; then echo "FreeCAD ${freecad}" ; fi
                     if [[ -n "${gimp}" ]] ; then echo "Gimp ${gimp}" ; fi
                     if [[ -n "${inkscape}" ]] ; then echo "Inkscape ${inkscape}" ; fi
                     echo "Ubuntu ${ubuntu}"
@@ -67,6 +69,8 @@ main() {
                     if [[ -n "${version}" ]] ; then echo "fakeroot ${version}" ; fi
 
                     if [[ -n "${firefox}" ]] ; then echo "Firefox ${firefox}" ; fi
+
+                    if [[ -n "${freecad}" ]] ; then echo "FreeCAD ${freecad}" ; fi
 
                     # version=$("${_current_dir}/version_of.sh" gdebi)
                     # if [[ -n "${version}" ]] ; then echo "gdebi ${version}" ; fi
@@ -134,6 +138,10 @@ main() {
         elif [[ -n "${drawio}" ]] ; then
 
             sticker="${sticker}"-"drawio${drawio}"
+
+        elif [[ -n "${freecad}" ]] ; then
+
+            sticker="${sticker}"-"freecad${freecad}"
 
         elif [[ -n "${gimp}" ]] ; then
 

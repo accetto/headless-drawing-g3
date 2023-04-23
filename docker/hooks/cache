@@ -191,6 +191,24 @@ cache_drawio() {
     refresh_file "${section}" "${file}" "${source_url}" "${target}"
 }
 
+cache_freecad() {
+    local section="freecad"
+    local source_base_url="https://github.com/FreeCAD/FreeCAD/releases/download"
+    local target_path="${_cache}/${section}"
+    local target=""
+    local file=""
+
+    mkdir -p "${target_path}"
+
+    ### this is specific for 'freecad'
+    file="${FREECAD_APPIMAGE}"
+
+    source_url="${source_base_url}/${FREECAD_VERSION}/${file}"
+    target="${target_path}/${file}"
+
+    refresh_file "${section}" "${file}" "${source_url}" "${target}"
+}
+
 ### ==========
 ### cache_main
 ### ==========
@@ -225,6 +243,11 @@ main() {
     if [[ "${FEATURES_DRAWIO}" == "1" ]] ; then
     
         cache_drawio
+    fi
+
+    if [[ "${FEATURES_FREECAD}" == "1" ]] ; then
+    
+        cache_freecad
     fi
 
     echo

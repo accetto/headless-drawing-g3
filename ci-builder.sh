@@ -100,11 +100,11 @@ Usage: <script> <mode> <argument> [<optional-argument>]...
 <options>      := (--log-all|--no-cache) 
 <command>      := (all|all-no-push)
 <mode>         := (family|group)
-<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape)
+<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape|freecad)
 <child-suffix> := (-chromium|-firefox)
 <blend>        := (pivotal)
                   |(complete[-chromium|-firefox|-latest|-blender|-drawio|-gimp|-inkscape])
-                  |(latest|blender|drawio|gimp|inkscape)[-(chromium|firefox)])
+                  |(latest|blender|drawio|gimp|inkscape|freecad)[-(chromium|firefox)])
 
 Family mode: The children are skipped if a new parent image was not actually built.
 Group mode : All images are processed independently.
@@ -243,7 +243,7 @@ main() {
     local mode="${2}"
     local subject="${3}"
 
-    local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" "blender" )
+    local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" "blender" "freecad" )
     local -a list=()
 
     if [[ $# -ge 3 ]] ; then shift 3 ; fi
@@ -295,7 +295,7 @@ main() {
                             done
                             ;;
 
-                        latest | blender | drawio | gimp | inkscape )
+                        latest | blender | drawio | gimp | inkscape | freecad)
 
                             clear_log
                             build_family "${command}" "${subject}" $@
@@ -368,6 +368,12 @@ main() {
                             clear_log
                             build_group "${command}" "inkscape" "inkscape-chromium" "inkscape-firefox"
                             ;;
+                        
+                        complete-freecad )
+
+                            clear_log
+                            build_group "${command}" "freecad" "freecad-chromium" "freecad-firefox"
+                            ;;
 
                         complete )
 
@@ -385,6 +391,7 @@ main() {
                         | gimp | gimp-chromium | gimp-firefox \
                         | inkscape | inkscape-chromium | inkscape-firefox \
                         | blender | blender-chromium | blender-firefox \
+                        | freecad | freecad-chromium | freecad-firefox \
                         )
                         
                             clear_log
