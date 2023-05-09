@@ -1,7 +1,7 @@
 #!/bin/bash
 ### do not use '-e'
 ### @accetto, September 2022
-### updated: January 2023
+### updated: May 2023
 
 ### depends on the script 'builder.sh'
 ### set the environment variables first, e.g. 'source .secrets'
@@ -108,6 +108,9 @@ Usage: <script> <mode> <argument> [<optional-argument>]...
 
 Family mode: The children are skipped if a new parent image was not actually built.
 Group mode : All images are processed independently.
+
+Note that the 'pivotal|complete|complete-chromium|complete-firefox' groups do not include
+the 'blender' and 'freecad' images because of the size and upload time.
 
 The command and the blend are passed to the builder script.
 The result "<parent-blend><child-suffix>" must be a blend supported by the builder script.
@@ -243,7 +246,8 @@ main() {
     local mode="${2}"
     local subject="${3}"
 
-    local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" "blender" "freecad" )
+    # local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" "blender" "freecad" )
+    local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" )
     local -a list=()
 
     if [[ $# -ge 3 ]] ; then shift 3 ; fi

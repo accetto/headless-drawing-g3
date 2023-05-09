@@ -6,6 +6,12 @@
 
 ***
 
+### Release (unreleased)
+
+Updated script `ci-builder.sh`:
+
+- groups `pivotal|complete|complete-chromium|complete-firefox` do not include the `blender` and `freecad` images because of the size and upload time
+
 ### Release 23.04.1
 
 `FreeCAD` is back in its current version **0.20.2** and the image based on `Ubuntu 22.04 LTS`.

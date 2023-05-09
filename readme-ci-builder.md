@@ -173,17 +173,20 @@ The image tags can be listed in the command line. For example, all these images 
 You can also use one of the **named groups**:
 
 ```shell
-### includes the images 'latest', 'blender', 'drawio', 'gimp' and 'inkscape'
-### 'latest' stands for 'opengl' in this context
+### includes the images 'latest', 'drawio', 'gimp' and 'inkscape'
+### excluding 'blender' and 'freecad' (because of their image sizes)
 ./ci-builder.sh all group pivotal
 
-### includes all the pivotal images plus each one also with '-chromium' and '-firefox'
+### includes almost all the images
+### excluding 'blender' and 'freecad' (because of their image sizes)
 ./ci-builder.sh all group complete
 
-### includes all the images featuring the Firefox browser
+### includes almost all the images featuring the Firefox browser
+### excluding 'blender' and 'freecad' (because of their image sizes)
 ./ci-builder.sh all group complete-firefox
 
-### includes all the images featuring the Chromium Browser
+### includes almost all the images featuring the Chromium Browser
+### excluding 'blender' and 'freecad' (because of their image sizes)
 ./ci-builder.sh all group complete-chromium
 
 ### includes all the images featuring the named application
@@ -193,6 +196,7 @@ You can also use one of the **named groups**:
 ./ci-builder.sh all group complete-drawio
 ./ci-builder.sh all group complete-gimp
 ./ci-builder.sh all group complete-inkscape
+./ci-builder.sh all group complete-freecad
 ```
 
 ### Family mode
