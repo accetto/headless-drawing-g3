@@ -222,32 +222,40 @@ main() {
     if [[ "${FEATURES_VNC}" == "1" ]] ; then
 
         cache_tigervnc
+        if [[ $? -ne 0 ]] ; then return 1; fi
     fi
 
     if [[ "${FEATURES_NOVNC}" == "1" ]] ; then
 
         cache_novnc
+        if [[ $? -ne 0 ]] ; then return 1; fi
+
         cache_websockify
+        if [[ $? -ne 0 ]] ; then return 1; fi
     fi
 
     if [[ "${FEATURES_CHROMIUM}" == "1" ]] ; then
     
         cache_chromium
+        if [[ $? -ne 0 ]] ; then return 1; fi
     fi
 
     if [[ "${FEATURES_VIRTUALGL}" == "1" ]] ; then
     
         cache_virtualgl
+        if [[ $? -ne 0 ]] ; then return 1; fi
     fi
 
     if [[ "${FEATURES_DRAWIO}" == "1" ]] ; then
     
         cache_drawio
+        if [[ $? -ne 0 ]] ; then return 1; fi
     fi
 
     if [[ "${FEATURES_FREECAD}" == "1" ]] ; then
     
         cache_freecad
+        if [[ $? -ne 0 ]] ; then return 1; fi
     fi
 
     echo
