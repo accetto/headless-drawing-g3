@@ -26,6 +26,7 @@
     - [Volumes](#volumes)
     - [Version sticker](#version-sticker)
   - [Using headless containers](#using-headless-containers)
+    - [Overriding environment variables](#overriding-environment-variables)
     - [Overriding VNC/noVNC parameters](#overriding-vncnovnc-parameters)
     - [Container user account](#container-user-account)
     - [Running containers in background or foreground](#running-containers-in-background-or-foreground)
@@ -253,6 +254,19 @@ It is also possible to provide the password through the links:
 
 - `http://mynas:26901/vnc_lite.html?password=headless`
 - `http://mynas:26901/vnc.html?password=headless`
+
+### Overriding environment variables
+
+If the environment variable `FEATURES_OVERRIDING_ENVV=1`, which is the case by default, then the container startup script will look for the file `$HOME/.override/.override_envv.rc` and source all the lines that begin with the string 'export ' at the first position and contain the '=' character.
+
+You can provide the overriding file from outside the container using *bind mounts* or *volumes*.
+
+This feature allows overriding or adding environment variables at the **container startup-time**.
+It means, even after the container has already been created.
+
+You can disable this behavior by setting the variable `FEATURES_OVERRIDING_ENVV` to zero when the container is created or the image is built.
+
+The lines that have been actually sourced can be reported into the container's log if the startup parameter `--verbose` or `--debug` is provided.
 
 ### Overriding VNC/noVNC parameters
 

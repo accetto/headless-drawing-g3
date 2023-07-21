@@ -421,9 +421,11 @@ FROM ${ARG_MERGE_STAGE_BROWSER_BASE} as merge_stage_browser
 ###############
 
 FROM ${ARG_FINAL_STAGE_BASE} as stage_final
+ARG ARG_FEATURES_OVERRIDING_ENVV
 ARG ARG_SUDO_INITIAL_PW
 
 ENV \
+    FEATURES_OVERRIDING_ENVV="${ARG_FEATURES_OVERRIDING_ENVV:+1}" \
     FEATURES_VERSION_STICKER=1 \
     STARTUPDIR="/dockerstartup"
 
@@ -450,7 +452,6 @@ RUN \
     &&  ln -s "${HOME}"/readme.md "${HOME}"/Desktop/README \
     &&  envsubst <"${HOME}"/Desktop/versionsticker.desktop >/tmp/esub.tmp && mv -f /tmp/esub.tmp "${HOME}"/Desktop/versionsticker.desktop \
     && "${STARTUPDIR}"/set_user_permissions.sh "${STARTUPDIR}" "${HOME}"
-
 
 USER "${HEADLESS_USER_ID}"
 
