@@ -295,7 +295,7 @@ main() {
 
                             for p in "${pivotal_blends[@]}" ; do
                             
-                                build_family "${command}" "${p}" "-chromium" "-firefox"
+                                build_family "${command}" "${p}" "-firefox" "-chromium"
                             done
                             ;;
 
@@ -346,37 +346,37 @@ main() {
                         complete-latest )
 
                             clear_log
-                            build_group "${command}" "latest" "latest-chromium" "latest-firefox"
+                            build_group "${command}" "latest" "latest-firefox" "latest-chromium"
                             ;;
 
                         complete-blender )
 
                             clear_log
-                            build_group "${command}" "blender" "blender-chromium" "blender-firefox"
+                            build_group "${command}" "blender" "blender-firefox" "blender-chromium"
                             ;;
 
                         complete-drawio )
 
                             clear_log
-                            build_group "${command}" "drawio" "drawio-chromium" "drawio-firefox"
+                            build_group "${command}" "drawio" "drawio-firefox" "drawio-chromium"
                             ;;
 
                         complete-gimp )
 
                             clear_log
-                            build_group "${command}" "gimp" "gimp-chromium" "gimp-firefox"
+                            build_group "${command}" "gimp" "gimp-firefox" "gimp-chromium"
                             ;;
 
                         complete-inkscape )
 
                             clear_log
-                            build_group "${command}" "inkscape" "inkscape-chromium" "inkscape-firefox"
+                            build_group "${command}" "inkscape" "inkscape-firefox" "inkscape-chromium"
                             ;;
                         
                         complete-freecad )
 
                             clear_log
-                            build_group "${command}" "freecad" "freecad-chromium" "freecad-firefox"
+                            build_group "${command}" "freecad" "freecad-firefox" "freecad-chromium"
                             ;;
 
                         complete )
@@ -385,7 +385,7 @@ main() {
 
                             for p in "${pivotal_blends[@]}" ; do
 
-                                list+=( "${p}" "${p}-chromium" "${p}-firefox" )
+                                list+=( "${p}" "${p}-firefox" "${p}-chromium" )
                             done
                             build_group "${command}" "${list[@]}"
                             ;;
