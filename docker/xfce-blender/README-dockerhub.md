@@ -118,7 +118,7 @@ If you have a question or an idea and you don't want to open an issue, you can a
 [this-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-blender/README.md
 
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
-[sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
+
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
 [this-dockerfile]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/Dockerfile.xfce.drawing
