@@ -35,7 +35,7 @@ The following image tags are regularly built and published on Docker Hub:
     ![badge_chromium_created][badge_chromium_created]
     [![badge_chromium_version-sticker][badge_chromium_version-sticker]][link_chromium_version-sticker-verbose]
 
-- `firefox` adds Firefox with the **Firefox plus features** (described in the [sibling README][sibling-readme-xfce-firefox])
+- `firefox` adds Firefox
 
     ![badge_firefox_created][badge_firefox_created]
     [![badge_firefox_version-sticker][badge_firefox_version-sticker]][link_firefox_version-sticker-verbose]
