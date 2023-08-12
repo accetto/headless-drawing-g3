@@ -73,7 +73,6 @@ The optional parameter `--no-cache` will be passed to the internally used script
 The optional parameter `--log-all` will cause that the script's output will be written into the log file in all cases.
 Normally the command line errors or the **log processing mode** commands are not logged.
 
-
 ## Preparation
 
 ### Ensure file attributes after cloning
