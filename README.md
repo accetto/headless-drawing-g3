@@ -49,7 +49,7 @@ The content of this GitHub project is intended for developers and image builders
 
 Ordinary users can simply use the images available in the following repositories on Docker Hub:
 
-- [accetto/ubuntu-vnc-xfce-opengl-g3]- [accetto-docker-ubuntu-vnc-xfce-opengl-g3]
+- [accetto/ubuntu-vnc-xfce-opengl-g3][accetto-docker-ubuntu-vnc-xfce-opengl-g3]
 - [accetto/ubuntu-vnc-xfce-blender-g3][accetto-docker-ubuntu-vnc-xfce-blender-g3]
 - [accetto/ubuntu-vnc-xfce-drawio-g3][accetto-docker-ubuntu-vnc-xfce-drawio-g3]
 - [accetto/ubuntu-vnc-xfce-freecad-g3][accetto-docker-ubuntu-vnc-xfce-freecad-g3]
