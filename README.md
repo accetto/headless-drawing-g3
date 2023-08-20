@@ -38,7 +38,7 @@ This GitHub repository contains resources and tools for building Docker images f
 The images are based on [Ubuntu 22.04 LTS][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
 The popular web browsers [Chromium][chromium] and [Firefox][firefox] are also included.
 
-The image family provides also selected applications for headless drawing, graphics and modeling.
+The image family provides also selected applications for headless drawing, graphics and modelling.
 
 The generic images and some application images include [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
 They also include the OpenGL test applications `glxgears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
@@ -237,6 +237,7 @@ Credit goes to all the countless people and companies, who contribute to open so
 
 [chromium]: https://www.chromium.org/Home
 [firefox]: https://www.mozilla.org
+[glmark2]: https://github.com/glmark2/glmark2
 [mesa3d]: https://mesa3d.org/
 [novnc]: https://github.com/kanaka/noVNC
 [tigervnc]: http://tigervnc.org

@@ -21,6 +21,8 @@
     - [Disabling `noVNC`](#disabling-novnc)
     - [Disabling `Firefox Plus`](#disabling-firefox-plus)
   - [README files for Docker Hub](#readme-files-for-docker-hub)
+  - [Tips and examples](#tips-and-examples)
+    - [How to deploy all images into one repository](#how-to-deploy-all-images-into-one-repository)
 
 ## Introduction
 
@@ -359,4 +361,44 @@ For example, the `README` file for the repository `accetto/ubuntu-vnc-xfce-openg
 
 ### or if the environment variable 'DEPLOY_GIST_ID' has been set
 ./util-readme.sh --repo accetto/ubuntu-vnc-xfce-opengl-g3 --context=../docker/xfce -- preview
+```
+
+## Tips and examples
+
+### How to deploy all images into one repository
+
+There are six deployment repositories by default.
+
+Their names are defined by the following environment variables:
+
+- `DEPLOYMENT_REPO_BLENDER` for `Blender` images
+- `DEPLOYMENT_REPO_DRAWIO` for `drawio-desktop` images
+- `DEPLOYMENT_REPO_FREECAD` for `FreeCAD` images
+- `DEPLOYMENT_REPO_GIMP` for `GIMP` images
+- `DEPLOYMENT_REPO_INKSCAPE` for `Inkscape` images
+- `DEPLOYMENT_REPO_OPENGL` for generic images with `Mesa3D/OpenGL/VirtualGL`
+
+The forth variable `BUILDER_REPO` defines the name of the *builder repository*, which is not used for deployment by default.
+
+However, the images can be optionally published also into the *builder repository* by setting the environment variable `FORCE_PUBLISHING_BUILDER_REPO=1`.
+
+The images in the builder repository are distinguished by their tags.
+
+On the other hand, if the repository environment variables are unset or set to the reserved value `void`, then the deployment into the related repository will be skipped.
+
+This behaviour can be used, if you want to publish all the images into a single repository.
+
+Simply set all repositories except the builder one to `void` and force the publishing into the builder repository.
+
+For example, for publishing all the images into a single repository `headless-drawing-g3` set the variables like this:
+
+```shell
+DEPLOYMENT_REPO_BLENDER="void"
+DEPLOYMENT_REPO_DRAWIO="void"
+DEPLOYMENT_REPO_FREECAD="void"
+DEPLOYMENT_REPO_GIMP="void"
+DEPLOYMENT_REPO_INKSCAPE="void"
+DEPLOYMENT_REPO_OPENGL="void"
+BUILDER_REPO="headless-drawing-g3"
+FORCE_PUBLISHING_BUILDER_REPO=1
 ```
