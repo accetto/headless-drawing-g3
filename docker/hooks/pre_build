@@ -66,8 +66,8 @@ main() {
 
         drawio | drawio-* | blender | blender-* | gimp | gimp-* | inkscape | inkscape-* | freecad | freecad-* )
 
+            ### no quotes around ${params}!
             set -x
-            ### no quotes around 'params'
             docker build ${params} \
                 -f "${DOCKERFILE_PATH}" \
                     --build-arg BASEIMAGE="${BASEIMAGE}" \
@@ -114,7 +114,11 @@ main() {
                     ${FEATURES_INKSCAPE:+--build-arg ARG_MERGE_STAGE_DRAWING_BASE="stage_inkscape"} \
                     \
                 -t "${DOCKER_REPO}":"${DOCKER_TAG}${helper_suffix}" "${_build_context}"
+            
+            exit_code=$?
             set +x
+
+            if [[ ${exit_code} -ne 0 ]] ; then set +x; die "Failed to build image '${DOCKER_REPO}:${DOCKER_TAG}${helper_suffix}'" ${exit_code} ; fi
             ;;
 
         ### -----------------------------------------------
@@ -123,8 +127,8 @@ main() {
 
         latest | latest-* | vnc | vnc-* )
 
+            ### no quotes around ${params}!
             set -x
-            ### no quotes around 'params'
             docker build ${params} \
                 -f "${DOCKERFILE_PATH}" \
                     --build-arg BASEIMAGE="${BASEIMAGE}" \
@@ -157,7 +161,11 @@ main() {
                     ${FEATURES_FIREFOX_PLUS:+--build-arg ARG_MERGE_STAGE_BROWSER_BASE="stage_firefox_plus"} \
                     \
                 -t "${DOCKER_REPO}":"${DOCKER_TAG}${helper_suffix}" "${_build_context}"
+            
+            exit_code=$?
             set +x
+
+            if [[ ${exit_code} -ne 0 ]] ; then set +x; die "Failed to build image '${DOCKER_REPO}:${DOCKER_TAG}${helper_suffix}'" ${exit_code} ; fi
             ;;
 
         * )
