@@ -6,6 +6,18 @@
 
 ***
 
+### Release 23.12
+
+This is a maintenance release.
+
+- Fixed script `version_of`
+  - new way to get the latest `VirtualGL` version number
+- Updated Dockerfiles
+  - file `.bashrc` is created earlier (stage `merge_stage_vnc`)
+- Updated file `example-secrets.rc`
+  - removed the initialization of the variables `FORCE_BUILDING` and `FORCE_PUBLISHING_BUILDER_REPO` (unset means `0`)
+  - the variables are still used as before, but now they can be set individually for each building/publishing run
+
 ### Release 23.11
 
 - Added file `$HOME/.bashrc` to all images.

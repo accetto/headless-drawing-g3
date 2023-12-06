@@ -45,10 +45,10 @@ main() {
 
         virtualgl )
             # result=$(wget -qO- \
-            result=$(curl -sLN \
-                https://sourceforge.net/projects/virtualgl/files/ \
-                | grep -Po -m1 '<tr title="[0-9.]+" class="folder\s?">' \
-                | grep -Po '[0-9.]+' \
+            result=$(curl -sLN -H "Accept: application/vnd.github.v3+json" \
+                https://api.github.com/repos/VirtualGL/virtualgl/releases/latest \
+                | grep -m1 "tag_name" \
+                | grep -Po '[0-9.]+'
             )
             ;;
 
