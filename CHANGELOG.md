@@ -6,9 +6,23 @@
 
 ***
 
-### Release 24.02
+### Release 24.02.1
 
-This is a maintenance release. FreeCAD has changed assets naming.
+This is a fixed maintenance release.
+FreeCAD has changed assets naming.
+
+Updated applications:
+
+- `FreeCAD` to version **0.21.2**
+
+### Release 24.02 (!)
+
+**Warning!**
+FreeCAD in this release doesn't work!
+Please use the next release.
+
+This is a maintenance release.
+FreeCAD has changed assets naming.
 
 ### Release 23.12
 
