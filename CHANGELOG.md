@@ -6,6 +6,10 @@
 
 ***
 
+### Release 24.02
+
+This is a maintenance release. FreeCAD has changed assets naming.
+
 ### Release 23.12
 
 This is a maintenance release.
