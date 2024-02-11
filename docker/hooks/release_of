@@ -39,7 +39,7 @@ main() {
             result=$(curl -sL \
                 https://www.freecad.org/downloads.php \
                 | grep -m1 -Po 'href="[^"]+\.AppImage' \
-                | grep -Po 'FreeCAD_.*'
+                | grep -Po 'FreeCAD-.*'
             )
             ;;
 
