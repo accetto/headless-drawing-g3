@@ -161,7 +161,7 @@ cache_chromium() {
 
 cache_virtualgl() {
     local section="virtualgl"
-    local source_base_url="https://downloads.sourceforge.net/project/virtualgl"
+    local source_base_url="https://github.com/VirtualGL/virtualgl/releases/download"
     local target_path="${_cache}/${section}"
     local target=""
     local file=""

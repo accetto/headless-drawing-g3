@@ -6,6 +6,16 @@
 
 ***
 
+### Release 24.02.2
+
+This is a maintenance release.
+
+- Updated `VirtualGL` distribution URL in the script `docker/hooks/cache`.
+
+Updated applications:
+
+- `VirtualGL` to version **3.1.1**
+
 ### Release 24.02.1
 
 This is a fixed maintenance release.
