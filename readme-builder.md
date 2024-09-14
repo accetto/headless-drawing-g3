@@ -32,7 +32,7 @@ This script can:
 
 Usage: ./builder.sh <blend> <command> [<docker-cli-options>]
 
-blend   := ((latest|blender|drawio|gimp|inkscape)[-(chromium|firefox)])
+blend   := ((latest|blender|drawio|gimp|inkscape|freecad)[-(chromium|firefox)])
 command := (all|all-no-push)|(pre_build|build|push|post_push|cache)
 
 The <docker-cli-options> (e.g. '--no-cache') are passed to the Docker CLI commands used internally.

@@ -12,7 +12,7 @@
 
 This Docker Hub repository contains Docker images for headless working with the free open-source diagramming application [drawio-desktop][drawio-desktop].
 
-The images are based on [Ubuntu 22.04 LTS][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
+The images are based on [Ubuntu 24.04 LTS (Noble Numbat)][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
 The popular web browsers [Chromium][chromium] and [Firefox][firefox] are also included.
 
 This [User guide][this-user-guide] describes the images and how to use them.
@@ -83,13 +83,13 @@ The following **TCP** ports are exposed by default:
 ### Remarks
 
 The images contain the current Chromium Browser from the `Ubuntu 18.04 LTS` distribution.
-This is because the versions for `Ubuntu 22.04 LTS` depend on `snap`, which is currently not supported in Docker containers.
+This is because the versions for `Ubuntu 24.04 LTS` depend on `snap`, which is currently not supported in Docker containers.
 
 The [Chromium Browser][chromium] in these images runs in the `--no-sandbox` mode.
 You should be aware of the implications.
 
 The [Firefox][firefox] browser included in the images is the current non-snap version from the Mozilla Team PPA.
-It's because the `Ubuntu 22.04 LTS` distribution contains only the `snap` version and the `snap` is currently not supported in Docker containers.
+It's because the `Ubuntu 24.04 LTS` distribution contains only the `snap` version and the `snap` is currently not supported in Docker containers.
 
 This is the **third generation** (G3) of my headless images.
 The **second generation** (G2) contains the GitHub repository [accetto/xubuntu-vnc-novnc][accetto-github-xubuntu-vnc-novnc].

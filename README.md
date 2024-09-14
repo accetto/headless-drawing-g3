@@ -2,7 +2,7 @@
 
 ## Project `accetto/headless-drawing-g3`
 
-Version: G3v5
+Version: G3v6
 
 ***
 
@@ -35,7 +35,7 @@ Version: G3v5
 
 This GitHub repository contains resources and tools for building Docker images for headless working.
 
-The images are based on [Ubuntu 22.04 LTS][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
+The images are based on [Ubuntu 24.04 LTS][docker-ubuntu] (except the `FreeCAD` image) and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
 The popular web browsers [Chromium][chromium] and [Firefox][firefox] are also included.
 
 The image family provides also selected applications for headless drawing, graphics and modelling.
@@ -56,7 +56,7 @@ Ordinary users can simply use the images available in the following repositories
 - [accetto/ubuntu-vnc-xfce-gimp-g3][accetto-docker-ubuntu-vnc-xfce-gimp-g3]
 - [accetto/ubuntu-vnc-xfce-inkscape-g3][accetto-docker-ubuntu-vnc-xfce-inkscape-g3]
 
-There is also a sibling project [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3] containing similar images based on [Ubuntu 22.04 LTS and 20.04 LTS][docker-ubuntu].
+There is also a sibling project [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3] containing similar images based on [Ubuntu 24.04, 22.04 and 20.04 LTS][docker-ubuntu].
 
 Another sibling project [accetto/headless-coding-g3][accetto-github-headless-coding-g3] contains images for headless programming.
 
@@ -104,14 +104,17 @@ The **first generation** (G1) contains the GitHub repository [accetto/ubuntu-vnc
 
 ### Project versions
 
-This file describes the **fifth version** (G3v5) of the project.
+This file describes the **sixth version** (G3v6) of the project.
 
 *Remark*: The version number `G3v4` has been skipped, to align the numbering with the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3].
 
-The **second version** (G3v2) and the **first version** (G3v1, or simply G3) will still be available in this GitHub repository as the branches `archived-generation-g3v2` and `archived-generation-g3v1`.
-The **third version** (G3v3) was not archived, because the changes are minor.
+The previous versions are still available in this **GitHub** repository as the branches named as `archived-generation-g3v{d}`.
 
-The version `G3v5` brings only one significant change comparing to the previous version `G3v4`:
+The version `G3v6` adds the images based on `Ubuntu 24.04 LTS (Noble Numbat)`, except the `FreeCAD` image, which is still based on `Ubuntu 22.04 LTS (Jammy Jellyfish)`.
+
+Also the default user `headless:headless (1000:1000)` has been changed to `headless:headless (1001:1001)` in all images, even if it has been technically required only for the images based on `Ubuntu 24.04 LTS (Noble Numbat)`.
+
+The version `G3v5` has brought only one significant change comparing to the previous version `G3v4`:
 
 - The updated script `set_user_permissions.sh`, which is part of Dockerfiles, skips the hidden files and directories now.
 It generally should not have any unwanted side effects, but it may make a difference in some scenarios, hence the version increase.

@@ -1,10 +1,11 @@
 ARG BASEIMAGE=ubuntu
-ARG BASETAG=24.04
+ARG BASETAG=22.04
 
 ARG ARG_MERGE_STAGE_VNC_BASE=stage_vnc
 ARG ARG_MERGE_STAGE_MESA_BASE=merge_stage_vnc
 ARG ARG_MERGE_STAGE_BROWSER_BASE=merge_stage_mesa
-ARG ARG_FINAL_STAGE_BASE=merge_stage_browser
+ARG ARG_MERGE_STAGE_DRAWING_BASE=merge_stage_browser
+ARG ARG_FINAL_STAGE_BASE=merge_stage_drawing
 
 ARG ARG_HEADLESS_USER_ID=1001
 ARG ARG_HEADLESS_USER_NAME=headless
@@ -419,6 +420,61 @@ RUN \
 FROM ${ARG_MERGE_STAGE_BROWSER_BASE} AS merge_stage_browser
 
 
+#################
+### stage_freecad
+#################
+
+FROM merge_stage_browser AS stage_freecad
+ARG ARG_APT_NO_RECOMMENDS
+ARG ARG_FREECAD_APPIMAGE
+ARG ARG_FREECAD_VERSION
+
+ENV \
+    FEATURES_MESA=1 \
+    FEATURES_FREECAD=1 \
+    FREECAD_PATH="/opt/FreeCAD"
+
+### FreeCAD requires OpenGL, 'mesa-utils' must be installed if missing
+
+RUN \
+    --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y "${ARG_APT_NO_RECOMMENDS:+--no-install-recommends}" \
+        libpci3 \
+        libxss1 \
+        libxtst6
+
+RUN \
+    --mount=type=cache,from=stage_cache,sharing=locked,source=/var/cache/apt,target=/var/cache/apt \
+    --mount=type=cache,from=stage_cache,sharing=locked,source=/var/lib/apt,target=/var/lib/apt \
+    --mount=type=cache,from=stage_cache,sharing=locked,source=/tmp/g3-cache/,target=/tmp/g3-cache/ \
+    FREECAD_APPIMAGE="${ARG_FREECAD_APPIMAGE}" \
+    FREECAD_VERSION="${ARG_FREECAD_VERSION}" \
+    &&  mkdir -p "${FREECAD_PATH}" \
+    &&  if [ ! -s /tmp/g3-cache/freecad/"${FREECAD_APPIMAGE}" ] ; then \
+            wget --show-progress --progress=bar:force:noscroll \
+                -q https://github.com/FreeCAD/FreeCAD/releases/download/"${FREECAD_VERSION}"/"${FREECAD_APPIMAGE}" \
+                -P /tmp/g3-cache/freecad ; \
+        fi \
+    && cp /tmp/g3-cache/freecad/"${FREECAD_APPIMAGE}" "${FREECAD_PATH}" \
+    && chmod 775 "${FREECAD_PATH}"/"${FREECAD_APPIMAGE}"
+
+COPY ./xfce-freecad/src/freecad "${FREECAD_PATH}"/ 
+COPY ./xfce-freecad/src/home/Desktop "${HOME}"/Desktop/
+
+RUN \
+    chmod 664 "${FREECAD_PATH}"/*.svg \
+    && chmod 775 "${FREECAD_PATH}"/*.sh \
+    && envsubst <"${HOME}"/Desktop/FreeCAD.desktop >/tmp/esub.tmp && mv -f /tmp/esub.tmp "${HOME}"/Desktop/FreeCAD.desktop
+
+
+#######################
+### merge_stage_drawing
+#######################
+
+FROM ${ARG_MERGE_STAGE_DRAWING_BASE} AS merge_stage_drawing
+
+
 ###############
 ### FINAL STAGE
 ###############
@@ -478,7 +534,7 @@ ARG ARG_VERSION_STICKER
 LABEL \
     org.opencontainers.image.authors="accetto" \
     org.opencontainers.image.created="${ARG_CREATED}" \
-    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC base containers with OpenGL/WebGL/VirtualGL and Internet browsers" \
+    org.opencontainers.image.description="Headless Ubuntu/Xfce/VNC/noVNC/Chromium/Firefox containers for diagramming, image editing and 2D/3D drawing" \
     org.opencontainers.image.documentation="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.source="https://github.com/accetto/headless-drawing-g3" \
     org.opencontainers.image.title="accetto/headless-drawing-g3" \
