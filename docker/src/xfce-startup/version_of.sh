@@ -40,7 +40,7 @@ case "$1" in
         ;;
     freecad )
         ### source: FreeCAD_0.19-24291-Linux-Conda_glibc2.12-x86_64.AppImage
-        echo $(ls "${FREECAD_PATH}"/*.AppImage 2>/dev/null | grep -Po -m1 'FreeCAD-[0-9.]+' | grep -Po '[0-9.]+')
+        echo $(ls "${FREECAD_PATH}"/*.AppImage 2>/dev/null | grep -Po -m1 'FreeCAD_[0-9.]+' | grep -Po '[0-9.]+')
         ;;
     gimp )
         ### source example: GNU Image Manipulation Program version 2.8.22

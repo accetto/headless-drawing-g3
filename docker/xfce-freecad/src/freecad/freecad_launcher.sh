@@ -1,6 +1,6 @@
 #!/bin/bash
 
-app_image=$(ls "${FREECAD_PATH}"/FreeCAD-*.AppImage 2>/dev/null)
+app_image=$(ls "${FREECAD_PATH}"/FreeCAD_*.AppImage 2>/dev/null)
 startup_log="${HOME}/freecad_launcher.log"
 
 if [[ -z "${app_image}" ]] ; then

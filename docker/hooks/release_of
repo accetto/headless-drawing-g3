@@ -66,7 +66,7 @@ main() {
             # )
             response=$(curl -sL https://www.freecad.org/downloads.php)
             if [[ -n "${response}" ]] ; then
-                result=$(echo "${response}" | grep -m1 -Po 'href="[^"]+\.AppImage' | grep -Po 'FreeCAD-.*')
+                result=$(echo "${response}" | grep -m1 -Po 'href="[^"]+\.AppImage' | grep -Po 'FreeCAD_.*')
             fi
             ;;
 

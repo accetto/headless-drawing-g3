@@ -6,6 +6,12 @@
 
 ***
 
+### Release 25.02
+
+This release brings the latest `FreeCAD` version **1.0.0**.
+
+The image is based on `Ubuntu 24.04 LTS` and also includes `noVNC 1.5.0` and `websockify 0.12.0`.
+
 ### Release 25.01
 
 This is a maintenance release.
