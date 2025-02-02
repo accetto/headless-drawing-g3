@@ -12,7 +12,7 @@
 
 This Docker Hub repository contains Docker images for headless working with the free open-source 3D parametric modeler [FreeCAD][freecad].
 
-The images are based on [Ubuntu 22.04 LTS (Jammy Jellyfish)][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
+The images are based on [Ubuntu 24.04 LTS (Noble Numbat)][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
 
 They include [Mesa3D][mesa3d] libraries and [VirtualGL][virtualgl] toolkit, supporting `OpenGL`, `OpenGL ES`, `WebGL` and other APIs for 3D graphics.
 They also include the OpenGL test applications `glxgears`, `es2tri` and the OpenGL benchmark [glmark2][glmark2].
@@ -76,6 +76,9 @@ The following **TCP** ports are exposed by default:
 
 ![container-screenshot][this-screenshot-container]
 
+**Remark:**
+The screenshots haven't been updated yet and they still show an older `FreeCAD` version.
+
 ### Remarks
 
 The FreeCAD's AppImage archive size is about 950MB, so the image download can take some time.
@@ -88,13 +91,13 @@ The animation on [this page][this-user-guide-image-family-freecad] in User Guide
 The repository may also contain additional images with the older [FreeCAD][freecad] versions.
 
 The images contain the current Chromium Browser from the `Ubuntu 18.04 LTS` distribution.
-This is because the versions for `Ubuntu 22.04 LTS` depend on `snap`, which is currently not supported in Docker containers.
+This is because the versions for `Ubuntu 24.04 LTS` depend on `snap`, which is currently not supported in Docker containers.
 
 The [Chromium Browser][chromium] in these images runs in the `--no-sandbox` mode.
 You should be aware of the implications.
 
 The [Firefox][firefox] browser included in the images is the current non-snap version from the Mozilla Team PPA.
-It's because the `Ubuntu 22.04 LTS` distribution contains only the `snap` version and the `snap` is currently not supported in Docker containers.
+It's because the `Ubuntu 24.04 LTS` distribution contains only the `snap` version and the `snap` is currently not supported in Docker containers.
 
 This is the **third generation** (G3) of my headless images.
 The **second generation** (G2) contains the GitHub repository [accetto/xubuntu-vnc-novnc][accetto-github-xubuntu-vnc-novnc].
