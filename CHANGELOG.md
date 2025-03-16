@@ -6,6 +6,36 @@
 
 ***
 
+### Release 25.03 (G3v7)
+
+This is the first `G3v7` release, bringing an improved building pipeline.
+
+The helper script `ci-builder.sh` can build final images significantly faster, because the temporary helper images are used as external caches.
+
+Internally, the helper image is built by the `pre_build` hook script and then used by the `build` hook script.
+
+The helper image is now deleted by the `build` hook script and not the `pre_build` hook script as before.
+
+The `Dockerfiles` got a new metadata label `any.accetto.built-by="docker"`.
+
+#### Remarks
+
+If you would build a final image without building also the helper image (e.g. by executing `builder.sh latest build`), then there could be an error message about trying to remove the non-existing helper image.
+You can safely ignore the message.
+
+For example:
+
+```shell
+### The next line would build the helper image, but it was not executed.
+#./build.sh latest pre_build
+
+./build.sh latest build
+
+### then somewhere near the end of the log
+Removing helper image
+Error response from daemon: No such image: accetto/headless-drawing-g3_latest-helper
+```
+
 ### Release 25.02
 
 This release brings the latest `FreeCAD` version **1.0.0**.
@@ -35,7 +65,7 @@ sudo apt-get update
 sudo install libgl1
 ```
 
-### Release 24.09
+### Release 24.09 (G3v6)
 
 This is the first `G3v6` release, introducing the images based on `Ubuntu 24.04 LTS (Noble Numbat)` (except the `FreeCAD` image).
 The previous version `G3v5` will still be available in this repository as the branch `archived-generation-g3v5`.
@@ -68,7 +98,7 @@ Updated versions:
 - **Gimp** to **2.10.36**
 - **Inkscape** to **1.3.2**
 
-### Release 24.03
+### Release 24.03 (G3v5)
 
 This is the first `G3v5` release.
 
@@ -207,7 +237,7 @@ Main changes:
 - startup scripts have been adjusted and improved
 - readme files have been updated
 
-### Release 23.03
+### Release 23.03 (G3v3)
 
 This is the first `G3v3` release, switching the images from `Ubuntu 20.04 LTS` to `Ubuntu 22.04 LTS` and introducing the updated startup scripts. The previous version `G3v2` will still be available in this repository as the branch `archived-generation-g3v2`.
 
@@ -285,7 +315,7 @@ This is a quick fix release for the images featuring `FreeCAD`. The version is l
 
 This is a quick fix release, because the `Chromium Browser` has changed its package naming pattern.
 
-### Release 22.11 (Milestone)
+### Release 22.11 (G3v2)
 
 This is a milestone release. It's the first release of the new building pipeline version `G3v2`. The previous version `G3v1` will still be available in this repository as the branch `archived-generation-g3v1`.
 
@@ -322,7 +352,7 @@ Many other files have been updated, some of them significantly.
 
 Hoverer, the changes affect only the building pipeline, not the Docker images themselves. The `Dockerfile`, apart from using the new local `g3-cache`, stays conceptually unchanged.
 
-### Release 22.10 (Milestone)
+### Release 22.10 (G3v1)
 
 This is the last release of the current building pipeline generation `G3v1`, which will still be available in the repository as the branch `archived-generation-g3v1`.
 

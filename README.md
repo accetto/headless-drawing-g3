@@ -2,7 +2,7 @@
 
 ## Project `accetto/headless-drawing-g3`
 
-Version: G3v6
+Version: G3v7
 
 ***
 
@@ -26,8 +26,10 @@ Version: G3v6
     - [Building images](#building-images)
     - [Image generations](#image-generations)
     - [Project versions](#project-versions)
+      - [Previous versions](#previous-versions)
     - [Project goals](#project-goals)
     - [Project features](#project-features)
+    - [How to fork](#how-to-fork)
     - [Getting help](#getting-help)
     - [Credits](#credits)
 
@@ -104,13 +106,26 @@ The **first generation** (G1) contains the GitHub repository [accetto/ubuntu-vnc
 
 ### Project versions
 
-This file describes the **sixth version** (G3v6) of the project.
+This file describes the **seventh version** (G3v7) of the project.
 
-*Remark*: The version number `G3v4` has been skipped, to align the numbering with the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3].
+This version brings an improved building pipeline.
+
+The helper script `ci-builder.sh` can build final images significantly faster, because the temporary helper images are used as external caches.
+
+Internally, the helper image is built by the `pre_build` hook script and then used by the `build` hook script.
+
+The helper image is now removed by the `build` hook script and not the `pre_build` hook script.
+
+However, also this version keeps evolving.
+Please check the [CHANGELOG][this-changelog] for more information about the changes.
+
+#### Previous versions
 
 The previous versions are still available in this **GitHub** repository as the branches named as `archived-generation-g3v{d}`.
 
-The version `G3v6` adds the images based on `Ubuntu 24.04 LTS (Noble Numbat)`, except the `FreeCAD` image, which is still based on `Ubuntu 22.04 LTS (Jammy Jellyfish)`.
+*Remark*: The version number `G3v4` has been skipped, to align the numbering with the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3].
+
+The version `G3v6` added the images based on `Ubuntu 24.04 LTS (Noble Numbat)`.
 
 Also the default user `headless:headless (1000:1000)` has been changed to `headless:headless (1001:1001)` in all images, even if it has been technically required only for the images based on `Ubuntu 24.04 LTS (Noble Numbat)`.
 
@@ -161,6 +176,10 @@ Please refer to the [sibling project][accetto-github-ubuntu-vnc-xfce-g3_project-
 ### Project features
 
 Please refer to the [sibling project][accetto-github-ubuntu-vnc-xfce-g3_project-features] to learn more about the project features.
+
+### How to fork
+
+If you want to fork this project, then please check the page [How to fork this repository][sibling-wiki-how-to-fork] in the sibling [Wiki][sibling-wiki].
 
 ### Getting help
 
@@ -235,6 +254,8 @@ Credit goes to all the countless people and companies, who contribute to open so
 [accetto-github-ubuntu-vnc-xfce]: https://github.com/accetto/ubuntu-vnc-xfce
 
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
+
+[sibling-wiki-how-to-fork]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki/How-to-fork
 
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
 
