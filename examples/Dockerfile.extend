@@ -46,7 +46,7 @@ RUN \
 ### permissions will be set to the system defaults on the first container start
 RUN chmod 666 /etc/passwd /etc/group
 
-### usually you want to swich back to a non-root user
+### usually you want to switch back to a non-root user
 ### alternatively you can do it in a compose file (see 'example.yml')
 USER "${HEADLESS_USER_ID}"
 

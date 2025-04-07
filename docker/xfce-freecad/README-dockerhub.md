@@ -10,7 +10,7 @@
 
 ***
 
-This Docker Hub repository contains Docker images for headless working with the free open-source 3D parametric modeler [FreeCAD][freecad].
+This Docker Hub repository contains Docker images for headless working with the free open-source 3D parametric modeller [FreeCAD][freecad].
 
 The images are based on [Ubuntu 24.04 LTS (Noble Numbat)][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
 
@@ -67,7 +67,7 @@ The main features and components of the images in the default configuration are:
 - [VirtualGL][virtualgl] toolkit (latest version)
 - current version of [Chromium Browser][chromium] open-source web browser (from the `Ubuntu 18.04 LTS` distribution)
 - current non-snap [Firefox][firefox] version from the Mozilla Team PPA and also the additional **Firefox plus** feature (see [User guide][this-user-guide-firefox-plus])
-- free open-source 3D parametric modeler [FreeCAD][freecad]
+- free open-source 3D parametric modeller [FreeCAD][freecad]
 
 The following **TCP** ports are exposed by default:
 
@@ -134,8 +134,6 @@ If you have a question or an idea and you don't want to open an issue, you can a
 [this-readme-full]: https://github.com/accetto/headless-drawing-g3/blob/master/docker/xfce-freecad/README.md
 
 [sibling-discussions]: https://github.com/accetto/ubuntu-vnc-xfce-g3/discussions
-
-[sibling-readme-xfce-firefox]: https://github.com/accetto/ubuntu-vnc-xfce-g3/blob/master/docker/xfce-firefox/README.md
 
 [sibling-wiki]: https://github.com/accetto/ubuntu-vnc-xfce-g3/wiki
 
