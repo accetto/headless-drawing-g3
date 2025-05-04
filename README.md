@@ -2,7 +2,7 @@
 
 ## Project `accetto/headless-drawing-g3`
 
-Version: G3v7
+Version: G3v8
 
 ***
 
@@ -10,13 +10,13 @@ Version: G3v7
 
 ![badge-github-release][badge-github-release]
 ![badge-github-release-date][badge-github-release-date]
-![badge-github-stars][badge-github-stars]
-![badge-github-forks][badge-github-forks]
 ![badge-github-open-issues][badge-github-open-issues]
 ![badge-github-closed-issues][badge-github-closed-issues]
-![badge-github-releases][badge-github-releases]
 ![badge-github-commits][badge-github-commits]
 ![badge-github-last-commit][badge-github-last-commit]
+![badge-github-stars][badge-github-stars]
+![badge-github-forks][badge-github-forks]
+<!-- ![badge-github-releases][badge-github-releases] -->
 
 ***
 
@@ -37,7 +37,7 @@ Version: G3v7
 
 This GitHub repository contains resources and tools for building Docker images for headless working.
 
-The images are based on [Ubuntu 24.04 LTS][docker-ubuntu] (except the `FreeCAD` image) and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
+The images are based on [Ubuntu 24.04 LTS][docker-ubuntu] and include [Xfce][xfce] desktop, [TigerVNC][tigervnc] server and [noVNC][novnc] client.
 The popular web browsers [Chromium][chromium] and [Firefox][firefox] are also included.
 
 The image family provides also selected applications for headless drawing, graphics and modelling.
@@ -106,24 +106,41 @@ The **first generation** (G1) contains the GitHub repository [accetto/ubuntu-vnc
 
 ### Project versions
 
-This file describes the **seventh version** (G3v7) of the project.
+This file describes the **eighths version** (G3v8) of the project.
 
-This version brings an improved building pipeline.
+This version brings some changes in the building pipeline and building utilities and it also fixes the problem with the badge service.
 
-The helper script `ci-builder.sh` can build final images significantly faster, because the temporary helper images are used as external caches.
+The service **Badgen.net**, which has been unusable for some time already, was replaced by the service [Shields.io][service-shields-io].
 
-Internally, the helper image is built by the `pre_build` hook script and then used by the `build` hook script.
+Consequently it was necessary to update all README files of all `accetto` repositories on **Docker Hub**. Therefore there are several new functions that support this kind of scenarios.
 
-The helper image is now removed by the `build` hook script and not the `pre_build` hook script.
+For example, now it's possible to update the `deployment gists` on the **GitHub** without re-build the images first. The updated hook script `post_push` can extract the badge values ad-hoc from the final deployment images available locally and it doesn't depend on the helper files created during the `pre_build` phase. It would use the images pulled from the **Docker Hub** as well.
 
-However, also this version keeps evolving.
-Please check the [CHANGELOG][this-changelog] for more information about the changes.
+This change makes it possible to refresh the gists using the "historical" data extracted from previously published images.
+
+Gist updates are also more reliable because there will be up to 3 retries if an update fails.
+
+The new functionality is available through the updated utility `ci-builder.sh`, which has got the following new commands:
+
+- `list`
+- `pull`
+- `update-gists`
+- `helper-help`
+
+Please check the files `readme-ci-builder.md` and `readme-builder.md` for the description.
+
+However, the project keeps evolving.
+Please always check the [CHANGELOG][this-changelog] for the latest changes.
 
 #### Previous versions
 
 The previous versions are still available in this **GitHub** repository as the branches named as `archived-generation-g3v{d}`.
 
-*Remark*: The version number `G3v4` has been skipped, to align the numbering with the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3].
+The version `G3v7` could build final images significantly faster, because the temporary helper images were used as external caches.
+
+Internally, the helper image was built by the `pre_build` hook script and then used by the `build` hook script as an external cache.
+
+The helper image was then removed by the `build` hook script and not the `pre_build` hook script as before, unless the `build` script will be skipped.
 
 The version `G3v6` added the images based on `Ubuntu 24.04 LTS (Noble Numbat)`.
 
@@ -133,6 +150,8 @@ The version `G3v5` has brought only one significant change comparing to the prev
 
 - The updated script `set_user_permissions.sh`, which is part of Dockerfiles, skips the hidden files and directories now.
 It generally should not have any unwanted side effects, but it may make a difference in some scenarios, hence the version increase.
+
+The version number `G3v4` has been skipped, to align the numbering with the **sibling project** [accetto/ubuntu-vnc-xfce-g3][accetto-github-ubuntu-vnc-xfce-g3].
 
 The version `G3v3` has brought the following major changes comparing to the previous version `G3v2`:
 
@@ -276,20 +295,20 @@ Credit goes to all the countless people and companies, who contribute to open so
 [virtualgl]: https://virtualgl.org/About/Introduction
 [xfce]: http://www.xfce.org
 
-[badge-github-release]: https://badgen.net/github/release/accetto/headless-drawing-g3?icon=github&label=release
+[badge-github-stars]: https://img.shields.io/github/stars/accetto/headless-drawing-g3?style=flat
 
-[badge-github-release-date]: https://img.shields.io/github/release-date/accetto/headless-drawing-g3?logo=github
+[badge-github-forks]: https://img.shields.io/github/forks/accetto/headless-drawing-g3?style=flat
 
-[badge-github-stars]: https://badgen.net/github/stars/accetto/headless-drawing-g3?icon=github&label=stars
+[badge-github-release]: https://img.shields.io/github/v/release/accetto/headless-drawing-g3
 
-[badge-github-forks]: https://badgen.net/github/forks/accetto/headless-drawing-g3?icon=github&label=forks
+[badge-github-release-date]: https://img.shields.io/github/release-date/accetto/headless-drawing-g3
 
-[badge-github-releases]: https://badgen.net/github/releases/accetto/headless-drawing-g3?icon=github&label=releases
+[badge-github-commits]: https://img.shields.io/github/commit-activity/t/accetto/headless-drawing-g3
 
-[badge-github-commits]: https://badgen.net/github/commits/accetto/headless-drawing-g3?icon=github&label=commits
+[badge-github-last-commit]: https://img.shields.io/github/last-commit/accetto/headless-drawing-g3
 
-[badge-github-last-commit]: https://badgen.net/github/last-commit/accetto/headless-drawing-g3?icon=github&label=last%20commit
+[badge-github-open-issues]: https://img.shields.io/github/issues/accetto/headless-drawing-g3
 
-[badge-github-closed-issues]: https://badgen.net/github/closed-issues/accetto/headless-drawing-g3?icon=github&label=closed%20issues
+[badge-github-closed-issues]: https://img.shields.io/github/issues-closed/accetto/headless-drawing-g3
 
-[badge-github-open-issues]: https://badgen.net/github/open-issues/accetto/headless-drawing-g3?icon=github&label=open%20issues
+[service-shields-io]: https://shields.io/

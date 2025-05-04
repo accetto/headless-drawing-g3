@@ -1,7 +1,5 @@
 #!/bin/bash
 ### do not use '-e'
-### @accetto, September 2022
-### updated: May 2023
 
 ### depends on the script 'builder.sh'
 ### set the environment variables first, e.g. 'source .secrets'
@@ -22,13 +20,13 @@ clear_log() {
     ### just for debugging
     # cp -f "${_ci_builder_log}" "${_ci_builder_log}_copy"
 
-    > "${_ci_builder_log}"
+    >"${_ci_builder_log}"
     echo -e "\n==> EXECUTING @$(date -u +'%Y-%m-%d_%H-%M-%S'): ${0} $@\n"
 }
 
 execute_smart() {
 
-    if [[ -z "${_option_logall}" ]] ; then
+    if [[ -z "${_option_logall}" ]]; then
 
         _flag_skip_footer="1"
 
@@ -49,7 +47,7 @@ execute_smart() {
 show_error() {
 
     ### don't output to 'stderr' (>&2) here!
-    echo -e "\nERROR: ${@:-(unknown)}\n"
+    echo -e "\nERROR in ${0}: ${@:-(unknown)}\n"
 }
 
 show_log_digest() {
@@ -60,7 +58,7 @@ show_log_digest() {
 }
 
 show_log_stickers() {
-    
+
     echo -e "\n--> Version stickers:\n"
     grep "${_regex_log_stickers}" "${_ci_builder_log}" | sort -u
     echo
@@ -84,7 +82,7 @@ show_unlogged_help() {
 
     # help is never logged
     exec 1>&-
-    { 
+    {
         cat <<EOT
 
 This script can:
@@ -99,12 +97,13 @@ Usage: <script> <mode> <argument> [<optional-argument>]...
 
 <options>      := (--log-all|--no-cache) 
 <command>      := (all|all-no-push)
+                  |(pull|update-gists|list|helper-help)
 <mode>         := (family|group)
-<parent-blend> := (complete)|(latest|blender|drawio|gimp|inkscape|freecad)
+<parent-blend> := (complete)|(latest|noble|24.04|blender|drawio|gimp|inkscape|freecad)
 <child-suffix> := (-chromium|-firefox)
 <blend>        := (pivotal)
-                  |(complete[-chromium|-firefox|-latest|-blender|-drawio|-gimp|-inkscape])
-                  |(latest|blender|drawio|gimp|inkscape|freecad)[-(chromium|firefox)])
+                  |(complete[-chromium|-firefox|-latest|-noble|-24.04|-blender|-drawio|-gimp|-inkscape])
+                  |(latest|noble|24.04|blender|drawio|gimp|inkscape|freecad)[-(chromium|firefox)])
 
 Family mode: The children are skipped if a new parent image was not actually built.
 Group mode : All images are processed independently.
@@ -155,35 +154,53 @@ build_single_image() {
     local option_nocache="${3}"
     local -i exit_code=0
 
-    echo -e "${_log_mark} Building image '${_builder_project}:${blend}'"
+    if [[ "${command}" == "pull" ]]; then
 
-    ### call builder script
-    ./"${_builder_script}" "${blend}" "${command}" "${option_nocache}"
-    exit_code=$?
-    if [[ ${exit_code} -ne 0 ]] ; then die "Script '${_builder_script}' failed with code ${exit_code}." ${exit_code} ; fi
+        "${_build_context}/hooks/${_helper_script}" dev "${blend}" pull
 
-    if [[ $(tail "${_builder_log}" | grep -c "==> No build needed for '${blend}'") -eq 1 ]] ; then
-        echo -e "${_log_mark} No build needed for '${_builder_project}:${blend}'."
+    elif [[ "${command}" == "update-gists" ]]; then
+
+        "${_build_context}/hooks/post_push" dev "${blend}"
+
+    elif [[ "${command}" == "list" ]]; then
+
+        "${_build_context}/hooks/${_helper_script}" dev "${blend}" list
+
+    elif [[ "${command}" == "helper-help" ]]; then
+
+        "${_build_context}/hooks/${_helper_script}" dev "${blend}" help
+
     else
-        case "${command}" in
-            all-no-push )
-                if [[ $(tail "${_builder_log}" | grep -c "==> Built '${blend}'") -eq 1 ]] ; then
+        echo -e "${_log_mark} Building image '${_builder_project}:${blend}'"
+
+        ### call builder script
+        ./"${_builder_script}" "${blend}" "${command}" "${option_nocache}"
+        exit_code=$?
+        if [[ ${exit_code} -ne 0 ]]; then die "Script '${_builder_script}' failed with code ${exit_code}." ${exit_code}; fi
+
+        if [[ $(tail "${_builder_log}" | grep -c "==> No build needed for '${blend}'") -eq 1 ]]; then
+            echo -e "${_log_mark} No build needed for '${_builder_project}:${blend}'."
+        else
+            case "${command}" in
+            all-no-push)
+                if [[ $(tail "${_builder_log}" | grep -c "==> Built '${blend}'") -eq 1 ]]; then
                     echo -e "${_log_mark} Built new '${_builder_project}:${blend}'."
                 else
                     echo -e "${_log_mark} Failed to build new '${_builder_project}:${blend}'."
                 fi
                 ;;
-            all )
-                if [[ $(tail "${_builder_log}" | grep -c "==> Published '${blend}'") -eq 1 ]] ; then
+            all)
+                if [[ $(tail "${_builder_log}" | grep -c "==> Published '${blend}'") -eq 1 ]]; then
                     echo -e "${_log_mark} Published new '${_builder_project}:${blend}'."
                 else
                     echo -e "${_log_mark} Failed to publish new '${_builder_project}:${blend}'."
                 fi
                 ;;
-            * )
+            *)
                 die "Unknown command: '${command}'"
                 ;;
-        esac
+            esac
+        fi
     fi
 }
 
@@ -191,14 +208,14 @@ build_family() {
     local command="${1?Expected command}"
     local parent="${2?Expected parent blend}"
 
-    if [[ $# -ge 2 ]] ; then shift 2 ; fi
+    if [[ $# -ge 2 ]]; then shift 2; fi
 
     ### note that the option '--no-cache' is passed in by the parent image
     build_single_image "${command}" "${parent}" "${_option_nocache}"
 
     ### if the parent probe succeeded then probe the children
-    if [[ $(tail "${_builder_log}" | grep -cE "==> (Published|Built) '${parent}'") -eq 1 ]] ; then
-        for child in $@ ; do
+    if [[ $(tail "${_builder_log}" | grep -cE "==> (Published|Built) '${parent}'") -eq 1 ]]; then
+        for child in $@; do
 
             # note that we do not pass in the option '--no-cache' by children
             build_single_image "${command}" "${parent}${child}"
@@ -209,9 +226,9 @@ build_family() {
 build_group() {
     local command="${1?Expected command}"
 
-    if [[ $# -gt 0 ]] ; then shift ; fi
+    if [[ $# -gt 0 ]]; then shift; fi
 
-    for blend in $@ ; do
+    for blend in $@; do
 
         # note that the option '--no-cache' is passed in by each image
         build_single_image "${command}" ${blend} "${_option_nocache}"
@@ -220,23 +237,24 @@ build_group() {
 
 main() {
 
-    if [[ $# -eq 0 ]] ; then
+    if [[ $# -eq 0 ]]; then
 
         show_unlogged_help
         return 0
     fi
 
-    while [[ $# -gt 0 && "${1}" =~ "--" ]] ; do
+    ### parse command options
+    while [[ $# -gt 0 && "${1}" =~ "--" ]]; do
 
         case "${1}" in
 
-            --no-cache ) _option_nocache="${1}" ;;
-            --log-all  ) _option_logall="${1}"  ;;
+        --no-cache) _option_nocache="${1}" ;;
+        --log-all) _option_logall="${1}" ;;
 
-            *)
-                execute_smart show_error "Unknown option '${1}'"
-                return 1
-                ;;
+        *)
+            execute_smart show_error "Unknown option '${1}'"
+            return 1
+            ;;
         esac
 
         shift
@@ -247,182 +265,192 @@ main() {
     local subject="${3}"
 
     # local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" "blender" "freecad" )
-    local -a pivotal_blends=( "latest" "drawio" "gimp" "inkscape" )
+    local -a pivotal_blends=("latest" "drawio" "gimp" "inkscape")
     local -a list=()
 
-    if [[ $# -ge 3 ]] ; then shift 3 ; fi
+    if [[ $# -ge 3 ]]; then shift 3; fi
 
     case "${command}" in
 
-        help | --help | -h )
-        
-            show_unlogged_help
-            return 0
+    help | --help | -h)
+
+        show_unlogged_help
+        return 0
+        ;;
+
+    log)
+        case "${mode}" in
+
+        get)
+
+            case "${subject}" in
+
+            digest) execute_smart show_log_digest ;;
+            stickers) execute_smart show_log_stickers ;;
+            timing) execute_smart show_log_timing ;;
+            errors) execute_smart show_log_errors ;;
+            *)
+                execute_smart show_error "Unknown 'log get' command argument '${subject}'"
+                ;;
+            esac
             ;;
 
-        log )
-            case "${mode}" in
+        *)
+            execute_smart show_error "Unknown 'log' command '${mode}'"
+            ;;
 
-                get )
+        esac
+        ;;
 
-                    case "${subject}" in
+    all-no-push | all | pull | update-gists | list | helper-help)
+        case "${mode}" in
 
-                        digest   )   execute_smart show_log_digest   ;;
-                        stickers )   execute_smart show_log_stickers ;;
-                        timing   )   execute_smart show_log_timing   ;;
-                        errors   )   execute_smart show_log_errors   ;;
-                        * )
-                            execute_smart show_error "Unknown 'log get' command argument '${subject}'"
-                            ;;
-                    esac
-                    ;;
+        family)
+            case "${subject}" in
 
-                * )
-                    execute_smart show_error "Unknown 'log' command '${mode}'"
-                    ;;
+            complete)
+
+                clear_log
+
+                for p in "${pivotal_blends[@]}"; do
+
+                    build_family "${command}" "${p}" "-firefox" "-chromium"
+                done
+                ;;
+
+            latest | noble | 24.04 | blender | drawio | gimp | inkscape | freecad)
+
+                clear_log
+                build_family "${command}" "${subject}" $@
+                ;;
+
+            *)
+                execute_smart show_error "Unknown parent blend '${subject}'"
+                ;;
 
             esac
             ;;
 
-        all-no-push | all )
-            case "${mode}" in
+        group)
+            case "${subject}" in
 
-                family )
-                    case "${subject}" in
+            pivotal)
 
-                        complete )
+                clear_log
+                build_group "${command}" "${pivotal_blends[@]}"
+                ;;
 
-                            clear_log
+            complete-chromium)
 
-                            for p in "${pivotal_blends[@]}" ; do
-                            
-                                build_family "${command}" "${p}" "-firefox" "-chromium"
-                            done
-                            ;;
+                clear_log
 
-                        latest | blender | drawio | gimp | inkscape | freecad)
+                for p in "${pivotal_blends[@]}"; do
 
-                            clear_log
-                            build_family "${command}" "${subject}" $@
-                            ;;
+                    list+=("${p}-chromium")
+                done
+                build_group "${command}" "${list[@]}"
+                ;;
 
-                        * )
-                            execute_smart show_error "Unknown parent blend '${subject}'"
-                            ;;
+            complete-firefox)
 
-                    esac
-                    ;;
+                clear_log
 
-                group )
-                    case "${subject}" in
+                for p in "${pivotal_blends[@]}"; do
 
-                        pivotal )
+                    list+=("${p}-firefox")
+                done
+                build_group "${command}" "${list[@]}"
+                ;;
 
-                            clear_log
-                            build_group "${command}" "${pivotal_blends[@]}"
-                            ;;
+            complete-latest | complete-noble | complete-24.04)
 
-                        complete-chromium )
+                clear_log
+                build_group "${command}" "latest" "latest-firefox" "latest-chromium"
+                ;;
 
-                            clear_log
+            complete-blender)
 
-                            for p in "${pivotal_blends[@]}" ; do
+                clear_log
+                build_group "${command}" "blender" "blender-firefox" "blender-chromium"
+                ;;
 
-                                list+=( "${p}-chromium" )
-                            done
-                            build_group "${command}" "${list[@]}"
-                            ;;
+            complete-drawio)
 
-                        complete-firefox )
+                clear_log
+                build_group "${command}" "drawio" "drawio-firefox" "drawio-chromium"
+                ;;
 
-                            clear_log
+            complete-gimp)
 
-                            for p in "${pivotal_blends[@]}" ; do
+                clear_log
+                build_group "${command}" "gimp" "gimp-firefox" "gimp-chromium"
+                ;;
 
-                                list+=( "${p}-firefox" )
-                            done
-                            build_group "${command}" "${list[@]}"
-                            ;;
+            complete-inkscape)
 
-                        complete-latest )
+                clear_log
+                build_group "${command}" "inkscape" "inkscape-firefox" "inkscape-chromium"
+                ;;
 
-                            clear_log
-                            build_group "${command}" "latest" "latest-firefox" "latest-chromium"
-                            ;;
+            complete-freecad)
 
-                        complete-blender )
+                clear_log
+                build_group "${command}" "freecad" "freecad-firefox" "freecad-chromium"
+                ;;
 
-                            clear_log
-                            build_group "${command}" "blender" "blender-firefox" "blender-chromium"
-                            ;;
+            complete)
 
-                        complete-drawio )
+                clear_log
 
-                            clear_log
-                            build_group "${command}" "drawio" "drawio-firefox" "drawio-chromium"
-                            ;;
+                for p in "${pivotal_blends[@]}"; do
 
-                        complete-gimp )
+                    list+=("${p}" "${p}-firefox" "${p}-chromium")
+                done
+                build_group "${command}" "${list[@]}"
+                ;;
 
-                            clear_log
-                            build_group "${command}" "gimp" "gimp-firefox" "gimp-chromium"
-                            ;;
+            latest | latest-chromium | latest-firefox | \
+                noble | noble-chromium | noble-firefox | \
+                24.04 | 24.04-chromium | 24.04-firefox | \
+                drawio | drawio-chromium | drawio-firefox | \
+                gimp | gimp-chromium | gimp-firefox | \
+                inkscape | inkscape-chromium | inkscape-firefox | \
+                blender | blender-chromium | blender-firefox | \
+                freecad | freecad-chromium | freecad-firefox)
 
-                        complete-inkscape )
+                clear_log
+                build_group "${command}" "${subject}" $@
+                ;;
 
-                            clear_log
-                            build_group "${command}" "inkscape" "inkscape-firefox" "inkscape-chromium"
-                            ;;
-                        
-                        complete-freecad )
+            any)
+                echo "Warning from 'ci-blender.sh': Nothing to do for 'any' blend!"
+                echo "Provided parameters:"
+                echo "command=${command}"
+                echo "subject=${subject}"
 
-                            clear_log
-                            build_group "${command}" "freecad" "freecad-firefox" "freecad-chromium"
-                            ;;
+                build_group "${command}" "${subject}" $@
+                ;;
 
-                        complete )
-
-                            clear_log
-
-                            for p in "${pivotal_blends[@]}" ; do
-
-                                list+=( "${p}" "${p}-firefox" "${p}-chromium" )
-                            done
-                            build_group "${command}" "${list[@]}"
-                            ;;
-
-                        latest | latest-chromium | latest-firefox \
-                        | drawio | drawio-chromium | drawio-firefox \
-                        | gimp | gimp-chromium | gimp-firefox \
-                        | inkscape | inkscape-chromium | inkscape-firefox \
-                        | blender | blender-chromium | blender-firefox \
-                        | freecad | freecad-chromium | freecad-firefox \
-                        )
-                        
-                            clear_log
-                            build_group "${command}" "${subject}" $@
-                            ;;
-
-                        * )
-                            execute_smart show_error "Unknown blend '${subject}'"
-                            ;;
-
-                    esac
-                    ;;
-
-                * )
-                    execute_smart show_error "Unknown mode '${mode}'"
-                    ;;
+            *)
+                execute_smart show_error "Unknown blend '${subject}'"
+                ;;
 
             esac
             ;;
 
         *)
-            execute_smart show_error "Unknown command '${command}'"
+            execute_smart show_error "Unknown mode '${mode}'"
             ;;
+
+        esac
+        ;;
+
+    *)
+        execute_smart show_error "Unknown command '${command}'"
+        ;;
     esac
 
-    if [[ -z "${_flag_skip_footer}" ]] ; then
+    if [[ -z "${_flag_skip_footer}" ]]; then
 
         echo -e "\n==> FINISHED  @$(date -u +'%Y-%m-%d_%H-%M-%S'): ${0} $@\n"
     fi
@@ -430,6 +458,8 @@ main() {
 
 declare _builder_project="${BUILDER_REPO:-headless-drawing-g3}"
 declare _builder_log="scrap_builder.log"
+declare _build_context="./docker"
+declare _helper_script="helper"
 
 declare _builder_script="builder.sh"
 declare _ci_builder_log="scrap_ci-builder.log"

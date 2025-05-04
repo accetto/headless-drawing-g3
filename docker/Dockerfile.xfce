@@ -53,7 +53,7 @@ RUN \
         sudo \
         tini \
         wget
-
+        
 
 #################
 ### stage_xserver
