@@ -445,7 +445,9 @@ RUN \
         libdrm2 \
         libgbm1 \
         libgl1 \
-        libxshmfence1
+        libxshmfence1 \
+        libnss3 \
+        libsecret-1-0
 
 RUN \
     --mount=type=cache,from=stage_cache,sharing=locked,source=/var/cache/apt,target=/var/cache/apt \

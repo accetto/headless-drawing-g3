@@ -6,6 +6,29 @@
 
 ***
 
+### Release 25.06
+
+This is a maintenance release updated for `drawio-desktop` version **v27.0.9**.
+
+**Important** remark:
+
+In the version **drawio-desktop v27.0.9** the startup dialog has been removed.
+
+If you don't know how to create a new diagram from a template, then check the `drawio-desktop` issues [2221](https://github.com/jgraph/drawio-desktop/issues/2121) and [2222](https://github.com/jgraph/drawio-desktop/issues/2122).
+
+You can use the menu `Arrange->Insert->Template` or the toolbar `+ -> template`.
+
+Updated files:
+
+- `Dockerfile.xfce.drawing`
+- `xfce-drawio/README-dockerhub.md` 
+
+Updated versions:
+
+- `Ubuntu` to version **24.04.2**
+- `drawio-desktop` to version **27.0.9**
+- `inkscape` to version **1.4.2**
+
 ### Release 25.05.1
 
 This is a maintenance release.

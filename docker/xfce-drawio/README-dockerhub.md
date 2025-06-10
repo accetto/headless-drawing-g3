@@ -31,6 +31,13 @@ This is an excerpt from the [drawio-desktop][drawio-desktop] author's descriptio
 > No diagram data is ever sent externally, nor do we send any analytics about app usage externally.
 > This means certain functionality for which we do not have a JavaScript implementation do not work in the Desktop build, namely .vsd and Gliffy import.
 
+### Important remark
+
+In the version **drawio-desktop v27.0.9** the startup dialog has been removed.
+If you don't know how to create a new diagram from a template, then check the `drawio-desktop` issues [2221](https://github.com/jgraph/drawio-desktop/issues/2121) and [2222](https://github.com/jgraph/drawio-desktop/issues/2122).
+
+You can use the menu `Arrange->Insert->Template` or the toolbar `+ -> template`.
+
 ### Tags
 
 The following image tags are regularly built and published on Docker Hub:
